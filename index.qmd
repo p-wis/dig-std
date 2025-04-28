@@ -22,19 +22,19 @@ if (!is.null(df)) {
 }
 ```
 
-# Dokumentacja zmiennych
-
-# Downloadable Files
+# Dokumentacja zmiennych do pobrania
 
 :::{.btn-group}
-[Digitalis Investigation Group Data Documentation](2_DIG Documentation-1.pdf){.btn .btn-primary}
-[Publikacja NEJM 1997](3_NEJM_Effect of Digoxin_Feb1997-1.pdf){.btn .btn-primary}
+[📥 Digitalis Investigation Group Data Documentation](2_DIG Documentation-1.pdf){.btn .btn-primary}
+[📥 Publikacja NEJM 1997](3_NEJM_Effect of Digoxin_Feb1997-1.pdf){.btn .btn-primary}
 :::
 
 # Lista zmiennych
 
 ```{r}
 var_labels <- sapply(df, function(x) attr(x, "label"), USE.NAMES = TRUE)
-var_names <- names(df)
-tibble(var_names, var_labels) %>% kable() %>% kable_classic_2()
+var_names <- names(var_labels)
+tibble(var_names, var_labels) %>% 
+  kable() %>% 
+  kable_classic_2()
 ```
