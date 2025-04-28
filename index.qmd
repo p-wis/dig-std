@@ -1,7 +1,28 @@
 ---
 title: "dig-std"
+code-fold: true
+editor_options: 
+  chunk_output_type: console
 ---
 
-This is a Quarto website.
+```{r load-data}
+suppressPackageStartupMessages(library(dplyr))
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+df <- tryCatch(
+  haven::read_dta("1_dig-1.dta"),
+  error = function(e) {
+    message("❌ Error reading file: ", e$message)
+    NULL
+  }
+)
+
+if (!is.null(df)) {
+  message("✅ File read successfully.")
+}
+```
+
+
+```{r}
+glimpse(df)
+```
+
