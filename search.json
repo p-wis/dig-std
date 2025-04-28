@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "dig-std",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "Code\nsuppressPackageStartupMessages(library(dplyr))\n\ndf &lt;- tryCatch(\n  haven::read_dta(\"1_dig-1.dta\"),\n  error = function(e) {\n    message(\"❌ Error reading file: \", e$message)\n    NULL\n  }\n)\n\n\n❌ Error reading file: there is no package called 'haven'\n\n\nCode\nif (!is.null(df)) {\n  message(\"✅ File read successfully.\")\n}\n\n\n\n\nCode\nglimpse(df)\n\n\n NULL"
   },
   {
     "objectID": "about.html",
