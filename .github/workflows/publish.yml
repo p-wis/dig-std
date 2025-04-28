@@ -20,9 +20,18 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         
-      - name: Install R packages needed for Quarto rendering
+      - name: Cache R packages
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-r-${{ hashFiles('DESCRIPTION') }}
+          restore-keys: |
+            ${{ runner.os }}-r-
+        
+      - name: Install R dependencies from DESCRIPTION
         run: |
-          install.packages(c('knitr', 'rmarkdown'))
+          install.packages('remotes')
+          remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
       - name: Render and Publish
