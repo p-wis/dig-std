@@ -22,6 +22,15 @@ if (!is.null(df)) {
 }
 ```
 
+# Dokumentacja zmiennych
+
+# Downloadable Files
+
+:::{.btn-group}
+[Digitalis Investigation Group Data Documentation](2_DIG Documentation-1.pdf){.btn .btn-primary}
+[Publikacja NEJM 1997](3_NEJM_Effect of Digoxin_Feb1997-1.pdf){.btn .btn-primary}
+:::
+
 # Lista zmiennych
 
 ```{r}
