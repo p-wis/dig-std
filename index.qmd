@@ -29,7 +29,7 @@ if (!is.null(df)) {
 [📥 Publikacja NEJM 1997](3_NEJM_Effect of Digoxin_Feb1997-1.pdf){.btn .btn-primary}
 :::
 
-# Lista zmiennych
+# Lista zmiennych {#section-id .collapse}
 
 ```{r}
 var_labels <- sapply(df, function(x) attr(x, "label"), USE.NAMES = TRUE)
