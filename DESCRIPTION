@@ -12,4 +12,5 @@ Imports:
     knitr,
     rmarkdown,
     dplyr,
-    haven
+    haven,
+    kableExtra

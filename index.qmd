@@ -7,6 +7,7 @@ editor_options:
 
 ```{r load-data}
 suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(kableExtra))
 
 df <- tryCatch(
   haven::read_dta("1_dig-1.dta"),
@@ -21,8 +22,10 @@ if (!is.null(df)) {
 }
 ```
 
+# Lista zmiennych
 
 ```{r}
-glimpse(df)
+var_labels <- sapply(df, function(x) attr(x, "label"), USE.NAMES = TRUE)
+var_names <- names(df)
+tibble(var_names, var_labels) %>% kable() %>% kable_classic_2()
 ```
-
