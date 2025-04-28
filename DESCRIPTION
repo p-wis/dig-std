@@ -1,0 +1,14 @@
+Package: dig-std
+Type: Project
+Title: Digital Standardization Project
+Version: 0.0.1
+Authors@R: person("YourFirstName", "YourLastName", email = "your@email.com", role = c("aut", "cre"))
+Description: Quarto website for digital standardization.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.3
+Imports:
+    knitr,
+    rmarkdown,
+    dplyr
