@@ -1,5 +1,5 @@
 ---
-title: "dig-std"
+title: "Team Assignment #3: Digitalis Study"
 code-fold: true
 editor_options: 
   chunk_output_type: console
@@ -22,16 +22,14 @@ if (!is.null(df)) {
 }
 ```
 
-# Dokumentacja zmiennych do pobrania
+# Dokumentacja do pobrania
 
-:::{.btn-group}
+:::{.btn-group} 
 [📥 Digitalis Investigation Group Data Documentation](2_DIG Documentation-1.pdf){.btn .btn-primary}
 [📥 Publikacja NEJM 1997](3_NEJM_Effect of Digoxin_Feb1997-1.pdf){.btn .btn-primary}
 :::
 
-# Lista zmiennych {#section-id .collapse}
-
-::: {.panel .collapse}
+# Lista zmiennych
 
 ```{r}
 var_labels <- sapply(df, function(x) attr(x, "label"), USE.NAMES = TRUE)
@@ -40,5 +38,3 @@ tibble(var_names, var_labels) %>%
   kable() %>% 
   kable_classic_2()
 ```
-
-:::
