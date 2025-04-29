@@ -102,8 +102,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -127,11 +125,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./outcome.html"> 
+    <a class="nav-link active" href="./outcome.html" aria-current="page"> 
 <span class="menu-text">Outcome</span></a>
   </li>  
   <li class="nav-item">
@@ -149,15 +147,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#dokumentacja-do-pobrania" id="toc-dokumentacja-do-pobrania" class="nav-link active" data-scroll-target="#dokumentacja-do-pobrania">Dokumentacja do pobrania</a></li>
-  <li><a href="#lista-zmiennych" id="toc-lista-zmiennych" class="nav-link" data-scroll-target="#lista-zmiennych">Lista zmiennych</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -203,327 +194,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>✅ File read successfully.</code></pre>
 </div>
 </div>
-<section id="dokumentacja-do-pobrania" class="level1">
-<h1>Dokumentacja do pobrania</h1>
-<div class="btn-group">
-<p><a href="2_DIG Documentation-1.pdf" class="btn btn-primary">📥 Digitalis Investigation Group Data Documentation</a> <a href="3_NEJM_Effect of Digoxin_Feb1997-1.pdf" class="btn btn-primary">📥 Publikacja NEJM 1997</a></p>
-</div>
-</section>
-<section id="lista-zmiennych" class="level1">
-<h1>Lista zmiennych</h1>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>var_labels <span class="ot">&lt;-</span> <span class="fu">sapply</span>(df, <span class="cf">function</span>(x) <span class="fu">attr</span>(x, <span class="st">"label"</span>), <span class="at">USE.NAMES =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>var_names <span class="ot">&lt;-</span> <span class="fu">names</span>(var_labels)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(var_names, var_labels) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic_2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<table class="lightable-classic-2 caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">var_names</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">var_labels</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">id</td>
-<td style="text-align: left;">patient id</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">trtmt</td>
-<td style="text-align: left;">0=placebo, 1=treatment</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">age</td>
-<td style="text-align: left;">calculated: age at randomization</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">race</td>
-<td style="text-align: left;">q5: race, 1=white 2=nonwhite</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">sex</td>
-<td style="text-align: left;">q4: sex, 1=male 2=female</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ejf_per</td>
-<td style="text-align: left;">q3: ejection fraction (percent)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">ejfmeth</td>
-<td style="text-align: left;">q3a: ejection fraction method</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">chestx</td>
-<td style="text-align: left;">q6: chest x-ray (ct-ratio)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">bmi</td>
-<td style="text-align: left;">calculated: body mass index (kg/m*m)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">klevel</td>
-<td style="text-align: left;">q9a: serum potassium level</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">creat</td>
-<td style="text-align: left;">q9: serum creatinine (mg/dl)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">digdoser</td>
-<td style="text-align: left;">q10: recommended digoxin dose</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">chfdur</td>
-<td style="text-align: left;">q12: duration of chf (months)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">rales</td>
-<td style="text-align: left;">q13: rales</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">elevjvp</td>
-<td style="text-align: left;">q14: elevated jugular venous pressure</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">pedema</td>
-<td style="text-align: left;">q15: peripheral edema</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">restdys</td>
-<td style="text-align: left;">q16: dyspnea at rest</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">exertdys</td>
-<td style="text-align: left;">q17: dyspnea on exertion</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">actlimit</td>
-<td style="text-align: left;">q18: limitation of activity</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">s3</td>
-<td style="text-align: left;">q19: s3 gallop</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">pulcong</td>
-<td style="text-align: left;">q20: pulmonary congestion</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">nsym</td>
-<td style="text-align: left;">calculated: sum of q13-q20, y/n status</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">heartrte</td>
-<td style="text-align: left;">q21: heart rate (beats/min)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">diabp</td>
-<td style="text-align: left;">q22: diastolic bp (mmhg)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">sysbp</td>
-<td style="text-align: left;">q22: sysolic bp (mmhg)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">functcls</td>
-<td style="text-align: left;">q23: nyha functional class</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">chfetiol</td>
-<td style="text-align: left;">q24: chf etiology</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">prevmi</td>
-<td style="text-align: left;">q25: previous myocardial infarction</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">angina</td>
-<td style="text-align: left;">q26: current angina</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">diabetes</td>
-<td style="text-align: left;">q27: history of diabetes</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">hyperten</td>
-<td style="text-align: left;">q28: history of hypertension</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">diguse</td>
-<td style="text-align: left;">q29: digoxin within past week</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">diuretk</td>
-<td style="text-align: left;">q30: potassium sparing diuretics</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">diuret</td>
-<td style="text-align: left;">q31: other diuretics</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">ksupp</td>
-<td style="text-align: left;">q31a: potassium supplements</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">aceinhib</td>
-<td style="text-align: left;">q32: ace inhibitors</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">nitrates</td>
-<td style="text-align: left;">q33: nitrates</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">hydral</td>
-<td style="text-align: left;">q34: hydralazine</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">vasod</td>
-<td style="text-align: left;">q35: other vasodilators</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">digdose</td>
-<td style="text-align: left;">q36: dose of digoxin/placebo prescribed</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">cvd</td>
-<td style="text-align: left;">hosp: cardiovascular disease</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">cvddays</td>
-<td style="text-align: left;">days randomization to first cvd hosp</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">whf</td>
-<td style="text-align: left;">hosp: worsening heart failure</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">whfdays</td>
-<td style="text-align: left;">days randomization to first whf hosp</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">dig</td>
-<td style="text-align: left;">hosp: digoxin toxicity</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">digdays</td>
-<td style="text-align: left;">days rand. to first digoxin tox hosp</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">mi</td>
-<td style="text-align: left;">hosp: myocardial infarction</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">midays</td>
-<td style="text-align: left;">days randomization to first mi hosp</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">uang</td>
-<td style="text-align: left;">hosp: unstable angina</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">uangdays</td>
-<td style="text-align: left;">days rand. to first unstable angina hosp</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">strk</td>
-<td style="text-align: left;">hosp: stroke</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">strkdays</td>
-<td style="text-align: left;">days randomization to first stroke hosp</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">sva</td>
-<td style="text-align: left;">hosp: supraventricular arrhythmia</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">svadays</td>
-<td style="text-align: left;">days rand. to first supravent arr. hosp</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">vena</td>
-<td style="text-align: left;">hosp: ventricular arrhythmia</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">venadays</td>
-<td style="text-align: left;">days rand. to first vent. arr. hosp</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">crev</td>
-<td style="text-align: left;">hosp: coronary revascularization</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">crevdays</td>
-<td style="text-align: left;">days rand. to first cor. revasc.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">ocvd</td>
-<td style="text-align: left;">hosp: other cardiovascular event</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ocvddays</td>
-<td style="text-align: left;">days rand. to first other cvd hosp</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">rinf</td>
-<td style="text-align: left;">hosp: respiratory infection</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">rinfdays</td>
-<td style="text-align: left;">days rand. to first resp. infection hosp</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">oth</td>
-<td style="text-align: left;">hosp: other noncardiac, nonvascular</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">othdays</td>
-<td style="text-align: left;">days rand. to 1st other non cvd hosp</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">hosp</td>
-<td style="text-align: left;">hosp: any hospitalization</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">hospdays</td>
-<td style="text-align: left;">days randomization to first any hosp</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">nhosp</td>
-<td style="text-align: left;">number of hospitalizations</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">death</td>
-<td style="text-align: left;">vital status of patient 1=death 0=alive</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">deathday</td>
-<td style="text-align: left;">days till last followup or death</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">reason</td>
-<td style="text-align: left;">cause of death</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">dwhf</td>
-<td style="text-align: left;">primary endpt: death or hosp from hf</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">dwhfdays</td>
-<td style="text-align: left;">days rand. to death or hosp from whf</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
