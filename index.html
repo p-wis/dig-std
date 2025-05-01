@@ -186,22 +186,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(dplyr))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(kableExtra))</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  haven<span class="sc">::</span><span class="fu">read_dta</span>(<span class="st">"1_dig-1.dta"</span>),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"❌ Error reading file: "</span>, e<span class="sc">$</span>message)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cn">NULL</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(df)) {</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">"✅ File read successfully."</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(targets))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(df)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(lista_zmiennych)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>✅ File read successfully.</code></pre>
-</div>
 </div>
 <section id="dokumentacja-do-pobrania" class="level1">
 <h1>Dokumentacja do pobrania</h1>
@@ -214,308 +203,306 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>var_labels <span class="ot">&lt;-</span> <span class="fu">sapply</span>(df, <span class="cf">function</span>(x) <span class="fu">attr</span>(x, <span class="st">"label"</span>), <span class="at">USE.NAMES =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>var_names <span class="ot">&lt;-</span> <span class="fu">names</span>(var_labels)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(var_names, var_labels) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic_2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lista_zmiennych <span class="sc">%&gt;%</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic_2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="lightable-classic-2 caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">var_names</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">var_labels</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">var_names</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">id</td>
 <td style="text-align: left;">patient id</td>
+<td style="text-align: left;">id</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">trtmt</td>
 <td style="text-align: left;">0=placebo, 1=treatment</td>
+<td style="text-align: left;">trtmt</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">age</td>
 <td style="text-align: left;">calculated: age at randomization</td>
+<td style="text-align: left;">age</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">race</td>
 <td style="text-align: left;">q5: race, 1=white 2=nonwhite</td>
+<td style="text-align: left;">race</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">sex</td>
 <td style="text-align: left;">q4: sex, 1=male 2=female</td>
+<td style="text-align: left;">sex</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ejf_per</td>
 <td style="text-align: left;">q3: ejection fraction (percent)</td>
+<td style="text-align: left;">ejf_per</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ejfmeth</td>
 <td style="text-align: left;">q3a: ejection fraction method</td>
+<td style="text-align: left;">ejfmeth</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">chestx</td>
 <td style="text-align: left;">q6: chest x-ray (ct-ratio)</td>
+<td style="text-align: left;">chestx</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">bmi</td>
 <td style="text-align: left;">calculated: body mass index (kg/m*m)</td>
+<td style="text-align: left;">bmi</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">klevel</td>
 <td style="text-align: left;">q9a: serum potassium level</td>
+<td style="text-align: left;">klevel</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">creat</td>
 <td style="text-align: left;">q9: serum creatinine (mg/dl)</td>
+<td style="text-align: left;">creat</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">digdoser</td>
 <td style="text-align: left;">q10: recommended digoxin dose</td>
+<td style="text-align: left;">digdoser</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">chfdur</td>
 <td style="text-align: left;">q12: duration of chf (months)</td>
+<td style="text-align: left;">chfdur</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">rales</td>
 <td style="text-align: left;">q13: rales</td>
+<td style="text-align: left;">rales</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">elevjvp</td>
 <td style="text-align: left;">q14: elevated jugular venous pressure</td>
+<td style="text-align: left;">elevjvp</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">pedema</td>
 <td style="text-align: left;">q15: peripheral edema</td>
+<td style="text-align: left;">pedema</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">restdys</td>
 <td style="text-align: left;">q16: dyspnea at rest</td>
+<td style="text-align: left;">restdys</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">exertdys</td>
 <td style="text-align: left;">q17: dyspnea on exertion</td>
+<td style="text-align: left;">exertdys</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">actlimit</td>
 <td style="text-align: left;">q18: limitation of activity</td>
+<td style="text-align: left;">actlimit</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">s3</td>
 <td style="text-align: left;">q19: s3 gallop</td>
+<td style="text-align: left;">s3</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">pulcong</td>
 <td style="text-align: left;">q20: pulmonary congestion</td>
+<td style="text-align: left;">pulcong</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">nsym</td>
 <td style="text-align: left;">calculated: sum of q13-q20, y/n status</td>
+<td style="text-align: left;">nsym</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">heartrte</td>
 <td style="text-align: left;">q21: heart rate (beats/min)</td>
+<td style="text-align: left;">heartrte</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">diabp</td>
 <td style="text-align: left;">q22: diastolic bp (mmhg)</td>
+<td style="text-align: left;">diabp</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">sysbp</td>
 <td style="text-align: left;">q22: sysolic bp (mmhg)</td>
+<td style="text-align: left;">sysbp</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">functcls</td>
 <td style="text-align: left;">q23: nyha functional class</td>
+<td style="text-align: left;">functcls</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">chfetiol</td>
 <td style="text-align: left;">q24: chf etiology</td>
+<td style="text-align: left;">chfetiol</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">prevmi</td>
 <td style="text-align: left;">q25: previous myocardial infarction</td>
+<td style="text-align: left;">prevmi</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">angina</td>
 <td style="text-align: left;">q26: current angina</td>
+<td style="text-align: left;">angina</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">diabetes</td>
 <td style="text-align: left;">q27: history of diabetes</td>
+<td style="text-align: left;">diabetes</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">hyperten</td>
 <td style="text-align: left;">q28: history of hypertension</td>
+<td style="text-align: left;">hyperten</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">diguse</td>
 <td style="text-align: left;">q29: digoxin within past week</td>
+<td style="text-align: left;">diguse</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">diuretk</td>
 <td style="text-align: left;">q30: potassium sparing diuretics</td>
+<td style="text-align: left;">diuretk</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">diuret</td>
 <td style="text-align: left;">q31: other diuretics</td>
+<td style="text-align: left;">diuret</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ksupp</td>
 <td style="text-align: left;">q31a: potassium supplements</td>
+<td style="text-align: left;">ksupp</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">aceinhib</td>
 <td style="text-align: left;">q32: ace inhibitors</td>
+<td style="text-align: left;">aceinhib</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">nitrates</td>
 <td style="text-align: left;">q33: nitrates</td>
+<td style="text-align: left;">nitrates</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">hydral</td>
 <td style="text-align: left;">q34: hydralazine</td>
+<td style="text-align: left;">hydral</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">vasod</td>
 <td style="text-align: left;">q35: other vasodilators</td>
+<td style="text-align: left;">vasod</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">digdose</td>
 <td style="text-align: left;">q36: dose of digoxin/placebo prescribed</td>
+<td style="text-align: left;">digdose</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">cvd</td>
 <td style="text-align: left;">hosp: cardiovascular disease</td>
+<td style="text-align: left;">cvd</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">cvddays</td>
 <td style="text-align: left;">days randomization to first cvd hosp</td>
+<td style="text-align: left;">cvddays</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">whf</td>
 <td style="text-align: left;">hosp: worsening heart failure</td>
+<td style="text-align: left;">whf</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">whfdays</td>
 <td style="text-align: left;">days randomization to first whf hosp</td>
+<td style="text-align: left;">whfdays</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">dig</td>
 <td style="text-align: left;">hosp: digoxin toxicity</td>
+<td style="text-align: left;">dig</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">digdays</td>
 <td style="text-align: left;">days rand. to first digoxin tox hosp</td>
+<td style="text-align: left;">digdays</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">mi</td>
 <td style="text-align: left;">hosp: myocardial infarction</td>
+<td style="text-align: left;">mi</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">midays</td>
 <td style="text-align: left;">days randomization to first mi hosp</td>
+<td style="text-align: left;">midays</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">uang</td>
 <td style="text-align: left;">hosp: unstable angina</td>
+<td style="text-align: left;">uang</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">uangdays</td>
 <td style="text-align: left;">days rand. to first unstable angina hosp</td>
+<td style="text-align: left;">uangdays</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">strk</td>
 <td style="text-align: left;">hosp: stroke</td>
+<td style="text-align: left;">strk</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">strkdays</td>
 <td style="text-align: left;">days randomization to first stroke hosp</td>
+<td style="text-align: left;">strkdays</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">sva</td>
 <td style="text-align: left;">hosp: supraventricular arrhythmia</td>
+<td style="text-align: left;">sva</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">svadays</td>
 <td style="text-align: left;">days rand. to first supravent arr. hosp</td>
+<td style="text-align: left;">svadays</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">vena</td>
 <td style="text-align: left;">hosp: ventricular arrhythmia</td>
+<td style="text-align: left;">vena</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">venadays</td>
 <td style="text-align: left;">days rand. to first vent. arr. hosp</td>
+<td style="text-align: left;">venadays</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">crev</td>
 <td style="text-align: left;">hosp: coronary revascularization</td>
+<td style="text-align: left;">crev</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">crevdays</td>
 <td style="text-align: left;">days rand. to first cor. revasc.</td>
+<td style="text-align: left;">crevdays</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ocvd</td>
 <td style="text-align: left;">hosp: other cardiovascular event</td>
+<td style="text-align: left;">ocvd</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ocvddays</td>
 <td style="text-align: left;">days rand. to first other cvd hosp</td>
+<td style="text-align: left;">ocvddays</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">rinf</td>
 <td style="text-align: left;">hosp: respiratory infection</td>
+<td style="text-align: left;">rinf</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">rinfdays</td>
 <td style="text-align: left;">days rand. to first resp. infection hosp</td>
+<td style="text-align: left;">rinfdays</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">oth</td>
 <td style="text-align: left;">hosp: other noncardiac, nonvascular</td>
+<td style="text-align: left;">oth</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">othdays</td>
 <td style="text-align: left;">days rand. to 1st other non cvd hosp</td>
+<td style="text-align: left;">othdays</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">hosp</td>
 <td style="text-align: left;">hosp: any hospitalization</td>
+<td style="text-align: left;">hosp</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">hospdays</td>
 <td style="text-align: left;">days randomization to first any hosp</td>
+<td style="text-align: left;">hospdays</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">nhosp</td>
 <td style="text-align: left;">number of hospitalizations</td>
+<td style="text-align: left;">nhosp</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">death</td>
 <td style="text-align: left;">vital status of patient 1=death 0=alive</td>
+<td style="text-align: left;">death</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">deathday</td>
 <td style="text-align: left;">days till last followup or death</td>
+<td style="text-align: left;">deathday</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">reason</td>
 <td style="text-align: left;">cause of death</td>
+<td style="text-align: left;">reason</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">dwhf</td>
 <td style="text-align: left;">primary endpt: death or hosp from hf</td>
+<td style="text-align: left;">dwhf</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">dwhfdays</td>
 <td style="text-align: left;">days rand. to death or hosp from whf</td>
+<td style="text-align: left;">dwhfdays</td>
 </tr>
 </tbody>
 </table>
