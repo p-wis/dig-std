@@ -1,5 +1,5 @@
 ---
-title: "Team Assignment #3: Digitalis Study"
+title: "Team Assignment #3: Outcome"
 code-fold: true
 editor_options: 
   chunk_output_type: console
@@ -8,16 +8,42 @@ editor_options:
 ```{r load-data}
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(kableExtra))
+suppressPackageStartupMessages(library(survival))
+suppressPackageStartupMessages(library(ggsurvfit))
 
-df <- tryCatch(
-  haven::read_dta("1_dig-1.dta"),
-  error = function(e) {
-    message("❌ Error reading file: ", e$message)
-    NULL
-  }
-)
+suppressPackageStartupMessages(library(targets))
 
-if (!is.null(df)) {
-  message("✅ File read successfully.")
-}
+tar_load(df)
+tar_load(lista_zmiennych)
+tar_load(df_trtmt)
 ```
+
+# Założenia
+
+W grupie osób leczonych chcemy zidentyfikować osoby, które dobrze odpowiedziały na leczenie i określić, które cechy były predyktorami tej dobrej odpowiedzi.
+
+Dobrą odpowiedź na leczenie definiujemy jako
+
+* przeżycie >=2 lata i brak hospitalizacji z powodu zaostrzenia CHF przez >=2 lata 
+licząc od czasu ranodmizacji w badaniu
+
+# Implementacja
+
+W zbiorze danych DIG jednym z punktów końcowych był "zgon lub hospitalizacja z powodu zaostrzenia nwd. serca". Ten punkt końcowy reprezentowany jest przez następujące zmienne:  
+
+```{r}
+  lista_zmiennych %>%
+    filter(
+      var_names %in% c("dwhf", "dwhfdays")
+    ) %>% 
+    kable() %>%
+    kable_classic_2()
+```
+
+```{r}
+
+```
+
+
+
+ 

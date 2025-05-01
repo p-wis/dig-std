@@ -13,4 +13,7 @@ Imports:
     rmarkdown,
     dplyr,
     haven,
-    kableExtra
+    kableExtra,
+    survival,
+    ggsurvfit,
+    targets

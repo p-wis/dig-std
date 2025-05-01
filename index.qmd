@@ -8,23 +8,10 @@ editor_options:
 ```{r load-data}
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(kableExtra))
+suppressPackageStartupMessages(library(targets))
 
-df <- tryCatch(
-  haven::read_dta("1_dig-1.dta"),
-  error = function(e) {
-    message("❌ Error reading file: ", e$message)
-    NULL
-  }
-)
-
-if (!is.null(df)) {
-  message("✅ File read successfully.")
-}
-
-var_labels <- sapply(df, function(x) attr(x, "label"), USE.NAMES = TRUE)
-var_names <- names(var_labels)
-
-lista_zmiennych <- tibble(var_names, var_labels) 
+tar_load(df)
+tar_load(lista_zmiennych)
 ```
 
 # Dokumentacja do pobrania
