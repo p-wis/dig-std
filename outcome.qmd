@@ -40,10 +40,73 @@ W zbiorze danych DIG jednym z punktów końcowych był "zgon lub hospitalizacja 
     kable_classic_2()
 ```
 
-```{r}
+# Podstawowe statystyki 
 
+```{r}
+m0 <- survfit(Surv(dwhfdays,dwhf)~1, data= df_trtmt)
 ```
 
+## Liczba osób
+
+```{r}
+n_total <- nrow(df_trtmt)
+n_total
+```
+
+## Sumaryczna liczba eventów
+
+```{r}
+n_events <- sum(df_trtmt$dwhf)
+n_events
+```
+
+
+## Liczba obserwacji uciętych
+
+```{r}
+n_censored <- n_total - n_events
+n_censored
+```
+
+
+## Czas obserwacji 
+
+### Dni
+```{r}
+summary(df_trtmt$dwhfdays)
+```
+
+### Lata
+```{r}
+summary(df_trtmt$dwhfdays / 365.25)
+```
+
+## Krzywa przeżycia
+
+```{r}
+m0 %>%
+  ggsurvfit() +
+  add_confidence_interval() +
+  add_risktable() +
+  labs(
+    title = "Kaplan–Meier Survival Curve",
+    x = "Time (days)",  # adjust if needed
+    y = "Survival probability"
+  )
+```
+
+
+## Mediana przeżycia
+
+```{r}
+summary(m0)$table["median"]
+```
+
+## 2-letnie przeżycia
+
+```{r}
+summary(m0, times = 2*365.25)
+```
 
 
  
