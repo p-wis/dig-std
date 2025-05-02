@@ -81,7 +81,7 @@ summary(df_trtmt$dwhfdays)
 summary(df_trtmt$dwhfdays / 365.25)
 ```
 
-## Krzywa przeżycia
+## Krzywa umieralności/hospitalizacji
 
 ```{r}
 m0 %>%
@@ -89,10 +89,11 @@ m0 %>%
   add_confidence_interval() +
   add_risktable() +
   labs(
-    title = "Kaplan–Meier Survival Curve",
+    title = "Cumulative Mortality Curve",
     x = "Time (days)",  # adjust if needed
-    y = "Survival probability"
-  )
+    y = "Cumulative mortality probability"
+  ) +
+  scale_y_reverse(trans = "reverse")  # flip survival to mortality
 ```
 
 
