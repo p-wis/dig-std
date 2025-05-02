@@ -11,7 +11,56 @@
     "href": "outcome.html",
     "title": "Team Assignment #3: Outcome",
     "section": "",
-    "text": "Code\nsuppressPackageStartupMessages(library(dplyr))\nsuppressPackageStartupMessages(library(kableExtra))\nsuppressPackageStartupMessages(library(survival))\nsuppressPackageStartupMessages(library(ggsurvfit))\n\nsuppressPackageStartupMessages(library(targets))\n\ntar_load(df)\ntar_load(lista_zmiennych)\ntar_load(df_trtmt)\n\n\n\nZałożenia\nW grupie osób leczonych chcemy zidentyfikować osoby, które dobrze odpowiedziały na leczenie i określić, które cechy były predyktorami tej dobrej odpowiedzi.\nDobrą odpowiedź na leczenie definiujemy jako\n\nprzeżycie &gt;=2 lata i brak hospitalizacji z powodu zaostrzenia CHF przez &gt;=2 lata licząc od czasu ranodmizacji w badaniu\n\n\n\nImplementacja\nW zbiorze danych DIG jednym z punktów końcowych był “zgon lub hospitalizacja z powodu zaostrzenia nwd. serca”. Ten punkt końcowy reprezentowany jest przez następujące zmienne:\n\n\nCode\n  lista_zmiennych %&gt;%\n    filter(\n      var_names %in% c(\"dwhf\", \"dwhfdays\")\n    ) %&gt;% \n    kable() %&gt;%\n    kable_classic_2()\n\n\n\n\n\nvar_labels\nvar_names\n\n\n\n\nprimary endpt: death or hosp from hf\ndwhf\n\n\ndays rand. to death or hosp from whf\ndwhfdays"
+    "text": "Code\nsuppressPackageStartupMessages(library(dplyr))\nsuppressPackageStartupMessages(library(kableExtra))\nsuppressPackageStartupMessages(library(survival))\nsuppressPackageStartupMessages(library(ggsurvfit))\n\nsuppressPackageStartupMessages(library(targets))\n\ntar_load(df)\ntar_load(lista_zmiennych)\ntar_load(df_trtmt)"
+  },
+  {
+    "objectID": "outcome.html#liczba-osób",
+    "href": "outcome.html#liczba-osób",
+    "title": "Team Assignment #3: Outcome",
+    "section": "Liczba osób",
+    "text": "Liczba osób\n\n\nCode\nn_total &lt;- nrow(df_trtmt)\nn_total\n\n\n[1] 3397"
+  },
+  {
+    "objectID": "outcome.html#sumaryczna-liczba-eventów",
+    "href": "outcome.html#sumaryczna-liczba-eventów",
+    "title": "Team Assignment #3: Outcome",
+    "section": "Sumaryczna liczba eventów",
+    "text": "Sumaryczna liczba eventów\n\n\nCode\nn_events &lt;- sum(df_trtmt$dwhf)\nn_events\n\n\n[1] 1041"
+  },
+  {
+    "objectID": "outcome.html#liczba-obserwacji-uciętych",
+    "href": "outcome.html#liczba-obserwacji-uciętych",
+    "title": "Team Assignment #3: Outcome",
+    "section": "Liczba obserwacji uciętych",
+    "text": "Liczba obserwacji uciętych\n\n\nCode\nn_censored &lt;- n_total - n_events\nn_censored\n\n\n[1] 2356"
+  },
+  {
+    "objectID": "outcome.html#czas-obserwacji",
+    "href": "outcome.html#czas-obserwacji",
+    "title": "Team Assignment #3: Outcome",
+    "section": "Czas obserwacji",
+    "text": "Czas obserwacji\n\nDni\n\n\nCode\nsummary(df_trtmt$dwhfdays)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n    1.0   481.0  1025.0   930.4  1360.0  1781.0 \n\n\n\n\nLata\n\n\nCode\nsummary(df_trtmt$dwhfdays / 365.25)\n\n\n    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. \n0.002738 1.316906 2.806297 2.547248 3.723477 4.876112"
+  },
+  {
+    "objectID": "outcome.html#krzywa-przeżycia",
+    "href": "outcome.html#krzywa-przeżycia",
+    "title": "Team Assignment #3: Outcome",
+    "section": "Krzywa przeżycia",
+    "text": "Krzywa przeżycia\n\n\nCode\nm0 %&gt;%\n  ggsurvfit() +\n  add_confidence_interval() +\n  add_risktable() +\n  labs(\n    title = \"Kaplan–Meier Survival Curve\",\n    x = \"Time (days)\",  # adjust if needed\n    y = \"Survival probability\"\n  )"
+  },
+  {
+    "objectID": "outcome.html#mediana-przeżycia",
+    "href": "outcome.html#mediana-przeżycia",
+    "title": "Team Assignment #3: Outcome",
+    "section": "Mediana przeżycia",
+    "text": "Mediana przeżycia\n\n\nCode\nsummary(m0)$table[\"median\"]\n\n\nmedian \n    NA"
+  },
+  {
+    "objectID": "outcome.html#letnie-przeżycia",
+    "href": "outcome.html#letnie-przeżycia",
+    "title": "Team Assignment #3: Outcome",
+    "section": "2-letnie przeżycia",
+    "text": "2-letnie przeżycia\n\n\nCode\nsummary(m0, times = 2*365.25)\n\n\nCall: survfit(formula = Surv(dwhfdays, dwhf) ~ 1, data = df_trtmt)\n\n time n.risk n.event survival std.err lower 95% CI upper 95% CI\n  730   2240     737    0.768 0.00752        0.754        0.783"
   },
   {
     "objectID": "about.html",

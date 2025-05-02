@@ -156,6 +156,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#założenia" id="toc-założenia" class="nav-link active" data-scroll-target="#założenia">Założenia</a></li>
   <li><a href="#implementacja" id="toc-implementacja" class="nav-link" data-scroll-target="#implementacja">Implementacja</a></li>
+  <li><a href="#podstawowe-statystyki" id="toc-podstawowe-statystyki" class="nav-link" data-scroll-target="#podstawowe-statystyki">Podstawowe statystyki</a>
+  <ul class="collapse">
+  <li><a href="#liczba-osób" id="toc-liczba-osób" class="nav-link" data-scroll-target="#liczba-osób">Liczba osób</a></li>
+  <li><a href="#sumaryczna-liczba-eventów" id="toc-sumaryczna-liczba-eventów" class="nav-link" data-scroll-target="#sumaryczna-liczba-eventów">Sumaryczna liczba eventów</a></li>
+  <li><a href="#liczba-obserwacji-uciętych" id="toc-liczba-obserwacji-uciętych" class="nav-link" data-scroll-target="#liczba-obserwacji-uciętych">Liczba obserwacji uciętych</a></li>
+  <li><a href="#czas-obserwacji" id="toc-czas-obserwacji" class="nav-link" data-scroll-target="#czas-obserwacji">Czas obserwacji</a>
+  <ul class="collapse">
+  <li><a href="#dni" id="toc-dni" class="nav-link" data-scroll-target="#dni">Dni</a></li>
+  <li><a href="#lata" id="toc-lata" class="nav-link" data-scroll-target="#lata">Lata</a></li>
+  </ul></li>
+  <li><a href="#krzywa-przeżycia" id="toc-krzywa-przeżycia" class="nav-link" data-scroll-target="#krzywa-przeżycia">Krzywa przeżycia</a></li>
+  <li><a href="#mediana-przeżycia" id="toc-mediana-przeżycia" class="nav-link" data-scroll-target="#mediana-przeżycia">Mediana przeżycia</a></li>
+  <li><a href="#letnie-przeżycia" id="toc-letnie-przeżycia" class="nav-link" data-scroll-target="#letnie-przeżycia">2-letnie przeżycia</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -238,8 +252,137 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
+</section>
+<section id="podstawowe-statystyki" class="level1">
+<h1>Podstawowe statystyki</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(dwhfdays,dwhf)<span class="sc">~</span><span class="dv">1</span>, <span class="at">data=</span> df_trtmt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="liczba-osób" class="level2">
+<h2 class="anchored" data-anchor-id="liczba-osób">Liczba osób</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n_total <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df_trtmt)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>n_total</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3397</code></pre>
+</div>
+</div>
+</section>
+<section id="sumaryczna-liczba-eventów" class="level2">
+<h2 class="anchored" data-anchor-id="sumaryczna-liczba-eventów">Sumaryczna liczba eventów</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n_events <span class="ot">&lt;-</span> <span class="fu">sum</span>(df_trtmt<span class="sc">$</span>dwhf)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>n_events</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1041</code></pre>
+</div>
+</div>
+</section>
+<section id="liczba-obserwacji-uciętych" class="level2">
+<h2 class="anchored" data-anchor-id="liczba-obserwacji-uciętych">Liczba obserwacji uciętych</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>n_censored <span class="ot">&lt;-</span> n_total <span class="sc">-</span> n_events</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>n_censored</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2356</code></pre>
+</div>
+</div>
+</section>
+<section id="czas-obserwacji" class="level2">
+<h2 class="anchored" data-anchor-id="czas-obserwacji">Czas obserwacji</h2>
+<section id="dni" class="level3">
+<h3 class="anchored" data-anchor-id="dni">Dni</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df_trtmt<span class="sc">$</span>dwhfdays)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    1.0   481.0  1025.0   930.4  1360.0  1781.0 </code></pre>
+</div>
+</div>
+</section>
+<section id="lata" class="level3">
+<h3 class="anchored" data-anchor-id="lata">Lata</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df_trtmt<span class="sc">$</span>dwhfdays <span class="sc">/</span> <span class="fl">365.25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+0.002738 1.316906 2.806297 2.547248 3.723477 4.876112 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="krzywa-przeżycia" class="level2">
+<h2 class="anchored" data-anchor-id="krzywa-przeżycia">Krzywa przeżycia</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>m0 <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsurvfit</span>() <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_confidence_interval</span>() <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_risktable</span>() <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Kaplan–Meier Survival Curve"</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time (days)"</span>,  <span class="co"># adjust if needed</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Survival probability"</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="outcome_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="mediana-przeżycia" class="level2">
+<h2 class="anchored" data-anchor-id="mediana-przeżycia">Mediana przeżycia</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m0)<span class="sc">$</span>table[<span class="st">"median"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>median 
+    NA </code></pre>
+</div>
+</div>
+</section>
+<section id="letnie-przeżycia" class="level2">
+<h2 class="anchored" data-anchor-id="letnie-przeżycia">2-letnie przeżycia</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m0, <span class="at">times =</span> <span class="dv">2</span><span class="sc">*</span><span class="fl">365.25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(dwhfdays, dwhf) ~ 1, data = df_trtmt)
+
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+  730   2240     737    0.768 0.00752        0.754        0.783</code></pre>
+</div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
