@@ -42,11 +42,11 @@
     "text": "Czas obserwacji\n\nDni\n\n\nCode\nsummary(df_trtmt$dwhfdays)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n    1.0   481.0  1025.0   930.4  1360.0  1781.0 \n\n\n\n\nLata\n\n\nCode\nsummary(df_trtmt$dwhfdays / 365.25)\n\n\n    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. \n0.002738 1.316906 2.806297 2.547248 3.723477 4.876112"
   },
   {
-    "objectID": "outcome.html#krzywa-przeżycia",
-    "href": "outcome.html#krzywa-przeżycia",
+    "objectID": "outcome.html#krzywa-umieralnościhospitalizacji",
+    "href": "outcome.html#krzywa-umieralnościhospitalizacji",
     "title": "Team Assignment #3: Outcome",
-    "section": "Krzywa przeżycia",
-    "text": "Krzywa przeżycia\n\n\nCode\nm0 %&gt;%\n  ggsurvfit() +\n  add_confidence_interval() +\n  add_risktable() +\n  labs(\n    title = \"Kaplan–Meier Survival Curve\",\n    x = \"Time (days)\",  # adjust if needed\n    y = \"Survival probability\"\n  )"
+    "section": "Krzywa umieralności/hospitalizacji",
+    "text": "Krzywa umieralności/hospitalizacji\n\n\nCode\nm0 %&gt;%\n  ggsurvfit() +\n  add_confidence_interval() +\n  add_risktable() +\n  labs(\n    title = \"Cumulative Mortality Curve\",\n    x = \"Time (days)\",  # adjust if needed\n    y = \"Cumulative mortality probability\"\n  ) +\n  scale_y_reverse(trans = \"reverse\")  # flip survival to mortality"
   },
   {
     "objectID": "outcome.html#mediana-przeżycia",

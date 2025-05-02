@@ -166,7 +166,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#dni" id="toc-dni" class="nav-link" data-scroll-target="#dni">Dni</a></li>
   <li><a href="#lata" id="toc-lata" class="nav-link" data-scroll-target="#lata">Lata</a></li>
   </ul></li>
-  <li><a href="#krzywa-przeżycia" id="toc-krzywa-przeżycia" class="nav-link" data-scroll-target="#krzywa-przeżycia">Krzywa przeżycia</a></li>
+  <li><a href="#krzywa-umieralnościhospitalizacji" id="toc-krzywa-umieralnościhospitalizacji" class="nav-link" data-scroll-target="#krzywa-umieralnościhospitalizacji">Krzywa umieralności/hospitalizacji</a></li>
   <li><a href="#mediana-przeżycia" id="toc-mediana-przeżycia" class="nav-link" data-scroll-target="#mediana-przeżycia">Mediana przeżycia</a></li>
   <li><a href="#letnie-przeżycia" id="toc-letnie-przeżycia" class="nav-link" data-scroll-target="#letnie-przeżycia">2-letnie przeżycia</a></li>
   </ul></li>
@@ -329,8 +329,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="krzywa-przeżycia" class="level2">
-<h2 class="anchored" data-anchor-id="krzywa-przeżycia">Krzywa przeżycia</h2>
+<section id="krzywa-umieralnościhospitalizacji" class="level2">
+<h2 class="anchored" data-anchor-id="krzywa-umieralnościhospitalizacji">Krzywa umieralności/hospitalizacji</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -339,10 +339,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_confidence_interval</span>() <span class="sc">+</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_risktable</span>() <span class="sc">+</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Kaplan–Meier Survival Curve"</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Cumulative Mortality Curve"</span>,</span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time (days)"</span>,  <span class="co"># adjust if needed</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Survival probability"</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Cumulative mortality probability"</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>(<span class="at">trans =</span> <span class="st">"reverse"</span>)  <span class="co"># flip survival to mortality</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
