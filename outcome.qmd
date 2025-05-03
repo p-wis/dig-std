@@ -110,46 +110,29 @@ summary(m0)$table["median"]
 summary(m0, times = 2*365.25)
 ```
 
-# jednoczynnikowa ocena potencjalnych predyktorów
+# Jednoczynnikowa ocena kandydatów na predyktorów
 
-W tabeli wyniki regresji 1 czynnikowych m. Coxa dla zm. zdarzenia dwhf oraz 
-wybranych predyktorów  
+W tabeli wyniki regresji jednoczynnikowych m. Coxa dla zdarzenia `dwhf` oraz 
+wybranych zmiennych - kandydatów na predyktorów.  
 
 ```{r}
-vars <- c("age", "sex", "race", "ejf_per", "bmi", "creat", "klevel", "chfdur", 
+vars <- c("age", "sex", "race", "ejf_per", "bmi", "creat", "klevel", "chfdur", "nsym", 
           "heartrte", "diabp", "sysbp", "functcls", "chfetiol", "prevmi", "angina",
           "diabetes", "hyperten", "diguse", "diuretk", "diuret", "ksupp", "aceinhib",
-          "nitrates", "hydral", "vasod", "digdose")
-
-categorical_vars <- c("sex", "race", "functcls", "chfetiol")
-
-dwhf_cox_1v <- function(var_name, categorical_vars = NULL) {
-  
-  # Pull out the actual variable from the data
-  var_data <- df_trtmt[[var_name]]
-
-  # Decide if variable is categorical
-  is_categorical <- var_name %in% categorical_vars ||
-                    is.factor(var_data) ||
-                    is.character(var_data)
-
-  # If categorical, convert to factor
-  if (is_categorical) {
-    df_trtmt[[var_name]] <- factor(var_data)
-  }
+          "nitrates", "hydral", "vasod")
 
 
+dwhf_cox_1v <- function(var_name) {
   
   formula <- as.formula(paste("dwhf_surv ~", var_name))
   model <- coxph(formula, data = df_trtmt)
   res <- broom::tidy(model, conf.int = TRUE)
   
-    # Add var_name as a column — even if multiple levels
+  # Add var_name as a column — even if multiple levels
   res$var_names <- var_name
   
   # Optional: remove the intercept row if it's ever present
   res <- res[res$term != "(Intercept)", ]
-  
   
   data.frame(
     var_names = var_name,
@@ -161,7 +144,7 @@ dwhf_cox_1v <- function(var_name, categorical_vars = NULL) {
   )
 }
 
-results <- do.call(rbind, lapply(vars, dwhf_cox_1v, categorical_vars)) %>%
+results <- do.call(rbind, lapply(vars, dwhf_cox_1v)) %>%
   left_join(lista_zmiennych, by='var_names') %>% 
   select(var_names, var_labels, level, everything())
 

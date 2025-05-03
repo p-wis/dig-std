@@ -2,7 +2,7 @@ library(targets)
 
 # Set target options:
 tar_option_set(
-  packages = c("tibble", "haven") # Packages that your targets need for their tasks.
+  packages = c("tibble", "dplyr", "haven") # Packages that your targets need for their tasks.
 
  )
 
@@ -17,10 +17,39 @@ list(
       format = "file"
     ),
   
+    tar_target(
+      name = zm_kategoryczne,
+      command = c("sex", "race", "nsym", "functcls", "chfetiol", "prevmi", "angina",
+          "diabetes", "hyperten", "diguse", "diuretk", "diuret", "ksupp", "aceinhib",
+          "nitrates", "hydral", "vasod")
+    ),
+    
+    
   tar_target(
     name = df,
-    command = read_dta(data_fname)
+    command = {
+      raw_df <- read_dta(data_fname)
+      
+      # Extract variable labels
+      var_labels <- lapply(raw_df, function(x) attr(x, "label"))
+      
+      # Convert selected variables to factors
+      df <- raw_df %>%
+        mutate(across(all_of(zm_kategoryczne), haven::as_factor))
+      
+      # Restore variable labels
+      for (v in names(var_labels)) {
+        if (!is.null(var_labels[[v]])) {
+          attr(df[[v]], "label") <- var_labels[[v]]
+        }
+      }
+      
+      df
+      
+    }
   ),
+  
+
   
   tar_target(
     name = df_trtmt,
@@ -34,4 +63,6 @@ list(
       var_names = names(var_labels)
     )
   )
+  
+ 
 )
