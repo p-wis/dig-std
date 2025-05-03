@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Team Assignment #3: Outcome – dig-std</title>
+<title>Team Assignment #3: Outcome - 2y Event Free Survival – dig-std</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -156,7 +156,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#założenia" id="toc-założenia" class="nav-link active" data-scroll-target="#założenia">Założenia</a></li>
   <li><a href="#implementacja" id="toc-implementacja" class="nav-link" data-scroll-target="#implementacja">Implementacja</a></li>
-  <li><a href="#podstawowe-statystyki" id="toc-podstawowe-statystyki" class="nav-link" data-scroll-target="#podstawowe-statystyki">Podstawowe statystyki</a>
+  <li><a href="#model-zerowy-podstawowe-statystyki" id="toc-model-zerowy-podstawowe-statystyki" class="nav-link" data-scroll-target="#model-zerowy-podstawowe-statystyki">Model zerowy / Podstawowe statystyki</a>
   <ul class="collapse">
   <li><a href="#liczba-osób" id="toc-liczba-osób" class="nav-link" data-scroll-target="#liczba-osób">Liczba osób</a></li>
   <li><a href="#sumaryczna-liczba-eventów" id="toc-sumaryczna-liczba-eventów" class="nav-link" data-scroll-target="#sumaryczna-liczba-eventów">Sumaryczna liczba eventów</a></li>
@@ -166,10 +166,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#dni" id="toc-dni" class="nav-link" data-scroll-target="#dni">Dni</a></li>
   <li><a href="#lata" id="toc-lata" class="nav-link" data-scroll-target="#lata">Lata</a></li>
   </ul></li>
-  <li><a href="#skumulowana-częstość-występowania" id="toc-skumulowana-częstość-występowania" class="nav-link" data-scroll-target="#skumulowana-częstość-występowania">Skumulowana częstość występowania</a></li>
+  <li><a href="#skumulowana-częstość-występowania-zdarzenia" id="toc-skumulowana-częstość-występowania-zdarzenia" class="nav-link" data-scroll-target="#skumulowana-częstość-występowania-zdarzenia">Skumulowana częstość występowania zdarzenia</a></li>
   <li><a href="#mediana-przeżycia" id="toc-mediana-przeżycia" class="nav-link" data-scroll-target="#mediana-przeżycia">Mediana przeżycia</a></li>
   <li><a href="#letnie-przeżycia" id="toc-letnie-przeżycia" class="nav-link" data-scroll-target="#letnie-przeżycia">2-letnie przeżycia</a></li>
   </ul></li>
+  <li><a href="#jednoczynnikowa-ocena-potencjalnych-predyktorów" id="toc-jednoczynnikowa-ocena-potencjalnych-predyktorów" class="nav-link" data-scroll-target="#jednoczynnikowa-ocena-potencjalnych-predyktorów">jednoczynnikowa ocena potencjalnych predyktorów</a></li>
   </ul>
 </nav>
     </div>
@@ -178,7 +179,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Team Assignment #3: Outcome</h1>
+<h1 class="title">Team Assignment #3: Outcome - 2y Event Free Survival</h1>
 </div>
 
 
@@ -202,7 +203,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(kableExtra))</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(survival))</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(ggsurvfit))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(broom))</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(targets))</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(df)</span>
@@ -253,12 +254,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="podstawowe-statystyki" class="level1">
-<h1>Podstawowe statystyki</h1>
+<section id="model-zerowy-podstawowe-statystyki" class="level1">
+<h1>Model zerowy / Podstawowe statystyki</h1>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(dwhfdays,dwhf)<span class="sc">~</span><span class="dv">1</span>, <span class="at">data=</span> df_trtmt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dwhf_surv <span class="ot">&lt;-</span> <span class="fu">with</span>(df_trtmt, <span class="fu">Surv</span>(dwhfdays,dwhf))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fu">survfit</span>(dwhf_surv<span class="sc">~</span><span class="dv">1</span>, <span class="at">data=</span> df_trtmt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="liczba-osób" class="level2">
@@ -329,8 +331,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="skumulowana-częstość-występowania" class="level2">
-<h2 class="anchored" data-anchor-id="skumulowana-częstość-występowania">Skumulowana częstość występowania</h2>
+<section id="skumulowana-częstość-występowania-zdarzenia" class="level2">
+<h2 class="anchored" data-anchor-id="skumulowana-częstość-występowania-zdarzenia">Skumulowana częstość występowania zdarzenia</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -375,15 +377,379 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m0, <span class="at">times =</span> <span class="dv">2</span><span class="sc">*</span><span class="fl">365.25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Call: survfit(formula = Surv(dwhfdays, dwhf) ~ 1, data = df_trtmt)
+<pre><code>Call: survfit(formula = dwhf_surv ~ 1, data = df_trtmt)
 
  time n.risk n.event survival std.err lower 95% CI upper 95% CI
   730   2240     737    0.768 0.00752        0.754        0.783</code></pre>
 </div>
 </div>
-
-
 </section>
+</section>
+<section id="jednoczynnikowa-ocena-potencjalnych-predyktorów" class="level1">
+<h1>jednoczynnikowa ocena potencjalnych predyktorów</h1>
+<p>W tabeli wyniki regresji 1 czynnikowych m. Coxa dla zm. zdarzenia dwhf oraz wybranych predyktorów</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"race"</span>, <span class="st">"ejf_per"</span>, <span class="st">"bmi"</span>, <span class="st">"creat"</span>, <span class="st">"klevel"</span>, <span class="st">"chfdur"</span>, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>          <span class="st">"heartrte"</span>, <span class="st">"diabp"</span>, <span class="st">"sysbp"</span>, <span class="st">"functcls"</span>, <span class="st">"chfetiol"</span>, <span class="st">"prevmi"</span>, <span class="st">"angina"</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"diabetes"</span>, <span class="st">"hyperten"</span>, <span class="st">"diguse"</span>, <span class="st">"diuretk"</span>, <span class="st">"diuret"</span>, <span class="st">"ksupp"</span>, <span class="st">"aceinhib"</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>          <span class="st">"nitrates"</span>, <span class="st">"hydral"</span>, <span class="st">"vasod"</span>, <span class="st">"digdose"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>categorical_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sex"</span>, <span class="st">"race"</span>, <span class="st">"functcls"</span>, <span class="st">"chfetiol"</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>dwhf_cox_1v <span class="ot">&lt;-</span> <span class="cf">function</span>(var_name, <span class="at">categorical_vars =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Pull out the actual variable from the data</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  var_data <span class="ot">&lt;-</span> df_trtmt[[var_name]]</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Decide if variable is categorical</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  is_categorical <span class="ot">&lt;-</span> var_name <span class="sc">%in%</span> categorical_vars <span class="sc">||</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">is.factor</span>(var_data) <span class="sc">||</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">is.character</span>(var_data)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># If categorical, convert to factor</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (is_categorical) {</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    df_trtmt[[var_name]] <span class="ot">&lt;-</span> <span class="fu">factor</span>(var_data)</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>  formula <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="fu">paste</span>(<span class="st">"dwhf_surv ~"</span>, var_name))</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(formula, <span class="at">data =</span> df_trtmt)</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">tidy</span>(model, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add var_name as a column — even if multiple levels</span></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>  res<span class="sc">$</span>var_names <span class="ot">&lt;-</span> var_name</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Optional: remove the intercept row if it's ever present</span></span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> res[res<span class="sc">$</span>term <span class="sc">!=</span> <span class="st">"(Intercept)"</span>, ]</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">var_names =</span> var_name,</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">level =</span> res<span class="sc">$</span>term,</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">hr =</span> <span class="fu">round</span>(res<span class="sc">$</span>estimate, <span class="dv">3</span>),</span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">hr_ci_lo =</span> <span class="fu">round</span>(res<span class="sc">$</span>conf.low, <span class="dv">3</span>),</span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">hr_ci_up =</span> <span class="fu">round</span>(res<span class="sc">$</span>conf.high, <span class="dv">3</span>),</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> <span class="fu">signif</span>(res<span class="sc">$</span>p.value, <span class="dv">3</span>)</span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(vars, dwhf_cox_1v, categorical_vars)) <span class="sc">%&gt;%</span></span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(lista_zmiennych, <span class="at">by=</span><span class="st">'var_names'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(var_names, var_labels, level, <span class="fu">everything</span>())</span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span> <span class="fu">kable</span>(<span class="at">digits=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">kable_classic_2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="lightable-classic-2 caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">var_names</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">var_labels</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">level</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">hr</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">hr_ci_lo</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">hr_ci_up</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">p_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: left;">calculated: age at randomization</td>
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">-0.004</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">0.646</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sex</td>
+<td style="text-align: left;">q4: sex, 1=male 2=female</td>
+<td style="text-align: left;">sex2</td>
+<td style="text-align: right;">0.153</td>
+<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">0.294</td>
+<td style="text-align: right;">0.034</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">race</td>
+<td style="text-align: left;">q5: race, 1=white 2=nonwhite</td>
+<td style="text-align: left;">race2</td>
+<td style="text-align: right;">0.335</td>
+<td style="text-align: right;">0.176</td>
+<td style="text-align: right;">0.494</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ejf_per</td>
+<td style="text-align: left;">q3: ejection fraction (percent)</td>
+<td style="text-align: left;">ejf_per</td>
+<td style="text-align: right;">-0.034</td>
+<td style="text-align: right;">-0.041</td>
+<td style="text-align: right;">-0.027</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bmi</td>
+<td style="text-align: left;">calculated: body mass index (kg/m*m)</td>
+<td style="text-align: left;">bmi</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">-0.007</td>
+<td style="text-align: right;">0.016</td>
+<td style="text-align: right;">0.421</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">creat</td>
+<td style="text-align: left;">q9: serum creatinine (mg/dl)</td>
+<td style="text-align: left;">creat</td>
+<td style="text-align: right;">-0.102</td>
+<td style="text-align: right;">-0.271</td>
+<td style="text-align: right;">0.067</td>
+<td style="text-align: right;">0.236</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">klevel</td>
+<td style="text-align: left;">q9a: serum potassium level</td>
+<td style="text-align: left;">klevel</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">-0.125</td>
+<td style="text-align: right;">0.128</td>
+<td style="text-align: right;">0.980</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chfdur</td>
+<td style="text-align: left;">q12: duration of chf (months)</td>
+<td style="text-align: left;">chfdur</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">-0.002</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">0.992</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">heartrte</td>
+<td style="text-align: left;">q21: heart rate (beats/min)</td>
+<td style="text-align: left;">heartrte</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">-0.001</td>
+<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">0.121</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">diabp</td>
+<td style="text-align: left;">q22: diastolic bp (mmhg)</td>
+<td style="text-align: left;">diabp</td>
+<td style="text-align: right;">-0.006</td>
+<td style="text-align: right;">-0.011</td>
+<td style="text-align: right;">-0.001</td>
+<td style="text-align: right;">0.029</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sysbp</td>
+<td style="text-align: left;">q22: sysolic bp (mmhg)</td>
+<td style="text-align: left;">sysbp</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">-0.002</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">0.606</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">functcls</td>
+<td style="text-align: left;">q23: nyha functional class</td>
+<td style="text-align: left;">functcls2</td>
+<td style="text-align: right;">0.484</td>
+<td style="text-align: right;">0.258</td>
+<td style="text-align: right;">0.709</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">functcls</td>
+<td style="text-align: left;">q23: nyha functional class</td>
+<td style="text-align: left;">functcls3</td>
+<td style="text-align: right;">0.922</td>
+<td style="text-align: right;">0.692</td>
+<td style="text-align: right;">1.152</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">functcls</td>
+<td style="text-align: left;">q23: nyha functional class</td>
+<td style="text-align: left;">functcls4</td>
+<td style="text-align: right;">1.505</td>
+<td style="text-align: right;">1.138</td>
+<td style="text-align: right;">1.872</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chfetiol</td>
+<td style="text-align: left;">q24: chf etiology</td>
+<td style="text-align: left;">chfetiol2</td>
+<td style="text-align: right;">0.073</td>
+<td style="text-align: right;">-0.153</td>
+<td style="text-align: right;">0.298</td>
+<td style="text-align: right;">0.529</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chfetiol</td>
+<td style="text-align: left;">q24: chf etiology</td>
+<td style="text-align: left;">chfetiol3</td>
+<td style="text-align: right;">0.490</td>
+<td style="text-align: right;">0.056</td>
+<td style="text-align: right;">0.924</td>
+<td style="text-align: right;">0.027</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chfetiol</td>
+<td style="text-align: left;">q24: chf etiology</td>
+<td style="text-align: left;">chfetiol4</td>
+<td style="text-align: right;">-0.060</td>
+<td style="text-align: right;">-0.232</td>
+<td style="text-align: right;">0.112</td>
+<td style="text-align: right;">0.497</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chfetiol</td>
+<td style="text-align: left;">q24: chf etiology</td>
+<td style="text-align: left;">chfetiol5</td>
+<td style="text-align: right;">-0.051</td>
+<td style="text-align: right;">-0.435</td>
+<td style="text-align: right;">0.333</td>
+<td style="text-align: right;">0.793</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chfetiol</td>
+<td style="text-align: left;">q24: chf etiology</td>
+<td style="text-align: left;">chfetiol6</td>
+<td style="text-align: right;">0.109</td>
+<td style="text-align: right;">-0.386</td>
+<td style="text-align: right;">0.605</td>
+<td style="text-align: right;">0.665</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">prevmi</td>
+<td style="text-align: left;">q25: previous myocardial infarction</td>
+<td style="text-align: left;">prevmi</td>
+<td style="text-align: right;">0.068</td>
+<td style="text-align: right;">-0.060</td>
+<td style="text-align: right;">0.195</td>
+<td style="text-align: right;">0.300</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">angina</td>
+<td style="text-align: left;">q26: current angina</td>
+<td style="text-align: left;">angina</td>
+<td style="text-align: right;">-0.073</td>
+<td style="text-align: right;">-0.212</td>
+<td style="text-align: right;">0.065</td>
+<td style="text-align: right;">0.298</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">diabetes</td>
+<td style="text-align: left;">q27: history of diabetes</td>
+<td style="text-align: left;">diabetes</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">-0.129</td>
+<td style="text-align: right;">0.139</td>
+<td style="text-align: right;">0.941</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hyperten</td>
+<td style="text-align: left;">q28: history of hypertension</td>
+<td style="text-align: left;">hyperten</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">-0.120</td>
+<td style="text-align: right;">0.124</td>
+<td style="text-align: right;">0.978</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">diguse</td>
+<td style="text-align: left;">q29: digoxin within past week</td>
+<td style="text-align: left;">diguse</td>
+<td style="text-align: right;">0.450</td>
+<td style="text-align: right;">0.328</td>
+<td style="text-align: right;">0.572</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">diuretk</td>
+<td style="text-align: left;">q30: potassium sparing diuretics</td>
+<td style="text-align: left;">diuretk</td>
+<td style="text-align: right;">-0.101</td>
+<td style="text-align: right;">-0.343</td>
+<td style="text-align: right;">0.142</td>
+<td style="text-align: right;">0.415</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">diuret</td>
+<td style="text-align: left;">q31: other diuretics</td>
+<td style="text-align: left;">diuret</td>
+<td style="text-align: right;">0.962</td>
+<td style="text-align: right;">0.772</td>
+<td style="text-align: right;">1.152</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ksupp</td>
+<td style="text-align: left;">q31a: potassium supplements</td>
+<td style="text-align: left;">ksupp</td>
+<td style="text-align: right;">0.578</td>
+<td style="text-align: right;">0.447</td>
+<td style="text-align: right;">0.709</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">aceinhib</td>
+<td style="text-align: left;">q32: ace inhibitors</td>
+<td style="text-align: left;">aceinhib</td>
+<td style="text-align: right;">-0.086</td>
+<td style="text-align: right;">-0.335</td>
+<td style="text-align: right;">0.163</td>
+<td style="text-align: right;">0.498</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nitrates</td>
+<td style="text-align: left;">q33: nitrates</td>
+<td style="text-align: left;">nitrates</td>
+<td style="text-align: right;">-0.055</td>
+<td style="text-align: right;">-0.179</td>
+<td style="text-align: right;">0.068</td>
+<td style="text-align: right;">0.382</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hydral</td>
+<td style="text-align: left;">q34: hydralazine</td>
+<td style="text-align: left;">hydral</td>
+<td style="text-align: right;">0.765</td>
+<td style="text-align: right;">0.437</td>
+<td style="text-align: right;">1.094</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vasod</td>
+<td style="text-align: left;">q35: other vasodilators</td>
+<td style="text-align: left;">vasod</td>
+<td style="text-align: right;">-0.580</td>
+<td style="text-align: right;">-1.383</td>
+<td style="text-align: right;">0.222</td>
+<td style="text-align: right;">0.157</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">digdose</td>
+<td style="text-align: left;">q36: dose of digoxin/placebo prescribed</td>
+<td style="text-align: left;">digdose</td>
+<td style="text-align: right;">-0.422</td>
+<td style="text-align: right;">-1.268</td>
+<td style="text-align: right;">0.425</td>
+<td style="text-align: right;">0.329</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->

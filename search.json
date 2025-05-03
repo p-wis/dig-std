@@ -2,65 +2,65 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Team Assignment #3: Digitalis Study",
+    "title": "Team Assignment #3: Digitalis Study - dokumentacja i lista zmiennych",
     "section": "",
     "text": "Code\nsuppressPackageStartupMessages(library(dplyr))\nsuppressPackageStartupMessages(library(kableExtra))\nsuppressPackageStartupMessages(library(targets))\n\ntar_load(df)\ntar_load(lista_zmiennych)\n\n\n\nDokumentacja do pobrania\n\n📥 Digitalis Investigation Group Data Documentation 📥 Publikacja NEJM 1997\n\n\n\nLista zmiennych\n\n\nCode\nlista_zmiennych %&gt;% \n  kable() %&gt;% \n  kable_classic_2()\n\n\n\n\n\nvar_labels\nvar_names\n\n\n\n\npatient id\nid\n\n\n0=placebo, 1=treatment\ntrtmt\n\n\ncalculated: age at randomization\nage\n\n\nq5: race, 1=white 2=nonwhite\nrace\n\n\nq4: sex, 1=male 2=female\nsex\n\n\nq3: ejection fraction (percent)\nejf_per\n\n\nq3a: ejection fraction method\nejfmeth\n\n\nq6: chest x-ray (ct-ratio)\nchestx\n\n\ncalculated: body mass index (kg/m*m)\nbmi\n\n\nq9a: serum potassium level\nklevel\n\n\nq9: serum creatinine (mg/dl)\ncreat\n\n\nq10: recommended digoxin dose\ndigdoser\n\n\nq12: duration of chf (months)\nchfdur\n\n\nq13: rales\nrales\n\n\nq14: elevated jugular venous pressure\nelevjvp\n\n\nq15: peripheral edema\npedema\n\n\nq16: dyspnea at rest\nrestdys\n\n\nq17: dyspnea on exertion\nexertdys\n\n\nq18: limitation of activity\nactlimit\n\n\nq19: s3 gallop\ns3\n\n\nq20: pulmonary congestion\npulcong\n\n\ncalculated: sum of q13-q20, y/n status\nnsym\n\n\nq21: heart rate (beats/min)\nheartrte\n\n\nq22: diastolic bp (mmhg)\ndiabp\n\n\nq22: sysolic bp (mmhg)\nsysbp\n\n\nq23: nyha functional class\nfunctcls\n\n\nq24: chf etiology\nchfetiol\n\n\nq25: previous myocardial infarction\nprevmi\n\n\nq26: current angina\nangina\n\n\nq27: history of diabetes\ndiabetes\n\n\nq28: history of hypertension\nhyperten\n\n\nq29: digoxin within past week\ndiguse\n\n\nq30: potassium sparing diuretics\ndiuretk\n\n\nq31: other diuretics\ndiuret\n\n\nq31a: potassium supplements\nksupp\n\n\nq32: ace inhibitors\naceinhib\n\n\nq33: nitrates\nnitrates\n\n\nq34: hydralazine\nhydral\n\n\nq35: other vasodilators\nvasod\n\n\nq36: dose of digoxin/placebo prescribed\ndigdose\n\n\nhosp: cardiovascular disease\ncvd\n\n\ndays randomization to first cvd hosp\ncvddays\n\n\nhosp: worsening heart failure\nwhf\n\n\ndays randomization to first whf hosp\nwhfdays\n\n\nhosp: digoxin toxicity\ndig\n\n\ndays rand. to first digoxin tox hosp\ndigdays\n\n\nhosp: myocardial infarction\nmi\n\n\ndays randomization to first mi hosp\nmidays\n\n\nhosp: unstable angina\nuang\n\n\ndays rand. to first unstable angina hosp\nuangdays\n\n\nhosp: stroke\nstrk\n\n\ndays randomization to first stroke hosp\nstrkdays\n\n\nhosp: supraventricular arrhythmia\nsva\n\n\ndays rand. to first supravent arr. hosp\nsvadays\n\n\nhosp: ventricular arrhythmia\nvena\n\n\ndays rand. to first vent. arr. hosp\nvenadays\n\n\nhosp: coronary revascularization\ncrev\n\n\ndays rand. to first cor. revasc.\ncrevdays\n\n\nhosp: other cardiovascular event\nocvd\n\n\ndays rand. to first other cvd hosp\nocvddays\n\n\nhosp: respiratory infection\nrinf\n\n\ndays rand. to first resp. infection hosp\nrinfdays\n\n\nhosp: other noncardiac, nonvascular\noth\n\n\ndays rand. to 1st other non cvd hosp\nothdays\n\n\nhosp: any hospitalization\nhosp\n\n\ndays randomization to first any hosp\nhospdays\n\n\nnumber of hospitalizations\nnhosp\n\n\nvital status of patient 1=death 0=alive\ndeath\n\n\ndays till last followup or death\ndeathday\n\n\ncause of death\nreason\n\n\nprimary endpt: death or hosp from hf\ndwhf\n\n\ndays rand. to death or hosp from whf\ndwhfdays"
   },
   {
     "objectID": "outcome.html",
     "href": "outcome.html",
-    "title": "Team Assignment #3: Outcome",
+    "title": "Team Assignment #3: Outcome - 2y Event Free Survival",
     "section": "",
-    "text": "Code\nsuppressPackageStartupMessages(library(dplyr))\nsuppressPackageStartupMessages(library(kableExtra))\nsuppressPackageStartupMessages(library(survival))\nsuppressPackageStartupMessages(library(ggsurvfit))\n\nsuppressPackageStartupMessages(library(targets))\n\ntar_load(df)\ntar_load(lista_zmiennych)\ntar_load(df_trtmt)"
+    "text": "Code\nsuppressPackageStartupMessages(library(dplyr))\nsuppressPackageStartupMessages(library(kableExtra))\nsuppressPackageStartupMessages(library(survival))\nsuppressPackageStartupMessages(library(ggsurvfit))\nsuppressPackageStartupMessages(library(broom))\nsuppressPackageStartupMessages(library(targets))\n\ntar_load(df)\ntar_load(lista_zmiennych)\ntar_load(df_trtmt)"
   },
   {
     "objectID": "outcome.html#liczba-osób",
     "href": "outcome.html#liczba-osób",
-    "title": "Team Assignment #3: Outcome",
+    "title": "Team Assignment #3: Outcome - 2y Event Free Survival",
     "section": "Liczba osób",
     "text": "Liczba osób\n\n\nCode\nn_total &lt;- nrow(df_trtmt)\nn_total\n\n\n[1] 3397"
   },
   {
     "objectID": "outcome.html#sumaryczna-liczba-eventów",
     "href": "outcome.html#sumaryczna-liczba-eventów",
-    "title": "Team Assignment #3: Outcome",
+    "title": "Team Assignment #3: Outcome - 2y Event Free Survival",
     "section": "Sumaryczna liczba eventów",
     "text": "Sumaryczna liczba eventów\n\n\nCode\nn_events &lt;- sum(df_trtmt$dwhf)\nn_events\n\n\n[1] 1041"
   },
   {
     "objectID": "outcome.html#liczba-obserwacji-uciętych",
     "href": "outcome.html#liczba-obserwacji-uciętych",
-    "title": "Team Assignment #3: Outcome",
+    "title": "Team Assignment #3: Outcome - 2y Event Free Survival",
     "section": "Liczba obserwacji uciętych",
     "text": "Liczba obserwacji uciętych\n\n\nCode\nn_censored &lt;- n_total - n_events\nn_censored\n\n\n[1] 2356"
   },
   {
     "objectID": "outcome.html#czas-obserwacji",
     "href": "outcome.html#czas-obserwacji",
-    "title": "Team Assignment #3: Outcome",
+    "title": "Team Assignment #3: Outcome - 2y Event Free Survival",
     "section": "Czas obserwacji",
     "text": "Czas obserwacji\n\nDni\n\n\nCode\nsummary(df_trtmt$dwhfdays)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n    1.0   481.0  1025.0   930.4  1360.0  1781.0 \n\n\n\n\nLata\n\n\nCode\nsummary(df_trtmt$dwhfdays / 365.25)\n\n\n    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. \n0.002738 1.316906 2.806297 2.547248 3.723477 4.876112"
   },
   {
-    "objectID": "outcome.html#skumulowana-częstość-występowania",
-    "href": "outcome.html#skumulowana-częstość-występowania",
-    "title": "Team Assignment #3: Outcome",
-    "section": "Skumulowana częstość występowania",
-    "text": "Skumulowana częstość występowania\n\n\nCode\nm0 %&gt;%\n  ggsurvfit() +\n  add_confidence_interval() +\n  add_risktable() +\n  labs(\n    title = \"Cumulative Incidence Curve\",\n    x = \"Time (days)\",  # adjust if needed\n    y = \"Cumulative event probability\"\n  ) +\n  scale_y_reverse(trans = \"reverse\")  # flip survival to mortality"
+    "objectID": "outcome.html#skumulowana-częstość-występowania-zdarzenia",
+    "href": "outcome.html#skumulowana-częstość-występowania-zdarzenia",
+    "title": "Team Assignment #3: Outcome - 2y Event Free Survival",
+    "section": "Skumulowana częstość występowania zdarzenia",
+    "text": "Skumulowana częstość występowania zdarzenia\n\n\nCode\nm0 %&gt;%\n  ggsurvfit() +\n  add_confidence_interval() +\n  add_risktable() +\n  labs(\n    title = \"Cumulative Incidence Curve\",\n    x = \"Time (days)\",  # adjust if needed\n    y = \"Cumulative event probability\"\n  ) +\n  scale_y_reverse(trans = \"reverse\")  # flip survival to mortality"
   },
   {
     "objectID": "outcome.html#mediana-przeżycia",
     "href": "outcome.html#mediana-przeżycia",
-    "title": "Team Assignment #3: Outcome",
+    "title": "Team Assignment #3: Outcome - 2y Event Free Survival",
     "section": "Mediana przeżycia",
     "text": "Mediana przeżycia\n\n\nCode\nsummary(m0)$table[\"median\"]\n\n\nmedian \n    NA"
   },
   {
     "objectID": "outcome.html#letnie-przeżycia",
     "href": "outcome.html#letnie-przeżycia",
-    "title": "Team Assignment #3: Outcome",
+    "title": "Team Assignment #3: Outcome - 2y Event Free Survival",
     "section": "2-letnie przeżycia",
-    "text": "2-letnie przeżycia\n\n\nCode\nsummary(m0, times = 2*365.25)\n\n\nCall: survfit(formula = Surv(dwhfdays, dwhf) ~ 1, data = df_trtmt)\n\n time n.risk n.event survival std.err lower 95% CI upper 95% CI\n  730   2240     737    0.768 0.00752        0.754        0.783"
+    "text": "2-letnie przeżycia\n\n\nCode\nsummary(m0, times = 2*365.25)\n\n\nCall: survfit(formula = dwhf_surv ~ 1, data = df_trtmt)\n\n time n.risk n.event survival std.err lower 95% CI upper 95% CI\n  730   2240     737    0.768 0.00752        0.754        0.783"
   },
   {
     "objectID": "about.html",
