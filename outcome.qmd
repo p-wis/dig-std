@@ -81,7 +81,7 @@ summary(df_trtmt$dwhfdays)
 summary(df_trtmt$dwhfdays / 365.25)
 ```
 
-## Krzywa umieralności/hospitalizacji
+## Skumulowana częstość występowania
 
 ```{r}
 m0 %>%
@@ -89,9 +89,9 @@ m0 %>%
   add_confidence_interval() +
   add_risktable() +
   labs(
-    title = "Cumulative Mortality Curve",
+    title = "Cumulative Incidence Curve",
     x = "Time (days)",  # adjust if needed
-    y = "Cumulative mortality probability"
+    y = "Cumulative event probability"
   ) +
   scale_y_reverse(trans = "reverse")  # flip survival to mortality
 ```
