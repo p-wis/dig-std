@@ -1,5 +1,5 @@
 ---
-title: "Team Assignment #3: Outcome"
+title: "Team Assignment #3: Outcome - 2y Event Free Survival"
 code-fold: true
 editor_options: 
   chunk_output_type: console
@@ -10,7 +10,7 @@ suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(kableExtra))
 suppressPackageStartupMessages(library(survival))
 suppressPackageStartupMessages(library(ggsurvfit))
-
+suppressPackageStartupMessages(library(broom))
 suppressPackageStartupMessages(library(targets))
 
 tar_load(df)
@@ -40,10 +40,11 @@ W zbiorze danych DIG jednym z punktów końcowych był "zgon lub hospitalizacja 
     kable_classic_2()
 ```
 
-# Podstawowe statystyki 
+# Model zerowy / Podstawowe statystyki 
 
 ```{r}
-m0 <- survfit(Surv(dwhfdays,dwhf)~1, data= df_trtmt)
+dwhf_surv <- with(df_trtmt, Surv(dwhfdays,dwhf))
+m0 <- survfit(dwhf_surv~1, data= df_trtmt)
 ```
 
 ## Liczba osób
@@ -81,7 +82,7 @@ summary(df_trtmt$dwhfdays)
 summary(df_trtmt$dwhfdays / 365.25)
 ```
 
-## Skumulowana częstość występowania
+## Skumulowana częstość występowania zdarzenia
 
 ```{r}
 m0 %>%
@@ -107,6 +108,64 @@ summary(m0)$table["median"]
 
 ```{r}
 summary(m0, times = 2*365.25)
+```
+
+# jednoczynnikowa ocena potencjalnych predyktorów
+
+W tabeli wyniki regresji 1 czynnikowych m. Coxa dla zm. zdarzenia dwhf oraz 
+wybranych predyktorów  
+
+```{r}
+vars <- c("age", "sex", "race", "ejf_per", "bmi", "creat", "klevel", "chfdur", 
+          "heartrte", "diabp", "sysbp", "functcls", "chfetiol", "prevmi", "angina",
+          "diabetes", "hyperten", "diguse", "diuretk", "diuret", "ksupp", "aceinhib",
+          "nitrates", "hydral", "vasod", "digdose")
+
+categorical_vars <- c("sex", "race", "functcls", "chfetiol")
+
+dwhf_cox_1v <- function(var_name, categorical_vars = NULL) {
+  
+  # Pull out the actual variable from the data
+  var_data <- df_trtmt[[var_name]]
+
+  # Decide if variable is categorical
+  is_categorical <- var_name %in% categorical_vars ||
+                    is.factor(var_data) ||
+                    is.character(var_data)
+
+  # If categorical, convert to factor
+  if (is_categorical) {
+    df_trtmt[[var_name]] <- factor(var_data)
+  }
+
+
+  
+  formula <- as.formula(paste("dwhf_surv ~", var_name))
+  model <- coxph(formula, data = df_trtmt)
+  res <- broom::tidy(model, conf.int = TRUE)
+  
+    # Add var_name as a column — even if multiple levels
+  res$var_names <- var_name
+  
+  # Optional: remove the intercept row if it's ever present
+  res <- res[res$term != "(Intercept)", ]
+  
+  
+  data.frame(
+    var_names = var_name,
+    level = res$term,
+    hr = round(res$estimate, 3),
+    hr_ci_lo = round(res$conf.low, 3),
+    hr_ci_up = round(res$conf.high, 3),
+    p_value = signif(res$p.value, 3)
+  )
+}
+
+results <- do.call(rbind, lapply(vars, dwhf_cox_1v, categorical_vars)) %>%
+  left_join(lista_zmiennych, by='var_names') %>% 
+  select(var_names, var_labels, level, everything())
+
+results %>% kable(digits=3) %>% kable_classic_2()
 ```
 
 

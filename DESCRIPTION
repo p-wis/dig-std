@@ -16,4 +16,5 @@ Imports:
     kableExtra,
     survival,
     ggsurvfit,
-    targets
+    targets,
+    broom
