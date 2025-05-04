@@ -7,7 +7,8 @@ tar_option_set(
  )
 
 # Run the R scripts in the R/ folder with your custom functions:
-# tar_source()
+tar_source()
+
 # tar_source("other_functions.R") # Source other scripts as needed.
 
 list(
@@ -33,23 +34,8 @@ list(
       # Add derived variables
   
       raw_df <- raw_df %>%
-        mutate(
-          any_diuret = case_when(
-            diuretk == 1L ~ 1L,
-            diuret == 1L ~ 1L,
-            TRUE ~ 0L
-          ),
-          any_vasod = case_when(
-            nitrates == 1L ~ 1L,
-            hydral == 1L ~ 1L,
-            vasod == 1L ~ 1L,
-            TRUE ~ 0L
-          )
-        )
-      
-      attr(raw_df[["any_diuret"]], "label") <- "derived: positive diuretk or diuret"
-      
-      attr(raw_df[["any_vasod"]], "label") <- "derived: positive nitrates or hydral or vasod"
+        add_any_diuret() %>%
+        add_any_vasod()
       
       # Extract variable labels
       var_labels <- lapply(raw_df, function(x) attr(x, "label"))
