@@ -116,10 +116,10 @@ W tabeli wyniki regresji jednoczynnikowych m. Coxa dla zdarzenia `dwhf` oraz
 wybranych zmiennych - kandydatów na predyktorów.  
 
 ```{r}
-vars <- c("age", "sex", "race", "ejf_per", "bmi", "creat", "klevel", "chfdur", "nsym", 
+candidate_vars <- c("age", "sex", "race", "ejf_per", "bmi", "creat", "klevel", "chfdur", "nsym", 
           "heartrte", "diabp", "sysbp", "functcls", "chfetiol", "prevmi", "angina",
           "diabetes", "hyperten", "diguse", "diuretk", "diuret", "ksupp", "aceinhib",
-          "nitrates", "hydral", "vasod")
+          "nitrates", "hydral", "vasod", "any_diuret", "any_vasod")
 
 
 dwhf_cox_1v <- function(var_name) {
@@ -144,12 +144,18 @@ dwhf_cox_1v <- function(var_name) {
   )
 }
 
-results <- do.call(rbind, lapply(vars, dwhf_cox_1v)) %>%
+results <- do.call(rbind, lapply(candidate_vars, dwhf_cox_1v)) %>%
   left_join(lista_zmiennych, by='var_names') %>% 
   select(var_names, var_labels, level, everything())
 
 results %>% kable(digits=3) %>% kable_classic_2()
 ```
 
+## Wstępny model wieloczynnikowy 
+
+```{r}
+m1 <- coxph(dwhf_surv ~ age + sex + race + ejf_per + bmi + functcls + diguse + diuret + diabp + prevmi + diabetes + hyperten, data = df_trtmt)
+summary(m1)
+```
 
  
