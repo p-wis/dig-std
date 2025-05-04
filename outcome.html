@@ -409,7 +409,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>candidate_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"race"</span>, <span class="st">"ejf_per"</span>, <span class="st">"chestx"</span>, <span class="st">"bmi"</span>, <span class="st">"creat"</span>, <span class="st">"klevel"</span>, <span class="st">"chfdur"</span>, <span class="st">"nsym"</span>, </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>          <span class="st">"heartrte"</span>, <span class="st">"diabp"</span>, <span class="st">"sysbp"</span>,  <span class="st">"meanbp"</span>, <span class="st">"nyha_class"</span>, <span class="st">"chfetiol"</span>, <span class="st">"prevmi"</span>, <span class="st">"angina"</span>,</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"diabetes"</span>, <span class="st">"hyperten"</span>, <span class="st">"diguse"</span>, <span class="st">"diuretk"</span>, <span class="st">"diuret"</span>, <span class="st">"ksupp"</span>, <span class="st">"aceinhib"</span>,</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>          <span class="st">"nitrates"</span>, <span class="st">"hydral"</span>, <span class="st">"vasod"</span>, <span class="st">"any_diuret"</span>, <span class="st">"any_vasod"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>          <span class="st">"nitrates"</span>, <span class="st">"hydral"</span>, <span class="st">"vasod"</span>, <span class="st">"any_diuret"</span>, <span class="st">"any_vasod"</span>, <span class="st">"ejf_35"</span>, <span class="st">"chestx_55"</span>)</span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>lista_zmiennych <span class="sc">%&gt;%</span> </span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">semi_join</span>( </span>
@@ -547,6 +547,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">meanbp</td>
 <td style="text-align: left;">derived: mean blood pressure</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ejf_35</td>
+<td style="text-align: left;">derived: EF exceeds 35% 0=No, 1=Yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chestx_55</td>
+<td style="text-align: left;">derived: ct-ratio exceeds 0.55 0=No, 1=Yes</td>
 </tr>
 </tbody>
 </table>
@@ -719,6 +727,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 <figure class="figure">
 <p><img src="outcome_files/figure-html/unnamed-chunk-13-19.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="outcome_files/figure-html/unnamed-chunk-13-20.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="outcome_files/figure-html/unnamed-chunk-13-21.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1217,6 +1239,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0.112</td>
 <td style="text-align: right;">0.865</td>
 </tr>
+<tr class="even">
+<td style="text-align: left;">ejf_35</td>
+<td style="text-align: left;">derived: EF exceeds 35% 0=No, 1=Yes</td>
+<td style="text-align: left;">ejf_351</td>
+<td style="text-align: right;">-0.475</td>
+<td style="text-align: right;">-0.632</td>
+<td style="text-align: right;">-0.318</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chestx_55</td>
+<td style="text-align: left;">derived: ct-ratio exceeds 0.55 0=No, 1=Yes</td>
+<td style="text-align: left;">chestx_551</td>
+<td style="text-align: right;">0.510</td>
+<td style="text-align: right;">0.388</td>
+<td style="text-align: right;">0.631</td>
+<td style="text-align: right;">0.000</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1228,31 +1268,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">cph</span>(dwhf_surv <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> race <span class="sc">+</span> ejf_per <span class="sc">+</span> chestx <span class="sc">+</span> bmi <span class="sc">+</span> nyha_class <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">cph</span>(dwhf_surv <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> race <span class="sc">+</span> ejf_per <span class="sc">+</span> chestx  <span class="sc">+</span>  bmi <span class="sc">+</span> functcls <span class="sc">+</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>            diguse <span class="sc">+</span> diuret <span class="sc">+</span> aceinhib <span class="sc">+</span> prevmi <span class="sc">+</span> diabetes <span class="sc">+</span> hyperten,</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> df_trtmt, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>, <span class="at">surv =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">%&gt;%</span> </span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(<span class="at">exponentiate =</span> <span class="cn">TRUE</span>, <span class="at">tidy_fun =</span> broom.helpers<span class="sc">::</span>tidy_parameters, <span class="at">intercept=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">concordance</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+concordance.coxph(object = m1)
+
+n= 3389 
+Concordance= 0.6626 se= 0.008393
+concordant discordant     tied.x     tied.y    tied.xy 
+   1701131     866122          0        502          0 </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15776.83</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15868.75</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">%&gt;%</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(<span class="at">exponentiate =</span> <span class="cn">TRUE</span>, <span class="at">tidy_fun =</span> broom.helpers<span class="sc">::</span>tidy_parameters, <span class="at">intercept=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="vspryrvigb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#vspryrvigb table {
+<div id="xkuglxisgj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xkuglxisgj table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#vspryrvigb thead, #vspryrvigb tbody, #vspryrvigb tfoot, #vspryrvigb tr, #vspryrvigb td, #vspryrvigb th {
+#xkuglxisgj thead, #xkuglxisgj tbody, #xkuglxisgj tfoot, #xkuglxisgj tr, #xkuglxisgj td, #xkuglxisgj th {
   border-style: none;
 }
 
-#vspryrvigb p {
+#xkuglxisgj p {
   margin: 0;
   padding: 0;
 }
 
-#vspryrvigb .gt_table {
+#xkuglxisgj .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1278,12 +1345,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#vspryrvigb .gt_caption {
+#xkuglxisgj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#vspryrvigb .gt_title {
+#xkuglxisgj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1295,7 +1362,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#vspryrvigb .gt_subtitle {
+#xkuglxisgj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1307,7 +1374,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#vspryrvigb .gt_heading {
+#xkuglxisgj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1319,13 +1386,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#vspryrvigb .gt_bottom_border {
+#xkuglxisgj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#vspryrvigb .gt_col_headings {
+#xkuglxisgj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1340,7 +1407,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#vspryrvigb .gt_col_heading {
+#xkuglxisgj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1360,7 +1427,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#vspryrvigb .gt_column_spanner_outer {
+#xkuglxisgj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1372,15 +1439,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#vspryrvigb .gt_column_spanner_outer:first-child {
+#xkuglxisgj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#vspryrvigb .gt_column_spanner_outer:last-child {
+#xkuglxisgj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#vspryrvigb .gt_column_spanner {
+#xkuglxisgj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1392,11 +1459,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#vspryrvigb .gt_spanner_row {
+#xkuglxisgj .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#vspryrvigb .gt_group_heading {
+#xkuglxisgj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1422,7 +1489,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#vspryrvigb .gt_empty_group_heading {
+#xkuglxisgj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1437,15 +1504,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#vspryrvigb .gt_from_md > :first-child {
+#xkuglxisgj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#vspryrvigb .gt_from_md > :last-child {
+#xkuglxisgj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#vspryrvigb .gt_row {
+#xkuglxisgj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1464,7 +1531,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#vspryrvigb .gt_stub {
+#xkuglxisgj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1477,7 +1544,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#vspryrvigb .gt_stub_row_group {
+#xkuglxisgj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1491,15 +1558,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#vspryrvigb .gt_row_group_first td {
+#xkuglxisgj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#vspryrvigb .gt_row_group_first th {
+#xkuglxisgj .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#vspryrvigb .gt_summary_row {
+#xkuglxisgj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1509,16 +1576,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#vspryrvigb .gt_first_summary_row {
+#xkuglxisgj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#vspryrvigb .gt_first_summary_row.thick {
+#xkuglxisgj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#vspryrvigb .gt_last_summary_row {
+#xkuglxisgj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1528,7 +1595,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#vspryrvigb .gt_grand_summary_row {
+#xkuglxisgj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1538,7 +1605,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#vspryrvigb .gt_first_grand_summary_row {
+#xkuglxisgj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1548,7 +1615,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#vspryrvigb .gt_last_grand_summary_row_top {
+#xkuglxisgj .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1558,11 +1625,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#vspryrvigb .gt_striped {
+#xkuglxisgj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#vspryrvigb .gt_table_body {
+#xkuglxisgj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1571,7 +1638,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#vspryrvigb .gt_footnotes {
+#xkuglxisgj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1585,7 +1652,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#vspryrvigb .gt_footnote {
+#xkuglxisgj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1594,7 +1661,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#vspryrvigb .gt_sourcenotes {
+#xkuglxisgj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1608,7 +1675,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#vspryrvigb .gt_sourcenote {
+#xkuglxisgj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1616,72 +1683,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#vspryrvigb .gt_left {
+#xkuglxisgj .gt_left {
   text-align: left;
 }
 
-#vspryrvigb .gt_center {
+#xkuglxisgj .gt_center {
   text-align: center;
 }
 
-#vspryrvigb .gt_right {
+#xkuglxisgj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#vspryrvigb .gt_font_normal {
+#xkuglxisgj .gt_font_normal {
   font-weight: normal;
 }
 
-#vspryrvigb .gt_font_bold {
+#xkuglxisgj .gt_font_bold {
   font-weight: bold;
 }
 
-#vspryrvigb .gt_font_italic {
+#xkuglxisgj .gt_font_italic {
   font-style: italic;
 }
 
-#vspryrvigb .gt_super {
+#xkuglxisgj .gt_super {
   font-size: 65%;
 }
 
-#vspryrvigb .gt_footnote_marks {
+#xkuglxisgj .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#vspryrvigb .gt_asterisk {
+#xkuglxisgj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#vspryrvigb .gt_indent_1 {
+#xkuglxisgj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#vspryrvigb .gt_indent_2 {
+#xkuglxisgj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#vspryrvigb .gt_indent_3 {
+#xkuglxisgj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#vspryrvigb .gt_indent_4 {
+#xkuglxisgj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#vspryrvigb .gt_indent_5 {
+#xkuglxisgj .gt_indent_5 {
   text-indent: 25px;
 }
 
-#vspryrvigb .katex-display {
+#xkuglxisgj .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#vspryrvigb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#xkuglxisgj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1699,31 +1766,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td class="gt_row gt_left" headers="label">sex=2</td>
 <td class="gt_row gt_center" headers="estimate">1.00</td>
-<td class="gt_row gt_center" headers="conf.low">0.87, 1.16</td>
+<td class="gt_row gt_center" headers="conf.low">0.86, 1.15</td>
 <td class="gt_row gt_center" headers="p.value">&gt;0.9</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label">race=2</td>
-<td class="gt_row gt_center" headers="estimate">1.19</td>
-<td class="gt_row gt_center" headers="conf.low">1.01, 1.40</td>
-<td class="gt_row gt_center" headers="p.value">0.034</td>
+<td class="gt_row gt_center" headers="estimate">1.20</td>
+<td class="gt_row gt_center" headers="conf.low">1.02, 1.42</td>
+<td class="gt_row gt_center" headers="p.value">0.026</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="label">nyha_class=2</td>
-<td class="gt_row gt_center" headers="estimate">1.44</td>
-<td class="gt_row gt_center" headers="conf.low">1.27, 1.63</td>
+<td class="gt_row gt_left" headers="label">functcls=2</td>
+<td class="gt_row gt_center" headers="estimate">1.54</td>
+<td class="gt_row gt_center" headers="conf.low">1.23, 1.93</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">functcls=3</td>
+<td class="gt_row gt_center" headers="estimate">1.99</td>
+<td class="gt_row gt_center" headers="conf.low">1.58, 2.51</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">functcls=4</td>
+<td class="gt_row gt_center" headers="estimate">3.17</td>
+<td class="gt_row gt_center" headers="conf.low">2.18, 4.60</td>
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label">diguse=1</td>
 <td class="gt_row gt_center" headers="estimate">1.43</td>
-<td class="gt_row gt_center" headers="conf.low">1.26, 1.61</td>
+<td class="gt_row gt_center" headers="conf.low">1.27, 1.62</td>
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label">diuret=1</td>
-<td class="gt_row gt_center" headers="estimate">2.00</td>
-<td class="gt_row gt_center" headers="conf.low">1.64, 2.43</td>
+<td class="gt_row gt_center" headers="estimate">1.98</td>
+<td class="gt_row gt_center" headers="conf.low">1.63, 2.41</td>
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 <tr class="even">
@@ -1734,26 +1813,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label">prevmi=1</td>
-<td class="gt_row gt_center" headers="estimate">1.07</td>
-<td class="gt_row gt_center" headers="conf.low">0.94, 1.21</td>
+<td class="gt_row gt_center" headers="estimate">1.08</td>
+<td class="gt_row gt_center" headers="conf.low">0.95, 1.22</td>
 <td class="gt_row gt_center" headers="p.value">0.3</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label">diabetes=1</td>
-<td class="gt_row gt_center" headers="estimate">1.06</td>
-<td class="gt_row gt_center" headers="conf.low">0.92, 1.21</td>
-<td class="gt_row gt_center" headers="p.value">0.4</td>
+<td class="gt_row gt_center" headers="estimate">1.04</td>
+<td class="gt_row gt_center" headers="conf.low">0.91, 1.19</td>
+<td class="gt_row gt_center" headers="p.value">0.6</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label">hyperten=1</td>
 <td class="gt_row gt_center" headers="estimate">1.00</td>
-<td class="gt_row gt_center" headers="conf.low">0.88, 1.12</td>
+<td class="gt_row gt_center" headers="conf.low">0.88, 1.13</td>
 <td class="gt_row gt_center" headers="p.value">&gt;0.9</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label">calculated: age at randomization</td>
 <td class="gt_row gt_center" headers="estimate">1.00</td>
-<td class="gt_row gt_center" headers="conf.low">1.0, 1.01</td>
+<td class="gt_row gt_center" headers="conf.low">0.99, 1.01</td>
 <td class="gt_row gt_center" headers="p.value">&gt;0.9</td>
 </tr>
 <tr class="odd">
@@ -1764,8 +1843,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label">q6: chest x-ray (ct-ratio)</td>
-<td class="gt_row gt_center" headers="estimate">14.1</td>
-<td class="gt_row gt_center" headers="conf.low">5.83, 34.1</td>
+<td class="gt_row gt_center" headers="estimate">13.1</td>
+<td class="gt_row gt_center" headers="conf.low">5.41, 31.9</td>
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 <tr class="odd">
