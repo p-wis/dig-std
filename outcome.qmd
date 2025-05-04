@@ -117,7 +117,7 @@ wybranych zmiennych - kandydatów na predyktorów.
 
 ```{r}
 candidate_vars <- c("age", "sex", "race", "ejf_per", "bmi", "creat", "klevel", "chfdur", "nsym", 
-          "heartrte", "diabp", "sysbp", "functcls", "chfetiol", "prevmi", "angina",
+          "heartrte", "diabp", "sysbp", "nyha_class", "chfetiol", "prevmi", "angina",
           "diabetes", "hyperten", "diguse", "diuretk", "diuret", "ksupp", "aceinhib",
           "nitrates", "hydral", "vasod", "any_diuret", "any_vasod")
 
@@ -154,7 +154,7 @@ results %>% kable(digits=3) %>% kable_classic_2()
 ## Wstępny model wieloczynnikowy 
 
 ```{r}
-m1 <- coxph(dwhf_surv ~ age + sex + race + ejf_per + bmi + functcls + diguse + diuret + diabp + prevmi + diabetes + hyperten, data = df_trtmt)
+m1 <- coxph(dwhf_surv ~ age + sex + race + ejf_per + bmi + nyha_class + diguse + diuret + diabp + prevmi + diabetes + hyperten, data = df_trtmt)
 summary(m1)
 ```
 

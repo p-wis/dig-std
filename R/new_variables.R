@@ -28,3 +28,21 @@ add_any_vasod <- function(raw_df) {
       
   return(raw_df)
 }
+
+add_nyha_class <- function(raw_df) {
+  
+  raw_df <- raw_df %>%
+    mutate(
+      nyha_class = case_when(
+        functcls %in% c(1, 2) ~ 1L,
+        functcls %in% c(3, 4) ~ 2L,
+        is.na(functcls) ~ NA_integer_,
+        TRUE ~ NA_integer_
+      )
+    )  
+  
+  
+  attr(raw_df[["nyha_class"]], "label") <- "derived: functcls 1=1-2 2=3-4"
+  
+  return(raw_df)
+}
