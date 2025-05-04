@@ -2,7 +2,7 @@ library(targets)
 
 # Set target options:
 tar_option_set(
-  packages = c("tibble", "dplyr", "haven") # Packages that your targets need for their tasks.
+  packages = c("tibble", "dplyr", "haven", "rms") # Packages that your targets need for their tasks.
 
  )
 
@@ -63,6 +63,12 @@ list(
     name = df_trtmt,
     command = dplyr::filter(df, trtmt == 1)
   ),
+  
+  tar_target(
+    name = dd_df_trmnt,
+    command = rms::datadist(df_trtmt)
+  ),
+  
   
   tar_target(
     name = lista_zmiennych,

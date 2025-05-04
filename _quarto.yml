@@ -6,9 +6,9 @@ website:
   navbar:
     left:
       - href: index.qmd
-        text: Home
+        text: "Lista zmiennych"
       - href: outcome.qmd
-        text: Outcome
+        text: "Outcome: death or hosp from hf"
       - about.qmd
 
 format:

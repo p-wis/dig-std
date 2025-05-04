@@ -1,5 +1,5 @@
 ---
-title: "Team Assignment #3: Outcome - 2y Event Free Survival"
+title: "Team Assignment #3: Outcome - death or hosp from HF"
 code-fold: true
 editor_options: 
   chunk_output_type: console
@@ -11,27 +11,33 @@ suppressPackageStartupMessages(library(kableExtra))
 suppressPackageStartupMessages(library(survival))
 suppressPackageStartupMessages(library(ggsurvfit))
 suppressPackageStartupMessages(library(broom))
+suppressPackageStartupMessages(library(broom.helpers))
 suppressPackageStartupMessages(library(targets))
 suppressPackageStartupMessages(library(gtsummary))
+suppressPackageStartupMessages(library(rms))
+
 
 tar_load(lista_zmiennych)
+tar_load(zm_kategoryczne)
 tar_load(df_trtmt)
+tar_load(dd_df_trmnt)
+
+options(datadist = "dd_df_trmnt")  # for the rms package
 
 dwhf_surv <- with(df_trtmt, Surv(dwhfdays,dwhf))
 ```
 
 # Założenia
 
-W grupie osób leczonych chcemy zidentyfikować osoby, które dobrze odpowiedziały na leczenie i określić, które cechy były predyktorami tej dobrej odpowiedzi.
+Wśród osób zrandomizowanych w badaniu DIG do grupy leczonej digoksyną chcemy zidentyfikować określić, które cechy wiązały się z dobrą odpowiedzią na terapię digoksyną.
 
 Dobrą odpowiedź na leczenie definiujemy jako
 
-* przeżycie >=2 lata i brak hospitalizacji z powodu zaostrzenia CHF przez >=2 lata 
-licząc od czasu ranodmizacji w badaniu
+* przeżycie i brak hospitalizacji z powodu niewydolności serca 
 
 # Implementacja
 
-W zbiorze danych DIG jednym z punktów końcowych był "zgon lub hospitalizacja z powodu zaostrzenia nwd. serca". Ten punkt końcowy reprezentowany jest przez następujące zmienne:  
+W zbiorze danych DIG jednym z punktów końcowych był "zgon lub hospitalizacja z powodu nwd. serca". Ten punkt końcowy reprezentowany jest przez następujące zmienne:  
 
 ```{r}
   lista_zmiennych %>%
@@ -105,16 +111,15 @@ m0 %>%
 summary(m0)$table["median"]
 ```
 
-## 2-letnie przeżycia
+## 1-roczne przeżycia (event-free survival)
 
 ```{r}
-summary(m0, times = 2*365.25)
+summary(m0, times = 365.25)
 ```
 
 # Jednoczynnikowa ocena kandydatów na predyktorów
 
-W tabeli wyniki regresji jednoczynnikowych m. Coxa dla zdarzenia `dwhf` oraz 
-wybranych zmiennych - kandydatów na predyktorów.  
+Z dostępnego zbioru danych wybrałem następujące zmienne jako potencjalnych kandydatów 
 
 ```{r}
 candidate_vars <- c("age", "sex", "race", "ejf_per", "chestx", "bmi", "creat", "klevel", "chfdur", "nsym", 
@@ -122,7 +127,88 @@ candidate_vars <- c("age", "sex", "race", "ejf_per", "chestx", "bmi", "creat", "
           "diabetes", "hyperten", "diguse", "diuretk", "diuret", "ksupp", "aceinhib",
           "nitrates", "hydral", "vasod", "any_diuret", "any_vasod")
 
+lista_zmiennych %>% 
+  semi_join( 
+    tibble(
+      var_names = candidate_vars), by = join_by(var_names)
+    ) %>% 
+  kable() %>% 
+  kable_classic_2() 
+```
 
+## Wykresy K-M dla zmiennych-kandydatów kategorycznych
+
+```{r}
+dwhf_km_1v <- function(var_name) {
+  # Extract label attribute (if present)
+  var_label <- attr(df_trtmt[[var_name]], "label")
+  
+  # Fallback if label is missing
+  if (is.null(var_label)) {
+    var_label <- var_name
+  }
+  
+  formula <- as.formula(paste("dwhf_surv ~", var_name))
+  model <-  survfit(formula, data = df_trtmt)
+  
+  model %>%
+    ggsurvfit() +
+    labs(
+        title = paste0("Kaplan-Meier Curve by ", var_name, " (", var_label, ")"),
+        x = "Time (days)",
+        y = "Survival probability"
+      ) +
+      theme_classic()
+}
+```
+
+
+```{r}
+vars_to_plot <- intersect(candidate_vars, zm_kategoryczne)
+
+for (var in vars_to_plot) {
+  print(dwhf_km_1v(var))
+}
+```
+
+## Wykresy jednoczynnikowych m. Coxa dla zmiennych ciągłych
+
+```{r}
+
+dwhf_cox_1v_plot <- function(var_name) {
+  
+  # Use the label if available
+  var_label <- attr(df_trtmt[[var_name]], "label")
+  if (is.null(var_label)) var_label <- var_name 
+  
+  formula <- as.formula(paste0("dwhf_surv ~ rcs(", var_name, ", 4)"))
+  model <- cph(formula, data = df_trtmt, x = TRUE, y = TRUE, surv = TRUE)
+
+    pred <- eval(substitute(Predict(model, v, fun = exp), list(v = as.name(var_name))))
+    
+      plot(pred,
+       xlab = var_label,
+       ylab = "Hazard Ratio",
+       main = paste0("Univariate HR Curve for ", var_name, " (", var_label, ")"))
+
+}
+```
+
+```{r}
+vars_to_plot <- setdiff(candidate_vars, zm_kategoryczne)
+
+for (var in vars_to_plot) {
+  print(dwhf_cox_1v_plot(var))
+}
+```
+
+
+## Wyniki jednoczynnikowych regresji m. Coxa
+
+W tabeli wyniki regresji jednoczynnikowych m. Coxa dla zdarzenia `dwhf` oraz 
+wybranych zmiennych - kandydatów na predyktorów.  
+
+```{r}
 dwhf_cox_1v <- function(var_name) {
   
   formula <- as.formula(paste("dwhf_surv ~", var_name))
@@ -155,9 +241,29 @@ results %>% kable(digits=3) %>% kable_classic_2()
 # Model wieloczynnikowy, po selekcji kandydatów
 
 ```{r}
-m1 <- coxph(dwhf_surv ~ age + sex + race + ejf_per + chestx +  bmi + nyha_class + diguse + diuret + aceinhib + prevmi + diabetes + hyperten, data = df_trtmt)
+m1 <- cph(dwhf_surv ~ age + sex + race + ejf_per + chestx + bmi + nyha_class +
+            diguse + diuret + aceinhib + prevmi + diabetes + hyperten,
+          data = df_trtmt, x = TRUE, y = TRUE, surv = TRUE)
 
-m1 %>% tbl_regression(exponentiate = TRUE)
+m1 %>% 
+  tbl_regression(exponentiate = TRUE, tidy_fun = broom.helpers::tidy_parameters, intercept=TRUE)
 ```
 
+
+# Interpretacja
+
+Przypomnienie naszej definicji dobrej odpowiedzi -- brak zgonu oraz hospitalizacji z powodu zaostrzenia niewydolności serca .
+
+W powyższym modelu wieloczynnikowym z występowaniem dobrej odpowiedzi na terapię digoksyną były:
+
+- rasa biała 
+- wyższa frakcja wyrzutowa
+- niższy wskaźnik sercowo-płucny w rtg
+- niższa klasa czynnościowa wg nyha
+- niestosowanie digoksyny w tygodniu poprzedzającym randomizaję
+- niestosowanie diuretyków
+
+Na występowanie dobrej odpowiedzi nie wpływały czynniki takie jak: wiek, płeć, BMI, stosowanie ACE-I, przebyty zawał, cukrzyca w wywiadzie, nadciśnienie w wywiadzie.
+
+Do zrobienia: porównanie 1-rocznego event-free survival przykładowych osób z profilem związanym z niskim ryzykiem (np. biały z wysoką EF, NYHA II, diuretyków) vs osoba z profilem przeciwnym (non-white, EF 20%, NYHA IV, itp.)
  

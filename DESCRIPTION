@@ -18,4 +18,6 @@ Imports:
     ggsurvfit,
     targets,
     broom,
-    gtsummary
+    gtsummary,
+    rms,
+    broom.helpers
