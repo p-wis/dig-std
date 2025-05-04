@@ -170,7 +170,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#mediana-przeżycia" id="toc-mediana-przeżycia" class="nav-link" data-scroll-target="#mediana-przeżycia">Mediana przeżycia</a></li>
   <li><a href="#letnie-przeżycia" id="toc-letnie-przeżycia" class="nav-link" data-scroll-target="#letnie-przeżycia">2-letnie przeżycia</a></li>
   </ul></li>
-  <li><a href="#jednoczynnikowa-ocena-potencjalnych-predyktorów" id="toc-jednoczynnikowa-ocena-potencjalnych-predyktorów" class="nav-link" data-scroll-target="#jednoczynnikowa-ocena-potencjalnych-predyktorów">jednoczynnikowa ocena potencjalnych predyktorów</a></li>
+  <li><a href="#jednoczynnikowa-ocena-kandydatów-na-predyktorów" id="toc-jednoczynnikowa-ocena-kandydatów-na-predyktorów" class="nav-link" data-scroll-target="#jednoczynnikowa-ocena-kandydatów-na-predyktorów">Jednoczynnikowa ocena kandydatów na predyktorów</a></li>
+  <li><a href="#model-wieloczynnikowy-po-selekcji-kandydatów" id="toc-model-wieloczynnikowy-po-selekcji-kandydatów" class="nav-link" data-scroll-target="#model-wieloczynnikowy-po-selekcji-kandydatów">Model wieloczynnikowy, po selekcji kandydatów</a></li>
   </ul>
 </nav>
     </div>
@@ -205,10 +206,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(ggsurvfit))</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(broom))</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(targets))</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(df)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(gtsummary))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(lista_zmiennych)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(df_trtmt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(df_trtmt)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>dwhf_surv <span class="ot">&lt;-</span> <span class="fu">with</span>(df_trtmt, <span class="fu">Surv</span>(dwhfdays,dwhf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="założenia" class="level1">
@@ -236,18 +239,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <table class="lightable-classic-2 caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">var_labels</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">var_names</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">var_labels</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">primary endpt: death or hosp from hf</td>
 <td style="text-align: left;">dwhf</td>
+<td style="text-align: left;">primary endpt: death or hosp from hf</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">days rand. to death or hosp from whf</td>
 <td style="text-align: left;">dwhfdays</td>
+<td style="text-align: left;">days rand. to death or hosp from whf</td>
 </tr>
 </tbody>
 </table>
@@ -259,8 +262,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dwhf_surv <span class="ot">&lt;-</span> <span class="fu">with</span>(df_trtmt, <span class="fu">Surv</span>(dwhfdays,dwhf))</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fu">survfit</span>(dwhf_surv<span class="sc">~</span><span class="dv">1</span>, <span class="at">data=</span> df_trtmt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fu">survfit</span>(dwhf_surv<span class="sc">~</span><span class="dv">1</span>, <span class="at">data=</span> df_trtmt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="liczba-osób" class="level2">
@@ -385,62 +387,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="jednoczynnikowa-ocena-potencjalnych-predyktorów" class="level1">
-<h1>jednoczynnikowa ocena potencjalnych predyktorów</h1>
-<p>W tabeli wyniki regresji 1 czynnikowych m. Coxa dla zm. zdarzenia dwhf oraz wybranych predyktorów</p>
+<section id="jednoczynnikowa-ocena-kandydatów-na-predyktorów" class="level1">
+<h1>Jednoczynnikowa ocena kandydatów na predyktorów</h1>
+<p>W tabeli wyniki regresji jednoczynnikowych m. Coxa dla zdarzenia <code>dwhf</code> oraz wybranych zmiennych - kandydatów na predyktorów.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"race"</span>, <span class="st">"ejf_per"</span>, <span class="st">"bmi"</span>, <span class="st">"creat"</span>, <span class="st">"klevel"</span>, <span class="st">"chfdur"</span>, </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>          <span class="st">"heartrte"</span>, <span class="st">"diabp"</span>, <span class="st">"sysbp"</span>, <span class="st">"functcls"</span>, <span class="st">"chfetiol"</span>, <span class="st">"prevmi"</span>, <span class="st">"angina"</span>,</span>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>candidate_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"race"</span>, <span class="st">"ejf_per"</span>, <span class="st">"chestx"</span>, <span class="st">"bmi"</span>, <span class="st">"creat"</span>, <span class="st">"klevel"</span>, <span class="st">"chfdur"</span>, <span class="st">"nsym"</span>, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>          <span class="st">"heartrte"</span>, <span class="st">"diabp"</span>, <span class="st">"sysbp"</span>,  <span class="st">"meanbp"</span>, <span class="st">"nyha_class"</span>, <span class="st">"chfetiol"</span>, <span class="st">"prevmi"</span>, <span class="st">"angina"</span>,</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"diabetes"</span>, <span class="st">"hyperten"</span>, <span class="st">"diguse"</span>, <span class="st">"diuretk"</span>, <span class="st">"diuret"</span>, <span class="st">"ksupp"</span>, <span class="st">"aceinhib"</span>,</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>          <span class="st">"nitrates"</span>, <span class="st">"hydral"</span>, <span class="st">"vasod"</span>, <span class="st">"digdose"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>          <span class="st">"nitrates"</span>, <span class="st">"hydral"</span>, <span class="st">"vasod"</span>, <span class="st">"any_diuret"</span>, <span class="st">"any_vasod"</span>)</span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>categorical_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sex"</span>, <span class="st">"race"</span>, <span class="st">"functcls"</span>, <span class="st">"chfetiol"</span>)</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>dwhf_cox_1v <span class="ot">&lt;-</span> <span class="cf">function</span>(var_name, <span class="at">categorical_vars =</span> <span class="cn">NULL</span>) {</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Pull out the actual variable from the data</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  var_data <span class="ot">&lt;-</span> df_trtmt[[var_name]]</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Decide if variable is categorical</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  is_categorical <span class="ot">&lt;-</span> var_name <span class="sc">%in%</span> categorical_vars <span class="sc">||</span></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">is.factor</span>(var_data) <span class="sc">||</span></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">is.character</span>(var_data)</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># If categorical, convert to factor</span></span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (is_categorical) {</span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    df_trtmt[[var_name]] <span class="ot">&lt;-</span> <span class="fu">factor</span>(var_data)</span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>  formula <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="fu">paste</span>(<span class="st">"dwhf_surv ~"</span>, var_name))</span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(formula, <span class="at">data =</span> df_trtmt)</span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">tidy</span>(model, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add var_name as a column — even if multiple levels</span></span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>  res<span class="sc">$</span>var_names <span class="ot">&lt;-</span> var_name</span>
-<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Optional: remove the intercept row if it's ever present</span></span>
-<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> res[res<span class="sc">$</span>term <span class="sc">!=</span> <span class="st">"(Intercept)"</span>, ]</span>
-<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
-<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">var_names =</span> var_name,</span>
-<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">level =</span> res<span class="sc">$</span>term,</span>
-<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">hr =</span> <span class="fu">round</span>(res<span class="sc">$</span>estimate, <span class="dv">3</span>),</span>
-<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">hr_ci_lo =</span> <span class="fu">round</span>(res<span class="sc">$</span>conf.low, <span class="dv">3</span>),</span>
-<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">hr_ci_up =</span> <span class="fu">round</span>(res<span class="sc">$</span>conf.high, <span class="dv">3</span>),</span>
-<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> <span class="fu">signif</span>(res<span class="sc">$</span>p.value, <span class="dv">3</span>)</span>
-<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(vars, dwhf_cox_1v, categorical_vars)) <span class="sc">%&gt;%</span></span>
-<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(lista_zmiennych, <span class="at">by=</span><span class="st">'var_names'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(var_names, var_labels, level, <span class="fu">everything</span>())</span>
-<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span> <span class="fu">kable</span>(<span class="at">digits=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">kable_classic_2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>dwhf_cox_1v <span class="ot">&lt;-</span> <span class="cf">function</span>(var_name) {</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  formula <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="fu">paste</span>(<span class="st">"dwhf_surv ~"</span>, var_name))</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(formula, <span class="at">data =</span> df_trtmt)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">tidy</span>(model, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add var_name as a column — even if multiple levels</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  res<span class="sc">$</span>var_names <span class="ot">&lt;-</span> var_name</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Optional: remove the intercept row if it's ever present</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> res[res<span class="sc">$</span>term <span class="sc">!=</span> <span class="st">"(Intercept)"</span>, ]</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">var_names =</span> var_name,</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">level =</span> res<span class="sc">$</span>term,</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">hr =</span> <span class="fu">round</span>(res<span class="sc">$</span>estimate, <span class="dv">3</span>),</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">hr_ci_lo =</span> <span class="fu">round</span>(res<span class="sc">$</span>conf.low, <span class="dv">3</span>),</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">hr_ci_up =</span> <span class="fu">round</span>(res<span class="sc">$</span>conf.high, <span class="dv">3</span>),</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> <span class="fu">signif</span>(res<span class="sc">$</span>p.value, <span class="dv">3</span>)</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(candidate_vars, dwhf_cox_1v)) <span class="sc">%&gt;%</span></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(lista_zmiennych, <span class="at">by=</span><span class="st">'var_names'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(var_names, var_labels, level, <span class="fu">everything</span>())</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span> <span class="fu">kable</span>(<span class="at">digits=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">kable_classic_2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="lightable-classic-2 caption-top table table-sm table-striped small" data-quarto-postprocess="true">
@@ -493,6 +478,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0.000</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">chestx</td>
+<td style="text-align: left;">q6: chest x-ray (ct-ratio)</td>
+<td style="text-align: left;">chestx</td>
+<td style="text-align: right;">4.253</td>
+<td style="text-align: right;">3.469</td>
+<td style="text-align: right;">5.037</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">bmi</td>
 <td style="text-align: left;">calculated: body mass index (kg/m*m)</td>
 <td style="text-align: left;">bmi</td>
@@ -501,7 +495,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0.016</td>
 <td style="text-align: right;">0.421</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">creat</td>
 <td style="text-align: left;">q9: serum creatinine (mg/dl)</td>
 <td style="text-align: left;">creat</td>
@@ -510,7 +504,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0.067</td>
 <td style="text-align: right;">0.236</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">klevel</td>
 <td style="text-align: left;">q9a: serum potassium level</td>
 <td style="text-align: left;">klevel</td>
@@ -519,7 +513,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0.128</td>
 <td style="text-align: right;">0.980</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">chfdur</td>
 <td style="text-align: left;">q12: duration of chf (months)</td>
 <td style="text-align: left;">chfdur</td>
@@ -528,7 +522,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0.002</td>
 <td style="text-align: right;">0.992</td>
 </tr>
+<tr class="even">
+<td style="text-align: left;">nsym</td>
+<td style="text-align: left;">calculated: sum of q13-q20, y/n status</td>
+<td style="text-align: left;">nsym1</td>
+<td style="text-align: right;">0.566</td>
+<td style="text-align: right;">-0.272</td>
+<td style="text-align: right;">1.405</td>
+<td style="text-align: right;">0.185</td>
+</tr>
 <tr class="odd">
+<td style="text-align: left;">nsym</td>
+<td style="text-align: left;">calculated: sum of q13-q20, y/n status</td>
+<td style="text-align: left;">nsym2</td>
+<td style="text-align: right;">0.358</td>
+<td style="text-align: right;">-0.424</td>
+<td style="text-align: right;">1.140</td>
+<td style="text-align: right;">0.369</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nsym</td>
+<td style="text-align: left;">calculated: sum of q13-q20, y/n status</td>
+<td style="text-align: left;">nsym3</td>
+<td style="text-align: right;">0.665</td>
+<td style="text-align: right;">-0.100</td>
+<td style="text-align: right;">1.431</td>
+<td style="text-align: right;">0.088</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nsym</td>
+<td style="text-align: left;">calculated: sum of q13-q20, y/n status</td>
+<td style="text-align: left;">nsym4</td>
+<td style="text-align: right;">0.584</td>
+<td style="text-align: right;">-0.160</td>
+<td style="text-align: right;">1.328</td>
+<td style="text-align: right;">0.124</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">heartrte</td>
 <td style="text-align: left;">q21: heart rate (beats/min)</td>
 <td style="text-align: left;">heartrte</td>
@@ -537,7 +567,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0.009</td>
 <td style="text-align: right;">0.121</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">diabp</td>
 <td style="text-align: left;">q22: diastolic bp (mmhg)</td>
 <td style="text-align: left;">diabp</td>
@@ -546,7 +576,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">-0.001</td>
 <td style="text-align: right;">0.029</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">sysbp</td>
 <td style="text-align: left;">q22: sysolic bp (mmhg)</td>
 <td style="text-align: left;">sysbp</td>
@@ -555,31 +585,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0.004</td>
 <td style="text-align: right;">0.606</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">functcls</td>
-<td style="text-align: left;">q23: nyha functional class</td>
-<td style="text-align: left;">functcls2</td>
-<td style="text-align: right;">0.484</td>
-<td style="text-align: right;">0.258</td>
-<td style="text-align: right;">0.709</td>
-<td style="text-align: right;">0.000</td>
-</tr>
 <tr class="odd">
-<td style="text-align: left;">functcls</td>
-<td style="text-align: left;">q23: nyha functional class</td>
-<td style="text-align: left;">functcls3</td>
-<td style="text-align: right;">0.922</td>
-<td style="text-align: right;">0.692</td>
-<td style="text-align: right;">1.152</td>
-<td style="text-align: right;">0.000</td>
+<td style="text-align: left;">meanbp</td>
+<td style="text-align: left;">derived: mean blood pressure</td>
+<td style="text-align: left;">meanbp</td>
+<td style="text-align: right;">-0.004</td>
+<td style="text-align: right;">-0.010</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">0.203</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">functcls</td>
-<td style="text-align: left;">q23: nyha functional class</td>
-<td style="text-align: left;">functcls4</td>
-<td style="text-align: right;">1.505</td>
-<td style="text-align: right;">1.138</td>
-<td style="text-align: right;">1.872</td>
+<td style="text-align: left;">nyha_class</td>
+<td style="text-align: left;">derived: nyha class 1=1-2, 2=3-4</td>
+<td style="text-align: left;">nyha_class2</td>
+<td style="text-align: right;">0.569</td>
+<td style="text-align: right;">0.446</td>
+<td style="text-align: right;">0.693</td>
 <td style="text-align: right;">0.000</td>
 </tr>
 <tr class="odd">
@@ -630,7 +651,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">prevmi</td>
 <td style="text-align: left;">q25: previous myocardial infarction</td>
-<td style="text-align: left;">prevmi</td>
+<td style="text-align: left;">prevmi1</td>
 <td style="text-align: right;">0.068</td>
 <td style="text-align: right;">-0.060</td>
 <td style="text-align: right;">0.195</td>
@@ -639,7 +660,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">angina</td>
 <td style="text-align: left;">q26: current angina</td>
-<td style="text-align: left;">angina</td>
+<td style="text-align: left;">angina1</td>
 <td style="text-align: right;">-0.073</td>
 <td style="text-align: right;">-0.212</td>
 <td style="text-align: right;">0.065</td>
@@ -648,7 +669,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">diabetes</td>
 <td style="text-align: left;">q27: history of diabetes</td>
-<td style="text-align: left;">diabetes</td>
+<td style="text-align: left;">diabetes1</td>
 <td style="text-align: right;">0.005</td>
 <td style="text-align: right;">-0.129</td>
 <td style="text-align: right;">0.139</td>
@@ -657,7 +678,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">hyperten</td>
 <td style="text-align: left;">q28: history of hypertension</td>
-<td style="text-align: left;">hyperten</td>
+<td style="text-align: left;">hyperten1</td>
 <td style="text-align: right;">0.002</td>
 <td style="text-align: right;">-0.120</td>
 <td style="text-align: right;">0.124</td>
@@ -666,7 +687,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">diguse</td>
 <td style="text-align: left;">q29: digoxin within past week</td>
-<td style="text-align: left;">diguse</td>
+<td style="text-align: left;">diguse1</td>
 <td style="text-align: right;">0.450</td>
 <td style="text-align: right;">0.328</td>
 <td style="text-align: right;">0.572</td>
@@ -675,7 +696,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">diuretk</td>
 <td style="text-align: left;">q30: potassium sparing diuretics</td>
-<td style="text-align: left;">diuretk</td>
+<td style="text-align: left;">diuretk1</td>
 <td style="text-align: right;">-0.101</td>
 <td style="text-align: right;">-0.343</td>
 <td style="text-align: right;">0.142</td>
@@ -684,7 +705,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">diuret</td>
 <td style="text-align: left;">q31: other diuretics</td>
-<td style="text-align: left;">diuret</td>
+<td style="text-align: left;">diuret1</td>
 <td style="text-align: right;">0.962</td>
 <td style="text-align: right;">0.772</td>
 <td style="text-align: right;">1.152</td>
@@ -693,7 +714,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">ksupp</td>
 <td style="text-align: left;">q31a: potassium supplements</td>
-<td style="text-align: left;">ksupp</td>
+<td style="text-align: left;">ksupp1</td>
 <td style="text-align: right;">0.578</td>
 <td style="text-align: right;">0.447</td>
 <td style="text-align: right;">0.709</td>
@@ -702,7 +723,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">aceinhib</td>
 <td style="text-align: left;">q32: ace inhibitors</td>
-<td style="text-align: left;">aceinhib</td>
+<td style="text-align: left;">aceinhib1</td>
 <td style="text-align: right;">-0.086</td>
 <td style="text-align: right;">-0.335</td>
 <td style="text-align: right;">0.163</td>
@@ -711,7 +732,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">nitrates</td>
 <td style="text-align: left;">q33: nitrates</td>
-<td style="text-align: left;">nitrates</td>
+<td style="text-align: left;">nitrates1</td>
 <td style="text-align: right;">-0.055</td>
 <td style="text-align: right;">-0.179</td>
 <td style="text-align: right;">0.068</td>
@@ -720,7 +741,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">hydral</td>
 <td style="text-align: left;">q34: hydralazine</td>
-<td style="text-align: left;">hydral</td>
+<td style="text-align: left;">hydral1</td>
 <td style="text-align: right;">0.765</td>
 <td style="text-align: right;">0.437</td>
 <td style="text-align: right;">1.094</td>
@@ -729,23 +750,742 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">vasod</td>
 <td style="text-align: left;">q35: other vasodilators</td>
-<td style="text-align: left;">vasod</td>
+<td style="text-align: left;">vasod1</td>
 <td style="text-align: right;">-0.580</td>
 <td style="text-align: right;">-1.383</td>
 <td style="text-align: right;">0.222</td>
 <td style="text-align: right;">0.157</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">digdose</td>
-<td style="text-align: left;">q36: dose of digoxin/placebo prescribed</td>
-<td style="text-align: left;">digdose</td>
-<td style="text-align: right;">-0.422</td>
-<td style="text-align: right;">-1.268</td>
-<td style="text-align: right;">0.425</td>
-<td style="text-align: right;">0.329</td>
+<td style="text-align: left;">any_diuret</td>
+<td style="text-align: left;">derived: positive diuretk or diuret</td>
+<td style="text-align: left;">any_diuret1</td>
+<td style="text-align: right;">0.991</td>
+<td style="text-align: right;">0.783</td>
+<td style="text-align: right;">1.199</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">any_vasod</td>
+<td style="text-align: left;">derived: positive nitrates or hydral or vasod</td>
+<td style="text-align: left;">any_vasod1</td>
+<td style="text-align: right;">-0.011</td>
+<td style="text-align: right;">-0.133</td>
+<td style="text-align: right;">0.112</td>
+<td style="text-align: right;">0.865</td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+</section>
+<section id="model-wieloczynnikowy-po-selekcji-kandydatów" class="level1">
+<h1>Model wieloczynnikowy, po selekcji kandydatów</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(dwhf_surv <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> race <span class="sc">+</span> ejf_per <span class="sc">+</span> chestx <span class="sc">+</span>  bmi <span class="sc">+</span> nyha_class <span class="sc">+</span> diguse <span class="sc">+</span> diuret <span class="sc">+</span> aceinhib <span class="sc">+</span> prevmi <span class="sc">+</span> diabetes <span class="sc">+</span> hyperten, <span class="at">data =</span> df_trtmt)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">%&gt;%</span> <span class="fu">tbl_regression</span>(<span class="at">exponentiate =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="mvgwnpacin" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mvgwnpacin table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#mvgwnpacin thead, #mvgwnpacin tbody, #mvgwnpacin tfoot, #mvgwnpacin tr, #mvgwnpacin td, #mvgwnpacin th {
+  border-style: none;
+}
+
+#mvgwnpacin p {
+  margin: 0;
+  padding: 0;
+}
+
+#mvgwnpacin .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#mvgwnpacin .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#mvgwnpacin .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#mvgwnpacin .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#mvgwnpacin .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#mvgwnpacin .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mvgwnpacin .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#mvgwnpacin .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#mvgwnpacin .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#mvgwnpacin .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#mvgwnpacin .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#mvgwnpacin .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#mvgwnpacin .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#mvgwnpacin .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#mvgwnpacin .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#mvgwnpacin .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#mvgwnpacin .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#mvgwnpacin .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#mvgwnpacin .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mvgwnpacin .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#mvgwnpacin .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#mvgwnpacin .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#mvgwnpacin .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mvgwnpacin .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#mvgwnpacin .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#mvgwnpacin .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mvgwnpacin .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mvgwnpacin .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#mvgwnpacin .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mvgwnpacin .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#mvgwnpacin .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mvgwnpacin .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#mvgwnpacin .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mvgwnpacin .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#mvgwnpacin .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mvgwnpacin .gt_left {
+  text-align: left;
+}
+
+#mvgwnpacin .gt_center {
+  text-align: center;
+}
+
+#mvgwnpacin .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#mvgwnpacin .gt_font_normal {
+  font-weight: normal;
+}
+
+#mvgwnpacin .gt_font_bold {
+  font-weight: bold;
+}
+
+#mvgwnpacin .gt_font_italic {
+  font-style: italic;
+}
+
+#mvgwnpacin .gt_super {
+  font-size: 65%;
+}
+
+#mvgwnpacin .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#mvgwnpacin .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#mvgwnpacin .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#mvgwnpacin .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#mvgwnpacin .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#mvgwnpacin .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#mvgwnpacin .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#mvgwnpacin .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#mvgwnpacin div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="gt_col_headings header">
+<th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
+<th id="estimate" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>HR</strong></th>
+<th id="conf.low" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>95% CI</strong></th>
+<th id="p.value" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>p-value</strong></th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">calculated: age at randomization</td>
+<td class="gt_row gt_center" headers="estimate">1.00</td>
+<td class="gt_row gt_center" headers="conf.low">1.0, 1.01</td>
+<td class="gt_row gt_center" headers="p.value">&gt;0.9</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">q4: sex, 1=male 2=female</td>
+<td class="gt_row gt_center" headers="estimate"><br>
+</td>
+<td class="gt_row gt_center" headers="conf.low"><br>
+</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="conf.low">—</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+<td class="gt_row gt_center" headers="estimate">1.00</td>
+<td class="gt_row gt_center" headers="conf.low">0.87, 1.16</td>
+<td class="gt_row gt_center" headers="p.value">&gt;0.9</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">q5: race, 1=white 2=nonwhite</td>
+<td class="gt_row gt_center" headers="estimate"><br>
+</td>
+<td class="gt_row gt_center" headers="conf.low"><br>
+</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="conf.low">—</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+<td class="gt_row gt_center" headers="estimate">1.19</td>
+<td class="gt_row gt_center" headers="conf.low">1.01, 1.40</td>
+<td class="gt_row gt_center" headers="p.value">0.034</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">q3: ejection fraction (percent)</td>
+<td class="gt_row gt_center" headers="estimate">0.98</td>
+<td class="gt_row gt_center" headers="conf.low">0.97, 0.99</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">q6: chest x-ray (ct-ratio)</td>
+<td class="gt_row gt_center" headers="estimate">14.1</td>
+<td class="gt_row gt_center" headers="conf.low">5.83, 34.1</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">calculated: body mass index (kg/m*m)</td>
+<td class="gt_row gt_center" headers="estimate">1.01</td>
+<td class="gt_row gt_center" headers="conf.low">1.00, 1.02</td>
+<td class="gt_row gt_center" headers="p.value">0.2</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">derived: nyha class 1=1-2, 2=3-4</td>
+<td class="gt_row gt_center" headers="estimate"><br>
+</td>
+<td class="gt_row gt_center" headers="conf.low"><br>
+</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="conf.low">—</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+<td class="gt_row gt_center" headers="estimate">1.44</td>
+<td class="gt_row gt_center" headers="conf.low">1.27, 1.63</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">q29: digoxin within past week</td>
+<td class="gt_row gt_center" headers="estimate"><br>
+</td>
+<td class="gt_row gt_center" headers="conf.low"><br>
+</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="conf.low">—</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td class="gt_row gt_center" headers="estimate">1.43</td>
+<td class="gt_row gt_center" headers="conf.low">1.26, 1.61</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">q31: other diuretics</td>
+<td class="gt_row gt_center" headers="estimate"><br>
+</td>
+<td class="gt_row gt_center" headers="conf.low"><br>
+</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="conf.low">—</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td class="gt_row gt_center" headers="estimate">2.00</td>
+<td class="gt_row gt_center" headers="conf.low">1.64, 2.43</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">q32: ace inhibitors</td>
+<td class="gt_row gt_center" headers="estimate"><br>
+</td>
+<td class="gt_row gt_center" headers="conf.low"><br>
+</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="conf.low">—</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td class="gt_row gt_center" headers="estimate">0.88</td>
+<td class="gt_row gt_center" headers="conf.low">0.68, 1.13</td>
+<td class="gt_row gt_center" headers="p.value">0.3</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">q25: previous myocardial infarction</td>
+<td class="gt_row gt_center" headers="estimate"><br>
+</td>
+<td class="gt_row gt_center" headers="conf.low"><br>
+</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="conf.low">—</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td class="gt_row gt_center" headers="estimate">1.07</td>
+<td class="gt_row gt_center" headers="conf.low">0.94, 1.21</td>
+<td class="gt_row gt_center" headers="p.value">0.3</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">q27: history of diabetes</td>
+<td class="gt_row gt_center" headers="estimate"><br>
+</td>
+<td class="gt_row gt_center" headers="conf.low"><br>
+</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="conf.low">—</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td class="gt_row gt_center" headers="estimate">1.06</td>
+<td class="gt_row gt_center" headers="conf.low">0.92, 1.21</td>
+<td class="gt_row gt_center" headers="p.value">0.4</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">q28: history of hypertension</td>
+<td class="gt_row gt_center" headers="estimate"><br>
+</td>
+<td class="gt_row gt_center" headers="conf.low"><br>
+</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="conf.low">—</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td class="gt_row gt_center" headers="estimate">1.00</td>
+<td class="gt_row gt_center" headers="conf.low">0.88, 1.12</td>
+<td class="gt_row gt_center" headers="p.value">&gt;0.9</td>
+</tr>
+</tbody><tfoot class="gt_sourcenotes">
+<tr class="odd">
+<td colspan="4" class="gt_sourcenote">Abbreviations: CI = Confidence Interval, HR = Hazard Ratio</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
 </div>
 </div>
 
