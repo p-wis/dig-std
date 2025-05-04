@@ -46,3 +46,15 @@ add_nyha_class <- function(raw_df) {
   
   return(raw_df)
 }
+
+add_meanbp <- function(raw_df) {
+  
+  raw_df <- raw_df %>%
+    mutate(
+      meanbp =  diabp + 1/3*(sysbp-diabp)
+    )  
+  
+  attr(raw_df[["meanbp"]], "label") <- "derived: mean blood pressure"
+  
+  return(raw_df)
+}

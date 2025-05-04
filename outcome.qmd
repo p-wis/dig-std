@@ -13,9 +13,10 @@ suppressPackageStartupMessages(library(ggsurvfit))
 suppressPackageStartupMessages(library(broom))
 suppressPackageStartupMessages(library(targets))
 
-tar_load(df)
 tar_load(lista_zmiennych)
 tar_load(df_trtmt)
+
+dwhf_surv <- with(df_trtmt, Surv(dwhfdays,dwhf))
 ```
 
 # Założenia
@@ -43,7 +44,6 @@ W zbiorze danych DIG jednym z punktów końcowych był "zgon lub hospitalizacja 
 # Model zerowy / Podstawowe statystyki 
 
 ```{r}
-dwhf_surv <- with(df_trtmt, Surv(dwhfdays,dwhf))
 m0 <- survfit(dwhf_surv~1, data= df_trtmt)
 ```
 
@@ -116,8 +116,8 @@ W tabeli wyniki regresji jednoczynnikowych m. Coxa dla zdarzenia `dwhf` oraz
 wybranych zmiennych - kandydatów na predyktorów.  
 
 ```{r}
-candidate_vars <- c("age", "sex", "race", "ejf_per", "bmi", "creat", "klevel", "chfdur", "nsym", 
-          "heartrte", "diabp", "sysbp", "nyha_class", "chfetiol", "prevmi", "angina",
+candidate_vars <- c("age", "sex", "race", "ejf_per", "chestx", "bmi", "creat", "klevel", "chfdur", "nsym", 
+          "heartrte", "diabp", "sysbp",  "meanbp", "nyha_class", "chfetiol", "prevmi", "angina",
           "diabetes", "hyperten", "diguse", "diuretk", "diuret", "ksupp", "aceinhib",
           "nitrates", "hydral", "vasod", "any_diuret", "any_vasod")
 
@@ -151,10 +151,10 @@ results <- do.call(rbind, lapply(candidate_vars, dwhf_cox_1v)) %>%
 results %>% kable(digits=3) %>% kable_classic_2()
 ```
 
-## Wstępny model wieloczynnikowy 
+## Model wieloczynnikowy 
 
 ```{r}
-m1 <- coxph(dwhf_surv ~ age + sex + race + ejf_per + bmi + nyha_class + diguse + diuret + diabp + prevmi + diabetes + hyperten, data = df_trtmt)
+m1 <- coxph(dwhf_surv ~ age + sex + race + ejf_per + chestx +  bmi + nyha_class + diguse + diuret + aceinhib + prevmi + diabetes + hyperten, data = df_trtmt)
 summary(m1)
 ```
 

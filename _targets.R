@@ -36,7 +36,8 @@ list(
       raw_df <- raw_df %>%
         add_any_diuret() %>%
         add_any_vasod() %>%
-        add_nyha_class()
+        add_nyha_class() %>%
+        add_meanbp()
       
       # Extract variable labels
       var_labels <- lapply(raw_df, function(x) attr(x, "label"))
