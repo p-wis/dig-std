@@ -42,7 +42,7 @@ add_nyha_class <- function(raw_df) {
     )  
   
   
-  attr(raw_df[["nyha_class"]], "label") <- "derived: functcls 1=1-2 2=3-4"
+  attr(raw_df[["nyha_class"]], "label") <- "derived: nyha class 1=1-2, 2=3-4"
   
   return(raw_df)
 }

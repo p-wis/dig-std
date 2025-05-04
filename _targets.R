@@ -20,7 +20,7 @@ list(
   
     tar_target(
       name = zm_kategoryczne,
-      command = c("sex", "race", "nsym", "functcls", "chfetiol", "prevmi", "angina",
+      command = c("sex", "race", "nsym", "functcls", "nyha_class", "chfetiol", "prevmi", "angina",
           "diabetes", "hyperten", "diguse", "diuretk", "diuret", "ksupp", "aceinhib",
           "nitrates", "hydral", "vasod", "any_diuret", "any_vasod")
     ),

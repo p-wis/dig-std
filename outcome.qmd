@@ -12,6 +12,7 @@ suppressPackageStartupMessages(library(survival))
 suppressPackageStartupMessages(library(ggsurvfit))
 suppressPackageStartupMessages(library(broom))
 suppressPackageStartupMessages(library(targets))
+suppressPackageStartupMessages(library(gtsummary))
 
 tar_load(lista_zmiennych)
 tar_load(df_trtmt)
@@ -151,11 +152,12 @@ results <- do.call(rbind, lapply(candidate_vars, dwhf_cox_1v)) %>%
 results %>% kable(digits=3) %>% kable_classic_2()
 ```
 
-## Model wieloczynnikowy 
+# Model wieloczynnikowy, po selekcji kandydatów
 
 ```{r}
 m1 <- coxph(dwhf_surv ~ age + sex + race + ejf_per + chestx +  bmi + nyha_class + diguse + diuret + aceinhib + prevmi + diabetes + hyperten, data = df_trtmt)
-summary(m1)
+
+m1 %>% tbl_regression(exponentiate = TRUE)
 ```
 
  
