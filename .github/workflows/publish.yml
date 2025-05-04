@@ -38,6 +38,7 @@ jobs:
           install.packages('remotes')
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("broom.helpers")
+          remotes::install_cran("parameters")
         shell: Rscript {0}
 
       - name: Run targets pipeline
