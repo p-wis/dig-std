@@ -238,16 +238,36 @@ results <- do.call(rbind, lapply(candidate_vars, dwhf_cox_1v)) %>%
 results %>% kable(digits=3) %>% kable_classic_2()
 ```
 
+
 # Model wieloczynnikowy, po selekcji kandydatów
 
 ```{r}
-m1 <- cph(dwhf_surv ~ age + sex + race + ejf_per + chestx + bmi + nyha_class +
+m1 <- cph(dwhf_surv ~ age + sex + race + ejf_per + chestx  +  bmi + nyha_class +
             diguse + diuret + aceinhib + prevmi + diabetes + hyperten,
           data = df_trtmt, x = TRUE, y = TRUE, surv = TRUE)
+
+concordance(m1) 
 
 m1 %>% 
   tbl_regression(exponentiate = TRUE, tidy_fun = broom.helpers::tidy_parameters, intercept=TRUE)
 ```
+
+
+
+# Model wieloczynnikowy ulepszony, po selekcji kandydatów
+
+```{r}
+m2 <- cph(dwhf_surv ~ age + sex + race + rcs(ejf_per, 4) + rcs(chestx, 4)  +  rcs(bmi, 4) + nyha_class +
+            diguse + diuret + aceinhib + prevmi + diabetes + hyperten,
+          data = df_trtmt, x = TRUE, y = TRUE, surv = TRUE)
+
+concordance(m2) 
+
+m2 %>% 
+  tbl_regression(exponentiate = TRUE, tidy_fun = broom.helpers::tidy_parameters, intercept=TRUE)
+```
+ 
+
 
 
 # Interpretacja
