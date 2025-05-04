@@ -58,3 +58,27 @@ add_meanbp <- function(raw_df) {
   
   return(raw_df)
 }
+
+ add_ejf_35 <- function(raw_df) {
+  raw_df <- raw_df %>%
+    mutate(
+      ejf_35 =  ifelse(ejf_per > 35, 1L, 0L)
+    )  
+  
+  attr(raw_df[["ejf_35"]], "label") <- "derived: EF exceeds 35%  0=No, 1=Yes"
+  
+  return(raw_df)
+ }
+ 
+ 
+ 
+ add_chestx_55 <- function(raw_df) {
+   raw_df <- raw_df %>%
+     mutate(
+       chestx_55 =  ifelse(chestx > 0.55, 1L, 0L)
+     )  
+   
+   attr(raw_df[["chestx_55"]], "label") <- "derived: ct-ratio exceeds 0.55  0=No, 1=Yes"
+   
+   return(raw_df)
+ }

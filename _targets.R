@@ -22,7 +22,7 @@ list(
       name = zm_kategoryczne,
       command = c("sex", "race", "nsym", "functcls", "nyha_class", "chfetiol", "prevmi", "angina",
           "diabetes", "hyperten", "diguse", "diuretk", "diuret", "ksupp", "aceinhib",
-          "nitrates", "hydral", "vasod", "any_diuret", "any_vasod")
+          "nitrates", "hydral", "vasod", "any_diuret", "any_vasod", "ejf_35", "chestx_55")
     ),
     
     
@@ -37,7 +37,9 @@ list(
         add_any_diuret() %>%
         add_any_vasod() %>%
         add_nyha_class() %>%
-        add_meanbp()
+        add_meanbp() %>%
+        add_ejf_35() %>%
+        add_chestx_55()
       
       # Extract variable labels
       var_labels <- lapply(raw_df, function(x) attr(x, "label"))
