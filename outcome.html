@@ -1268,7 +1268,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">cph</span>(dwhf_surv <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> race <span class="sc">+</span> ejf_per <span class="sc">+</span> chestx  <span class="sc">+</span>  bmi <span class="sc">+</span> functcls <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">cph</span>(dwhf_surv <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> race <span class="sc">+</span> <span class="fu">scale</span>(ejf_per, <span class="at">scale=</span>F) <span class="sc">*</span> <span class="fu">scale</span>(chestx, <span class="at">scale=</span>F)  <span class="sc">+</span>  bmi <span class="sc">+</span> functcls <span class="sc">+</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>            diguse <span class="sc">+</span> diuret <span class="sc">+</span> aceinhib <span class="sc">+</span> prevmi <span class="sc">+</span> diabetes <span class="sc">+</span> hyperten,</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> df_trtmt, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>, <span class="at">surv =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1279,23 +1279,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 concordance.coxph(object = m1)
 
 n= 3389 
-Concordance= 0.6626 se= 0.008393
+Concordance= 0.663 se= 0.00838
 concordant discordant     tied.x     tied.y    tied.xy 
-   1701131     866122          0        502          0 </code></pre>
+   1702132     865121          0        502          0 </code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 15776.83</code></pre>
+<pre><code>[1] 15775.22</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 15868.75</code></pre>
+<pre><code>[1] 15873.27</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1303,23 +1303,23 @@ concordant discordant     tied.x     tied.y    tied.xy
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(<span class="at">exponentiate =</span> <span class="cn">TRUE</span>, <span class="at">tidy_fun =</span> broom.helpers<span class="sc">::</span>tidy_parameters, <span class="at">intercept=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="xkuglxisgj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xkuglxisgj table {
+<div id="hbiddqzeob" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hbiddqzeob table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xkuglxisgj thead, #xkuglxisgj tbody, #xkuglxisgj tfoot, #xkuglxisgj tr, #xkuglxisgj td, #xkuglxisgj th {
+#hbiddqzeob thead, #hbiddqzeob tbody, #hbiddqzeob tfoot, #hbiddqzeob tr, #hbiddqzeob td, #hbiddqzeob th {
   border-style: none;
 }
 
-#xkuglxisgj p {
+#hbiddqzeob p {
   margin: 0;
   padding: 0;
 }
 
-#xkuglxisgj .gt_table {
+#hbiddqzeob .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1345,12 +1345,12 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-left-color: #D3D3D3;
 }
 
-#xkuglxisgj .gt_caption {
+#hbiddqzeob .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xkuglxisgj .gt_title {
+#hbiddqzeob .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1362,7 +1362,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-bottom-width: 0;
 }
 
-#xkuglxisgj .gt_subtitle {
+#hbiddqzeob .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1374,7 +1374,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-top-width: 0;
 }
 
-#xkuglxisgj .gt_heading {
+#hbiddqzeob .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1386,13 +1386,13 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-right-color: #D3D3D3;
 }
 
-#xkuglxisgj .gt_bottom_border {
+#hbiddqzeob .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xkuglxisgj .gt_col_headings {
+#hbiddqzeob .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1407,7 +1407,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-right-color: #D3D3D3;
 }
 
-#xkuglxisgj .gt_col_heading {
+#hbiddqzeob .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1427,7 +1427,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   overflow-x: hidden;
 }
 
-#xkuglxisgj .gt_column_spanner_outer {
+#hbiddqzeob .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1439,15 +1439,15 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 4px;
 }
 
-#xkuglxisgj .gt_column_spanner_outer:first-child {
+#hbiddqzeob .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xkuglxisgj .gt_column_spanner_outer:last-child {
+#hbiddqzeob .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xkuglxisgj .gt_column_spanner {
+#hbiddqzeob .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1459,11 +1459,11 @@ concordant discordant     tied.x     tied.y    tied.xy
   width: 100%;
 }
 
-#xkuglxisgj .gt_spanner_row {
+#hbiddqzeob .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xkuglxisgj .gt_group_heading {
+#hbiddqzeob .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1489,7 +1489,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   text-align: left;
 }
 
-#xkuglxisgj .gt_empty_group_heading {
+#hbiddqzeob .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1504,15 +1504,15 @@ concordant discordant     tied.x     tied.y    tied.xy
   vertical-align: middle;
 }
 
-#xkuglxisgj .gt_from_md > :first-child {
+#hbiddqzeob .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xkuglxisgj .gt_from_md > :last-child {
+#hbiddqzeob .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xkuglxisgj .gt_row {
+#hbiddqzeob .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1531,7 +1531,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   overflow-x: hidden;
 }
 
-#xkuglxisgj .gt_stub {
+#hbiddqzeob .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1544,7 +1544,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 5px;
 }
 
-#xkuglxisgj .gt_stub_row_group {
+#hbiddqzeob .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1558,15 +1558,15 @@ concordant discordant     tied.x     tied.y    tied.xy
   vertical-align: top;
 }
 
-#xkuglxisgj .gt_row_group_first td {
+#hbiddqzeob .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xkuglxisgj .gt_row_group_first th {
+#hbiddqzeob .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xkuglxisgj .gt_summary_row {
+#hbiddqzeob .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1576,16 +1576,16 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 5px;
 }
 
-#xkuglxisgj .gt_first_summary_row {
+#hbiddqzeob .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xkuglxisgj .gt_first_summary_row.thick {
+#hbiddqzeob .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xkuglxisgj .gt_last_summary_row {
+#hbiddqzeob .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1595,7 +1595,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-bottom-color: #D3D3D3;
 }
 
-#xkuglxisgj .gt_grand_summary_row {
+#hbiddqzeob .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1605,7 +1605,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 5px;
 }
 
-#xkuglxisgj .gt_first_grand_summary_row {
+#hbiddqzeob .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1615,7 +1615,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-top-color: #D3D3D3;
 }
 
-#xkuglxisgj .gt_last_grand_summary_row_top {
+#hbiddqzeob .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1625,11 +1625,11 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-bottom-color: #D3D3D3;
 }
 
-#xkuglxisgj .gt_striped {
+#hbiddqzeob .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xkuglxisgj .gt_table_body {
+#hbiddqzeob .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1638,7 +1638,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-bottom-color: #D3D3D3;
 }
 
-#xkuglxisgj .gt_footnotes {
+#hbiddqzeob .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1652,7 +1652,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-right-color: #D3D3D3;
 }
 
-#xkuglxisgj .gt_footnote {
+#hbiddqzeob .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1661,7 +1661,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 5px;
 }
 
-#xkuglxisgj .gt_sourcenotes {
+#hbiddqzeob .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1675,7 +1675,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-right-color: #D3D3D3;
 }
 
-#xkuglxisgj .gt_sourcenote {
+#hbiddqzeob .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1683,72 +1683,72 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 5px;
 }
 
-#xkuglxisgj .gt_left {
+#hbiddqzeob .gt_left {
   text-align: left;
 }
 
-#xkuglxisgj .gt_center {
+#hbiddqzeob .gt_center {
   text-align: center;
 }
 
-#xkuglxisgj .gt_right {
+#hbiddqzeob .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xkuglxisgj .gt_font_normal {
+#hbiddqzeob .gt_font_normal {
   font-weight: normal;
 }
 
-#xkuglxisgj .gt_font_bold {
+#hbiddqzeob .gt_font_bold {
   font-weight: bold;
 }
 
-#xkuglxisgj .gt_font_italic {
+#hbiddqzeob .gt_font_italic {
   font-style: italic;
 }
 
-#xkuglxisgj .gt_super {
+#hbiddqzeob .gt_super {
   font-size: 65%;
 }
 
-#xkuglxisgj .gt_footnote_marks {
+#hbiddqzeob .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xkuglxisgj .gt_asterisk {
+#hbiddqzeob .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xkuglxisgj .gt_indent_1 {
+#hbiddqzeob .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xkuglxisgj .gt_indent_2 {
+#hbiddqzeob .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xkuglxisgj .gt_indent_3 {
+#hbiddqzeob .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xkuglxisgj .gt_indent_4 {
+#hbiddqzeob .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xkuglxisgj .gt_indent_5 {
+#hbiddqzeob .gt_indent_5 {
   text-indent: 25px;
 }
 
-#xkuglxisgj .katex-display {
+#hbiddqzeob .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#xkuglxisgj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#hbiddqzeob div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1765,15 +1765,27 @@ concordant discordant     tied.x     tied.y    tied.xy
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="label">sex=2</td>
-<td class="gt_row gt_center" headers="estimate">1.00</td>
-<td class="gt_row gt_center" headers="conf.low">0.86, 1.15</td>
+<td class="gt_row gt_center" headers="estimate">0.99</td>
+<td class="gt_row gt_center" headers="conf.low">0.85, 1.15</td>
 <td class="gt_row gt_center" headers="p.value">&gt;0.9</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label">race=2</td>
 <td class="gt_row gt_center" headers="estimate">1.20</td>
-<td class="gt_row gt_center" headers="conf.low">1.02, 1.42</td>
-<td class="gt_row gt_center" headers="p.value">0.026</td>
+<td class="gt_row gt_center" headers="conf.low">1.02, 1.41</td>
+<td class="gt_row gt_center" headers="p.value">0.030</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">ejf_per[1]</td>
+<td class="gt_row gt_center" headers="estimate">0.98</td>
+<td class="gt_row gt_center" headers="conf.low">0.97, 0.99</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">chestx[1]</td>
+<td class="gt_row gt_center" headers="estimate">15.8</td>
+<td class="gt_row gt_center" headers="conf.low">6.39, 38.9</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label">functcls=2</td>
@@ -1784,13 +1796,13 @@ concordant discordant     tied.x     tied.y    tied.xy
 <tr class="even">
 <td class="gt_row gt_left" headers="label">functcls=3</td>
 <td class="gt_row gt_center" headers="estimate">1.99</td>
-<td class="gt_row gt_center" headers="conf.low">1.58, 2.51</td>
+<td class="gt_row gt_center" headers="conf.low">1.58, 2.52</td>
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label">functcls=4</td>
-<td class="gt_row gt_center" headers="estimate">3.17</td>
-<td class="gt_row gt_center" headers="conf.low">2.18, 4.60</td>
+<td class="gt_row gt_center" headers="estimate">3.21</td>
+<td class="gt_row gt_center" headers="conf.low">2.21, 4.66</td>
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 <tr class="even">
@@ -1802,13 +1814,13 @@ concordant discordant     tied.x     tied.y    tied.xy
 <tr class="odd">
 <td class="gt_row gt_left" headers="label">diuret=1</td>
 <td class="gt_row gt_center" headers="estimate">1.98</td>
-<td class="gt_row gt_center" headers="conf.low">1.63, 2.41</td>
+<td class="gt_row gt_center" headers="conf.low">1.63, 2.40</td>
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label">aceinhib=1</td>
-<td class="gt_row gt_center" headers="estimate">0.88</td>
-<td class="gt_row gt_center" headers="conf.low">0.68, 1.13</td>
+<td class="gt_row gt_center" headers="estimate">0.87</td>
+<td class="gt_row gt_center" headers="conf.low">0.68, 1.12</td>
 <td class="gt_row gt_center" headers="p.value">0.3</td>
 </tr>
 <tr class="odd">
@@ -1830,28 +1842,22 @@ concordant discordant     tied.x     tied.y    tied.xy
 <td class="gt_row gt_center" headers="p.value">&gt;0.9</td>
 </tr>
 <tr class="even">
+<td class="gt_row gt_left" headers="label">ejf_per[1] * chestx[1]</td>
+<td class="gt_row gt_center" headers="estimate">1.09</td>
+<td class="gt_row gt_center" headers="conf.low">1.00, 1.20</td>
+<td class="gt_row gt_center" headers="p.value">0.059</td>
+</tr>
+<tr class="odd">
 <td class="gt_row gt_left" headers="label">calculated: age at randomization</td>
 <td class="gt_row gt_center" headers="estimate">1.00</td>
 <td class="gt_row gt_center" headers="conf.low">0.99, 1.01</td>
 <td class="gt_row gt_center" headers="p.value">&gt;0.9</td>
 </tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="label">q3: ejection fraction (percent)</td>
-<td class="gt_row gt_center" headers="estimate">0.98</td>
-<td class="gt_row gt_center" headers="conf.low">0.97, 0.99</td>
-<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
-</tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="label">q6: chest x-ray (ct-ratio)</td>
-<td class="gt_row gt_center" headers="estimate">13.1</td>
-<td class="gt_row gt_center" headers="conf.low">5.41, 31.9</td>
-<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
-</tr>
-<tr class="odd">
 <td class="gt_row gt_left" headers="label">calculated: body mass index (kg/m*m)</td>
 <td class="gt_row gt_center" headers="estimate">1.01</td>
 <td class="gt_row gt_center" headers="conf.low">1.00, 1.02</td>
-<td class="gt_row gt_center" headers="p.value">0.2</td>
+<td class="gt_row gt_center" headers="p.value">0.14</td>
 </tr>
 </tbody><tfoot class="gt_sourcenotes">
 <tr class="odd">
