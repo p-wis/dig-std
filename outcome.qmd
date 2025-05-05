@@ -242,7 +242,7 @@ results %>% kable(digits=3) %>% kable_classic_2()
 # Model wieloczynnikowy, po selekcji kandydatów
 
 ```{r}
-m1 <- cph(dwhf_surv ~ age + sex + race + ejf_per + chestx  +  bmi + functcls +
+m1 <- cph(dwhf_surv ~ age + sex + race + scale(ejf_per, scale=F) * scale(chestx, scale=F)  +  bmi + functcls +
             diguse + diuret + aceinhib + prevmi + diabetes + hyperten,
           data = df_trtmt, x = TRUE, y = TRUE, surv = TRUE)
 
