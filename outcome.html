@@ -1300,26 +1300,46 @@ concordant discordant     tied.x     tied.y    tied.xy
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">%&gt;%</span> </span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(<span class="at">exponentiate =</span> <span class="cn">TRUE</span>, <span class="at">tidy_fun =</span> broom.helpers<span class="sc">::</span>tidy_parameters, <span class="at">intercept=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">exponentiate =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">tidy_fun =</span> broom.helpers<span class="sc">::</span>tidy_parameters, </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">intercept=</span><span class="cn">TRUE</span>, </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">list</span>(</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">sex=2</span><span class="st">`</span> <span class="sc">~</span> <span class="st">'Sex = F'</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">race=2</span><span class="st">`</span> <span class="sc">~</span> <span class="st">'Race = nonwhite'</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">ejf_per[1]</span><span class="st">`</span> <span class="sc">~</span> <span class="st">'ejection fraction (percent)'</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">chestx[1]</span><span class="st">`</span> <span class="sc">~</span> <span class="st">'chest x-ray (ct-ratio)'</span>,</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">functcls=2</span><span class="st">`</span> <span class="sc">~</span> <span class="st">'NYHA II'</span>,</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">functcls=3</span><span class="st">`</span> <span class="sc">~</span> <span class="st">'NYHA III'</span>,</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">functcls=4</span><span class="st">`</span> <span class="sc">~</span> <span class="st">'NYHA IV'</span>,</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">diguse=1</span><span class="st">`</span> <span class="sc">~</span> <span class="st">'digoxin within past week'</span>,</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">diuret=1</span><span class="st">`</span> <span class="sc">~</span> <span class="st">'diuretics (non-K-sparing)'</span>,</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">aceinhib=1</span><span class="st">`</span> <span class="sc">~</span> <span class="st">'ace inhibitors'</span>,</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">prevmi=1</span><span class="st">`</span> <span class="sc">~</span> <span class="st">'previous myocardial infarction'</span>,</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">diabetes=1</span><span class="st">`</span> <span class="sc">~</span> <span class="st">'history of diabetes'</span>,</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">hyperten=1</span><span class="st">`</span> <span class="sc">~</span> <span class="st">'history of hypertension'</span>,</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">ejf_per[1] * chestx[1]</span><span class="st">`</span> <span class="sc">~</span> <span class="st">'interaction term: EF * x-ray (ct-ratio)'</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="hbiddqzeob" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hbiddqzeob table {
+<div id="hzegxlunzw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hzegxlunzw table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#hbiddqzeob thead, #hbiddqzeob tbody, #hbiddqzeob tfoot, #hbiddqzeob tr, #hbiddqzeob td, #hbiddqzeob th {
+#hzegxlunzw thead, #hzegxlunzw tbody, #hzegxlunzw tfoot, #hzegxlunzw tr, #hzegxlunzw td, #hzegxlunzw th {
   border-style: none;
 }
 
-#hbiddqzeob p {
+#hzegxlunzw p {
   margin: 0;
   padding: 0;
 }
 
-#hbiddqzeob .gt_table {
+#hzegxlunzw .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1345,12 +1365,12 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-left-color: #D3D3D3;
 }
 
-#hbiddqzeob .gt_caption {
+#hzegxlunzw .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#hbiddqzeob .gt_title {
+#hzegxlunzw .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1362,7 +1382,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-bottom-width: 0;
 }
 
-#hbiddqzeob .gt_subtitle {
+#hzegxlunzw .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1374,7 +1394,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-top-width: 0;
 }
 
-#hbiddqzeob .gt_heading {
+#hzegxlunzw .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1386,13 +1406,13 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-right-color: #D3D3D3;
 }
 
-#hbiddqzeob .gt_bottom_border {
+#hzegxlunzw .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hbiddqzeob .gt_col_headings {
+#hzegxlunzw .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1407,7 +1427,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-right-color: #D3D3D3;
 }
 
-#hbiddqzeob .gt_col_heading {
+#hzegxlunzw .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1427,7 +1447,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   overflow-x: hidden;
 }
 
-#hbiddqzeob .gt_column_spanner_outer {
+#hzegxlunzw .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1439,15 +1459,15 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 4px;
 }
 
-#hbiddqzeob .gt_column_spanner_outer:first-child {
+#hzegxlunzw .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hbiddqzeob .gt_column_spanner_outer:last-child {
+#hzegxlunzw .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hbiddqzeob .gt_column_spanner {
+#hzegxlunzw .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1459,11 +1479,11 @@ concordant discordant     tied.x     tied.y    tied.xy
   width: 100%;
 }
 
-#hbiddqzeob .gt_spanner_row {
+#hzegxlunzw .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#hbiddqzeob .gt_group_heading {
+#hzegxlunzw .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1489,7 +1509,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   text-align: left;
 }
 
-#hbiddqzeob .gt_empty_group_heading {
+#hzegxlunzw .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1504,15 +1524,15 @@ concordant discordant     tied.x     tied.y    tied.xy
   vertical-align: middle;
 }
 
-#hbiddqzeob .gt_from_md > :first-child {
+#hzegxlunzw .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hbiddqzeob .gt_from_md > :last-child {
+#hzegxlunzw .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hbiddqzeob .gt_row {
+#hzegxlunzw .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1531,7 +1551,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   overflow-x: hidden;
 }
 
-#hbiddqzeob .gt_stub {
+#hzegxlunzw .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1544,7 +1564,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 5px;
 }
 
-#hbiddqzeob .gt_stub_row_group {
+#hzegxlunzw .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1558,15 +1578,15 @@ concordant discordant     tied.x     tied.y    tied.xy
   vertical-align: top;
 }
 
-#hbiddqzeob .gt_row_group_first td {
+#hzegxlunzw .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#hbiddqzeob .gt_row_group_first th {
+#hzegxlunzw .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#hbiddqzeob .gt_summary_row {
+#hzegxlunzw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1576,16 +1596,16 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 5px;
 }
 
-#hbiddqzeob .gt_first_summary_row {
+#hzegxlunzw .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#hbiddqzeob .gt_first_summary_row.thick {
+#hzegxlunzw .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#hbiddqzeob .gt_last_summary_row {
+#hzegxlunzw .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1595,7 +1615,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-bottom-color: #D3D3D3;
 }
 
-#hbiddqzeob .gt_grand_summary_row {
+#hzegxlunzw .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1605,7 +1625,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 5px;
 }
 
-#hbiddqzeob .gt_first_grand_summary_row {
+#hzegxlunzw .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1615,7 +1635,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-top-color: #D3D3D3;
 }
 
-#hbiddqzeob .gt_last_grand_summary_row_top {
+#hzegxlunzw .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1625,11 +1645,11 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-bottom-color: #D3D3D3;
 }
 
-#hbiddqzeob .gt_striped {
+#hzegxlunzw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hbiddqzeob .gt_table_body {
+#hzegxlunzw .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1638,7 +1658,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-bottom-color: #D3D3D3;
 }
 
-#hbiddqzeob .gt_footnotes {
+#hzegxlunzw .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1652,7 +1672,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-right-color: #D3D3D3;
 }
 
-#hbiddqzeob .gt_footnote {
+#hzegxlunzw .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1661,7 +1681,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 5px;
 }
 
-#hbiddqzeob .gt_sourcenotes {
+#hzegxlunzw .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1675,7 +1695,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-right-color: #D3D3D3;
 }
 
-#hbiddqzeob .gt_sourcenote {
+#hzegxlunzw .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1683,72 +1703,72 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 5px;
 }
 
-#hbiddqzeob .gt_left {
+#hzegxlunzw .gt_left {
   text-align: left;
 }
 
-#hbiddqzeob .gt_center {
+#hzegxlunzw .gt_center {
   text-align: center;
 }
 
-#hbiddqzeob .gt_right {
+#hzegxlunzw .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hbiddqzeob .gt_font_normal {
+#hzegxlunzw .gt_font_normal {
   font-weight: normal;
 }
 
-#hbiddqzeob .gt_font_bold {
+#hzegxlunzw .gt_font_bold {
   font-weight: bold;
 }
 
-#hbiddqzeob .gt_font_italic {
+#hzegxlunzw .gt_font_italic {
   font-style: italic;
 }
 
-#hbiddqzeob .gt_super {
+#hzegxlunzw .gt_super {
   font-size: 65%;
 }
 
-#hbiddqzeob .gt_footnote_marks {
+#hzegxlunzw .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#hbiddqzeob .gt_asterisk {
+#hzegxlunzw .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#hbiddqzeob .gt_indent_1 {
+#hzegxlunzw .gt_indent_1 {
   text-indent: 5px;
 }
 
-#hbiddqzeob .gt_indent_2 {
+#hzegxlunzw .gt_indent_2 {
   text-indent: 10px;
 }
 
-#hbiddqzeob .gt_indent_3 {
+#hzegxlunzw .gt_indent_3 {
   text-indent: 15px;
 }
 
-#hbiddqzeob .gt_indent_4 {
+#hzegxlunzw .gt_indent_4 {
   text-indent: 20px;
 }
 
-#hbiddqzeob .gt_indent_5 {
+#hzegxlunzw .gt_indent_5 {
   text-indent: 25px;
 }
 
-#hbiddqzeob .katex-display {
+#hzegxlunzw .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#hbiddqzeob div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#hzegxlunzw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1764,85 +1784,85 @@ concordant discordant     tied.x     tied.y    tied.xy
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="label">sex=2</td>
+<td class="gt_row gt_left" headers="label">Sex = F</td>
 <td class="gt_row gt_center" headers="estimate">0.99</td>
 <td class="gt_row gt_center" headers="conf.low">0.85, 1.15</td>
 <td class="gt_row gt_center" headers="p.value">&gt;0.9</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="label">race=2</td>
+<td class="gt_row gt_left" headers="label">Race = nonwhite</td>
 <td class="gt_row gt_center" headers="estimate">1.20</td>
 <td class="gt_row gt_center" headers="conf.low">1.02, 1.41</td>
 <td class="gt_row gt_center" headers="p.value">0.030</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="label">ejf_per[1]</td>
+<td class="gt_row gt_left" headers="label">ejection fraction (percent)</td>
 <td class="gt_row gt_center" headers="estimate">0.98</td>
 <td class="gt_row gt_center" headers="conf.low">0.97, 0.99</td>
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="label">chestx[1]</td>
+<td class="gt_row gt_left" headers="label">chest x-ray (ct-ratio)</td>
 <td class="gt_row gt_center" headers="estimate">15.8</td>
 <td class="gt_row gt_center" headers="conf.low">6.39, 38.9</td>
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="label">functcls=2</td>
+<td class="gt_row gt_left" headers="label">NYHA II</td>
 <td class="gt_row gt_center" headers="estimate">1.54</td>
 <td class="gt_row gt_center" headers="conf.low">1.23, 1.93</td>
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="label">functcls=3</td>
+<td class="gt_row gt_left" headers="label">NYHA III</td>
 <td class="gt_row gt_center" headers="estimate">1.99</td>
 <td class="gt_row gt_center" headers="conf.low">1.58, 2.52</td>
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="label">functcls=4</td>
+<td class="gt_row gt_left" headers="label">NYHA IV</td>
 <td class="gt_row gt_center" headers="estimate">3.21</td>
 <td class="gt_row gt_center" headers="conf.low">2.21, 4.66</td>
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="label">diguse=1</td>
+<td class="gt_row gt_left" headers="label">digoxin within past week</td>
 <td class="gt_row gt_center" headers="estimate">1.43</td>
 <td class="gt_row gt_center" headers="conf.low">1.27, 1.62</td>
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="label">diuret=1</td>
+<td class="gt_row gt_left" headers="label">diuretics (non-K-sparing)</td>
 <td class="gt_row gt_center" headers="estimate">1.98</td>
 <td class="gt_row gt_center" headers="conf.low">1.63, 2.40</td>
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="label">aceinhib=1</td>
+<td class="gt_row gt_left" headers="label">ace inhibitors</td>
 <td class="gt_row gt_center" headers="estimate">0.87</td>
 <td class="gt_row gt_center" headers="conf.low">0.68, 1.12</td>
 <td class="gt_row gt_center" headers="p.value">0.3</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="label">prevmi=1</td>
+<td class="gt_row gt_left" headers="label">previous myocardial infarction</td>
 <td class="gt_row gt_center" headers="estimate">1.08</td>
 <td class="gt_row gt_center" headers="conf.low">0.95, 1.22</td>
 <td class="gt_row gt_center" headers="p.value">0.3</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="label">diabetes=1</td>
+<td class="gt_row gt_left" headers="label">history of diabetes</td>
 <td class="gt_row gt_center" headers="estimate">1.04</td>
 <td class="gt_row gt_center" headers="conf.low">0.91, 1.19</td>
 <td class="gt_row gt_center" headers="p.value">0.6</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="label">hyperten=1</td>
+<td class="gt_row gt_left" headers="label">history of hypertension</td>
 <td class="gt_row gt_center" headers="estimate">1.00</td>
 <td class="gt_row gt_center" headers="conf.low">0.88, 1.13</td>
 <td class="gt_row gt_center" headers="p.value">&gt;0.9</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="label">ejf_per[1] * chestx[1]</td>
+<td class="gt_row gt_left" headers="label">interaction term: EF * x-ray (ct-ratio)</td>
 <td class="gt_row gt_center" headers="estimate">1.09</td>
 <td class="gt_row gt_center" headers="conf.low">1.00, 1.20</td>
 <td class="gt_row gt_center" headers="p.value">0.059</td>
@@ -1874,7 +1894,7 @@ concordant discordant     tied.x     tied.y    tied.xy
 <section id="interpretacja" class="level1">
 <h1>Interpretacja</h1>
 <p>Przypomnienie naszej definicji dobrej odpowiedzi – brak zgonu oraz hospitalizacji z powodu zaostrzenia niewydolności serca .</p>
-<p>W powyższym modelu wieloczynnikowym z występowaniem dobrej odpowiedzi na terapię digoksyną były:</p>
+<p>W powyższym modelu wieloczynnikowym z występowaniem dobrej odpowiedzi na terapię digoksyną związane były następujące czynniki:</p>
 <ul>
 <li>rasa biała</li>
 <li>wyższa frakcja wyrzutowa</li>
