@@ -290,5 +290,61 @@ W powyższym modelu wieloczynnikowym z występowaniem dobrej odpowiedzi na terap
 
 Na występowanie dobrej odpowiedzi nie wpływały czynniki takie jak: wiek, płeć, BMI, stosowanie ACE-I, przebyty zawał, cukrzyca w wywiadzie, nadciśnienie w wywiadzie.
 
-Do zrobienia: porównanie 1-rocznego event-free survival przykładowych osób z profilem związanym z niskim ryzykiem (np. biały z wysoką EF, NYHA II, diuretyków) vs osoba z profilem przeciwnym (non-white, EF 20%, NYHA IV, itp.)
+Porównanie szacowanego przez model ryzyka zgonu/hospit.HF dla przykładowych osób z profilem związanym z niskim ryzykiem vs z wysokim ryzykiem. Definicja profilów w poniższej tabelce. Pod tabelką wykres.
  
+```{r}
+low_risk <- data.frame(
+  age = 50,
+  sex = 1,
+  race = 1,
+  ejf_per = 50, 
+  chestx = 0.4, 
+  bmi = 24,
+  functcls = 2,
+  diguse = 0,
+  diuret = 0,
+  aceinhib = 1,
+  prevmi = 0,
+  diabetes = 1,
+  hyperten = 0
+)
+
+high_risk <- data.frame(
+  age = 50,
+  sex = 1,
+  race = 1,
+  ejf_per = 30, 
+  chestx = 0.65, 
+  bmi = 24,
+  functcls = 4,
+  diguse = 1,
+  diuret = 1,
+  aceinhib = 1,
+  prevmi = 0,
+  diabetes = 1,
+  hyperten = 0
+)
+ 
+
+bind_rows(
+    list(`low risk profile` = low_risk, `high risk profile` = high_risk), .id='id') %>%
+t() %>%
+as_tibble(  rownames="characteristic", .name_repair = "unique") %>%
+kable() %>%
+kable_classic_2()
+```
+
+```{r}
+df_low <- tidy(survfit(m1, newdata = low_risk)) %>% mutate(group = "Low risk")
+df_high <- tidy(survfit(m1, newdata = high_risk)) %>% mutate(group = "High risk")
+df_combined <- bind_rows(df_low, df_high)
+
+ggplot(df_combined, aes(x = time, y = estimate, color = group)) +
+  geom_step() +
+  labs(title = "Survival curves for low-risk and high-risk profile",
+       y = "Survival probability",
+       x = "Time (days)",
+       color = "Risk Profile") +
+  theme_minimal()
+```
+
