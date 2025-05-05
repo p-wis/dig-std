@@ -251,7 +251,27 @@ AIC(m1)
 BIC(m1)
 
 m1 %>% 
-  tbl_regression(exponentiate = TRUE, tidy_fun = broom.helpers::tidy_parameters, intercept=TRUE)
+  tbl_regression(
+    exponentiate = TRUE, 
+    tidy_fun = broom.helpers::tidy_parameters, 
+    intercept=TRUE, 
+    label = list(
+      `sex=2` ~ 'Sex = F',
+      `race=2` ~ 'Race = nonwhite',
+      `ejf_per[1]` ~ 'ejection fraction (percent)',
+      `chestx[1]` ~ 'chest x-ray (ct-ratio)',
+      `functcls=2` ~ 'NYHA II',
+      `functcls=3` ~ 'NYHA III',
+      `functcls=4` ~ 'NYHA IV',
+      `diguse=1` ~ 'digoxin within past week',
+      `diuret=1` ~ 'diuretics (non-K-sparing)',
+      `aceinhib=1` ~ 'ace inhibitors',
+      `prevmi=1` ~ 'previous myocardial infarction',
+      `diabetes=1` ~ 'history of diabetes',
+      `hyperten=1` ~ 'history of hypertension',
+      `ejf_per[1] * chestx[1]` ~ 'interaction term: EF * x-ray (ct-ratio)'
+    )
+  )
 ```
 
 
@@ -259,7 +279,7 @@ m1 %>%
 
 Przypomnienie naszej definicji dobrej odpowiedzi -- brak zgonu oraz hospitalizacji z powodu zaostrzenia niewydolności serca .
 
-W powyższym modelu wieloczynnikowym z występowaniem dobrej odpowiedzi na terapię digoksyną były:
+W powyższym modelu wieloczynnikowym z występowaniem dobrej odpowiedzi na terapię digoksyną związane były następujące czynniki:
 
 - rasa biała 
 - wyższa frakcja wyrzutowa
