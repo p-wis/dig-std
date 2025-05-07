@@ -1,6 +1,6 @@
 ---
 title: "Team Assignment #3: Outcome -   hosp from ventricual arrythmia"
-editor: visual
+code-fold: true
 editor_options: 
   chunk_output_type: console
 ---
@@ -25,10 +25,10 @@ vena_surv <- with(df, Surv(venadays,vena))
 # Pytanie 
 
 
-czy digoksyna wpływa na ryzyko hospitalizacji z powodu arytmii komorowych inaczej w podgrupie z  niską EF niż wyższą EF? 
+czy digoksyna wpływa na ryzyko hospitalizacji z powodu arytmii komorowych inaczej w podgrupie z  niską EF niż wyższą EF?
 
 
-# Model zerowy / Podstawowe statystyki 
+# Model zerowy - wszyscy uczestnicy DIG
 
 ```{r}
 m0 <- survfit(vena_surv~1, data= df)
@@ -50,7 +50,7 @@ m0 %>%
 ```
 
 
-# Model pierwszy   
+# Model pierwszy - grupa placebo vs leczona
 
 ```{r}
 m1 <- survfit(vena_surv~trtmt, data= df)
