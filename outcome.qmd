@@ -242,6 +242,10 @@ results %>% kable(digits=3) %>% kable_classic_2()
 # Model wieloczynnikowy, po selekcji kandydatów
 
 ```{r}
+
+
+
+
 m1 <- cph(dwhf_surv ~ age + sex + race + scale(ejf_per, scale=F) * scale(chestx, scale=F)  +  bmi + functcls +
             diguse + diuret + aceinhib + prevmi + diabetes + hyperten,
           data = df_trtmt, x = TRUE, y = TRUE, surv = TRUE)
@@ -249,7 +253,9 @@ m1 <- cph(dwhf_surv ~ age + sex + race + scale(ejf_per, scale=F) * scale(chestx,
 concordance(m1)
 AIC(m1)
 BIC(m1)
+```
 
+```{r}
 m1 %>% 
   tbl_regression(
     exponentiate = TRUE, 
@@ -347,4 +353,39 @@ ggplot(df_combined, aes(x = time, y = estimate, color = group)) +
        color = "Risk Profile") +
   theme_minimal()
 ```
+
+
+<!-- # MAtching / propensity score itp -->
+
+<!-- ```{r} -->
+
+<!-- m1 <- cph(dwhf_surv ~ age + sex + race + scale(ejf_per, scale=F) * scale(chestx, scale=F)  +  bmi + functcls + -->
+<!--             diguse + diuret + aceinhib + prevmi + diabetes + hyperten, -->
+<!--           data = df_trtmt, x = TRUE, y = TRUE, surv = TRUE) -->
+
+
+
+<!-- df_trtmt$pred_dwhf <- predict(m1, type = "lp") -->
+<!-- df_trtmt <- df_trtmt[!is.na(df_trtmt$pred_dwhf), ] -->
+<!-- library(MatchIt) -->
+<!-- match_result <- matchit(dwhf ~ pred_dwhf, data = df_trtmt, method = "nearest", caliper = 0.1) -->
+<!-- matched_data <- match.data(match_result) -->
+
+<!-- library(cobalt) -->
+<!-- love.plot(match_result, binary = "std") -->
+
+<!-- matched_data <- matched_data %>% -->
+<!--   mutate(responder = factor(dwhf, labels = c("Non-responder", "Responder"))) -->
+
+
+<!-- matched_data %>% -->
+<!--   select(responder, age, sex, race, ejf_per, chestx, bmi, functcls, -->
+<!--          diguse, diuret, aceinhib, prevmi, diabetes, hyperten) %>% -->
+<!--   tbl_summary(by = responder,  -->
+<!--               statistic = list(all_continuous() ~ "{mean} ({sd})", all_categorical() ~ "{n} ({p}%)"), -->
+<!--               missing = "no") %>% -->
+<!--   add_stat_label()  -->
+<!-- ``` -->
+
+
 
