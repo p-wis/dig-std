@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Team Assignment #3: Outcome -   hosp from ventricual arrythmia"
 editor: visual
 editor_options: 
   chunk_output_type: console
@@ -22,11 +22,10 @@ vena_surv <- with(df, Surv(venadays,vena))
 
 
 
-# wstęp
+# Pytanie 
 
 
-czy digoksyna zwiększa ryzyko hosp. z powodu arytmii komorowych
-w grupie z  niską EF 
+czy digoksyna wpływa na ryzyko hospitalizacji z powodu arytmii komorowych inaczej w podgrupie z  niską EF niż wyższą EF? 
 
 
 # Model zerowy / Podstawowe statystyki 
