@@ -157,11 +157,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#pytanie" id="toc-pytanie" class="nav-link active" data-scroll-target="#pytanie">Pytanie</a></li>
-  <li><a href="#model-zerowy-podstawowe-statystyki" id="toc-model-zerowy-podstawowe-statystyki" class="nav-link" data-scroll-target="#model-zerowy-podstawowe-statystyki">Model zerowy / Podstawowe statystyki</a>
+  <li><a href="#model-zerowy---wszyscy-uczestnicy-dig" id="toc-model-zerowy---wszyscy-uczestnicy-dig" class="nav-link" data-scroll-target="#model-zerowy---wszyscy-uczestnicy-dig">Model zerowy - wszyscy uczestnicy DIG</a>
   <ul class="collapse">
   <li><a href="#skumulowana-częstość-występowania-zdarzenia" id="toc-skumulowana-częstość-występowania-zdarzenia" class="nav-link" data-scroll-target="#skumulowana-częstość-występowania-zdarzenia">Skumulowana częstość występowania zdarzenia</a></li>
   </ul></li>
-  <li><a href="#model-pierwszy" id="toc-model-pierwszy" class="nav-link" data-scroll-target="#model-pierwszy">Model pierwszy</a>
+  <li><a href="#model-pierwszy---grupa-placebo-vs-leczona" id="toc-model-pierwszy---grupa-placebo-vs-leczona" class="nav-link" data-scroll-target="#model-pierwszy---grupa-placebo-vs-leczona">Model pierwszy - grupa placebo vs leczona</a>
   <ul class="collapse">
   <li><a href="#skumulowana-częstość-występowania-zdarzenia-1" id="toc-skumulowana-częstość-występowania-zdarzenia-1" class="nav-link" data-scroll-target="#skumulowana-częstość-występowania-zdarzenia-1">Skumulowana częstość występowania zdarzenia</a></li>
   </ul></li>
@@ -191,6 +191,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(targets))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(dplyr))</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(kableExtra))</span>
@@ -203,19 +205,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(zm_kategoryczne)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>vena_surv <span class="ot">&lt;-</span> <span class="fu">with</span>(df, <span class="fu">Surv</span>(venadays,vena))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <section id="pytanie" class="level1">
 <h1>Pytanie</h1>
 <p>czy digoksyna wpływa na ryzyko hospitalizacji z powodu arytmii komorowych inaczej w podgrupie z niską EF niż wyższą EF?</p>
 </section>
-<section id="model-zerowy-podstawowe-statystyki" class="level1">
-<h1>Model zerowy / Podstawowe statystyki</h1>
+<section id="model-zerowy---wszyscy-uczestnicy-dig" class="level1">
+<h1>Model zerowy - wszyscy uczestnicy DIG</h1>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fu">survfit</span>(vena_surv<span class="sc">~</span><span class="dv">1</span>, <span class="at">data=</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <section id="skumulowana-częstość-występowania-zdarzenia" class="level2">
 <h2 class="anchored" data-anchor-id="skumulowana-częstość-występowania-zdarzenia">Skumulowana częstość występowania zdarzenia</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>m0 <span class="sc">%&gt;%</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsurvfit</span>() <span class="sc">+</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_confidence_interval</span>() <span class="sc">+</span></span>
@@ -226,6 +234,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Cumulative event probability"</span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>(<span class="at">trans =</span> <span class="st">"reverse"</span>)  <span class="co"># flip survival to mortality</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -236,14 +245,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="model-pierwszy" class="level1">
-<h1>Model pierwszy</h1>
+<section id="model-pierwszy---grupa-placebo-vs-leczona" class="level1">
+<h1>Model pierwszy - grupa placebo vs leczona</h1>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">survfit</span>(vena_surv<span class="sc">~</span>trtmt, <span class="at">data=</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <section id="skumulowana-częstość-występowania-zdarzenia-1" class="level2">
 <h2 class="anchored" data-anchor-id="skumulowana-częstość-występowania-zdarzenia-1">Skumulowana częstość występowania zdarzenia</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">%&gt;%</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsurvfit</span>() <span class="sc">+</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_confidence_interval</span>() <span class="sc">+</span></span>
@@ -254,6 +268,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Cumulative event probability"</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  )   <span class="sc">+</span></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>(<span class="at">trans =</span> <span class="st">"reverse"</span>)  <span class="co"># flip survival to mortality</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">

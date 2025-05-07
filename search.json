@@ -88,21 +88,21 @@
     "href": "ventricular.html",
     "title": "Team Assignment #3: Outcome - hosp from ventricual arrythmia",
     "section": "",
-    "text": "suppressPackageStartupMessages(library(targets))\nsuppressPackageStartupMessages(library(dplyr))\nsuppressPackageStartupMessages(library(kableExtra))\nsuppressPackageStartupMessages(library(survival))\nsuppressPackageStartupMessages(library(ggsurvfit))\n\n\ntar_load(df)\ntar_load(lista_zmiennych)\ntar_load(zm_kategoryczne)\n\nvena_surv &lt;- with(df, Surv(venadays,vena))"
+    "text": "Code\nsuppressPackageStartupMessages(library(targets))\nsuppressPackageStartupMessages(library(dplyr))\nsuppressPackageStartupMessages(library(kableExtra))\nsuppressPackageStartupMessages(library(survival))\nsuppressPackageStartupMessages(library(ggsurvfit))\n\n\ntar_load(df)\ntar_load(lista_zmiennych)\ntar_load(zm_kategoryczne)\n\nvena_surv &lt;- with(df, Surv(venadays,vena))"
   },
   {
     "objectID": "ventricular.html#skumulowana-częstość-występowania-zdarzenia",
     "href": "ventricular.html#skumulowana-częstość-występowania-zdarzenia",
     "title": "Team Assignment #3: Outcome - hosp from ventricual arrythmia",
     "section": "Skumulowana częstość występowania zdarzenia",
-    "text": "Skumulowana częstość występowania zdarzenia\n\nm0 %&gt;%\n  ggsurvfit() +\n  add_confidence_interval() +\n  add_risktable() +\n  labs(\n    title = \"Cumulative Incidence Curve\",\n    x = \"Time (days)\",  # adjust if needed\n    y = \"Cumulative event probability\"\n  ) +\n  scale_y_reverse(trans = \"reverse\")  # flip survival to mortality"
+    "text": "Skumulowana częstość występowania zdarzenia\n\n\nCode\nm0 %&gt;%\n  ggsurvfit() +\n  add_confidence_interval() +\n  add_risktable() +\n  labs(\n    title = \"Cumulative Incidence Curve\",\n    x = \"Time (days)\",  # adjust if needed\n    y = \"Cumulative event probability\"\n  ) +\n  scale_y_reverse(trans = \"reverse\")  # flip survival to mortality"
   },
   {
     "objectID": "ventricular.html#skumulowana-częstość-występowania-zdarzenia-1",
     "href": "ventricular.html#skumulowana-częstość-występowania-zdarzenia-1",
     "title": "Team Assignment #3: Outcome - hosp from ventricual arrythmia",
     "section": "Skumulowana częstość występowania zdarzenia",
-    "text": "Skumulowana częstość występowania zdarzenia\n\nm1 %&gt;%\n  ggsurvfit() +\n  add_confidence_interval() +\n  add_risktable() +\n  labs(\n    title = \"Cumulative Incidence Curve\",\n    x = \"Time (days)\",  # adjust if needed\n    y = \"Cumulative event probability\"\n  )   +\n  scale_y_reverse(trans = \"reverse\")  # flip survival to mortality"
+    "text": "Skumulowana częstość występowania zdarzenia\n\n\nCode\nm1 %&gt;%\n  ggsurvfit() +\n  add_confidence_interval() +\n  add_risktable() +\n  labs(\n    title = \"Cumulative Incidence Curve\",\n    x = \"Time (days)\",  # adjust if needed\n    y = \"Cumulative event probability\"\n  )   +\n  scale_y_reverse(trans = \"reverse\")  # flip survival to mortality"
   },
   {
     "objectID": "index.html",
