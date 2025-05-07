@@ -1,0 +1,75 @@
+---
+title: "Untitled"
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+suppressPackageStartupMessages(library(targets))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(kableExtra))
+suppressPackageStartupMessages(library(survival))
+suppressPackageStartupMessages(library(ggsurvfit))
+
+
+tar_load(df)
+tar_load(lista_zmiennych)
+tar_load(zm_kategoryczne)
+
+vena_surv <- with(df, Surv(venadays,vena))
+```
+
+
+
+# wstęp
+
+
+czy digoksyna zwiększa ryzyko hosp. z powodu arytmii komorowych
+w grupie z  niską EF 
+
+
+# Model zerowy / Podstawowe statystyki 
+
+```{r}
+m0 <- survfit(vena_surv~1, data= df)
+```
+
+## Skumulowana częstość występowania zdarzenia
+
+```{r}
+m0 %>%
+  ggsurvfit() +
+  add_confidence_interval() +
+  add_risktable() +
+  labs(
+    title = "Cumulative Incidence Curve",
+    x = "Time (days)",  # adjust if needed
+    y = "Cumulative event probability"
+  ) +
+  scale_y_reverse(trans = "reverse")  # flip survival to mortality
+```
+
+
+# Model pierwszy   
+
+```{r}
+m1 <- survfit(vena_surv~trtmt, data= df)
+```
+
+## Skumulowana częstość występowania zdarzenia
+
+```{r}
+m1 %>%
+  ggsurvfit() +
+  add_confidence_interval() +
+  add_risktable() +
+  labs(
+    title = "Cumulative Incidence Curve",
+    x = "Time (days)",  # adjust if needed
+    y = "Cumulative event probability"
+  )   +
+  scale_y_reverse(trans = "reverse")  # flip survival to mortality
+```
+
+ 

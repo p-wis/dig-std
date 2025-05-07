@@ -9,6 +9,8 @@ website:
         text: "Lista zmiennych"
       - href: outcome.qmd
         text: "Outcome: death or hosp from hf"
+      - href: ventricular.qmd
+        text: "Outcome: hosp from ventr arrythm"
       - about.qmd
 
 format:
