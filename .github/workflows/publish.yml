@@ -23,7 +23,8 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libfontconfig1-dev libfreetype6-dev libcurl4-openssl-dev
+          sudo apt-get install -y libfontconfig1-dev libfreetype6-dev libcurl4-openssl-dev \
+                        libharfbuzz-dev libfribidi-dev
 
       - name: Cache R packages
         uses: actions/cache@v4
@@ -39,7 +40,6 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("broom.helpers")
           remotes::install_cran("parameters")
-          remotes::install_cran("svglite")
         shell: Rscript {0}
 
       - name: Run targets pipeline
