@@ -41,6 +41,7 @@ jobs:
           remotes::install_cran("broom.helpers")
           remotes::install_cran("parameters")
           remotes::install_cran("cardx")
+          remotes::install_cran("smd")
         shell: Rscript {0}
 
       - name: Run targets pipeline
