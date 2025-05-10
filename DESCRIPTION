@@ -20,4 +20,5 @@ Imports:
     broom,
     gtsummary,
     rms,
-    broom.helpers
+    broom.helpers,
+    survminer
