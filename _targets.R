@@ -2,7 +2,7 @@ library(targets)
 
 # Set target options:
 tar_option_set(
-  packages = c("tibble", "dplyr", "haven", "rms") # Packages that your targets need for their tasks.
+  packages = c("tibble", "dplyr", "haven", "rms", "mice") # Packages that your targets need for their tasks.
 
  )
 
@@ -25,6 +25,20 @@ list(
           "nitrates", "hydral", "vasod", "any_diuret", "any_vasod", "ejf_35", "chestx_55")
     ),
     
+    tar_target(
+      name = outcome_varnames,
+      command = c("digdose", "cvd", "cvddays", "whf", "whfdays", "dig", "digdays",
+                  "mi", "midays", "uang", "uangdays", "strk", "strkdays", "sva", 
+                  "svadays", "vena", "venadays", "crev", "crevdays", "ocvd",
+                  "ocvddays", "rinf", "rinfdays", "oth", "othdays", "hosp", 
+                  "hospdays", "nhosp", "death", "deathday", "reason", "dwhf", 
+                  "dwhfdays")
+    ),
+    
+    tar_target(
+      name = custom_varnames,
+      command = c("any_diuret", "any_vasod", "nyha_class", "meanbp", "ejf_35", "chestx_55")
+    ),   
     
   tar_target(
     name = df,
@@ -61,9 +75,38 @@ list(
     }
   ),
   
+
+  
   tar_target(
     name = df_trtmt,
-    command = dplyr::filter(df, trtmt == 1)
+    command = {
+      pre_imputed <- df %>%
+        filter(trtmt == 1) %>%
+        select(-all_of(custom_varnames))
+        
+      
+      ini <- mice(pre_imputed, maxit = 0)
+      
+      method <- ini$method
+      method["reason"] <- ""  # exclude from being imputed
+      
+      pred <- ini$predictorMatrix
+      
+      pred[, outcome_varnames] <- 0
+      
+      imp <- mice(pre_imputed, m = 5, method = method,  predictorMatrix = pred, seed = 123)
+      imputed <- complete(imp, action = 1) 
+      
+      imputed <- imputed %>% 
+        add_any_diuret() %>%
+        add_any_vasod() %>%
+        add_nyha_class() %>%
+        add_meanbp() %>%
+        add_ejf_35() %>%
+        add_chestx_55()      
+      
+      imputed
+    }
   ),
   
   tar_target(

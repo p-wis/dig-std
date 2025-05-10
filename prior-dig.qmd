@@ -28,13 +28,9 @@ ps_model_forumla <- as.formula("diguse ~ age + sex + race + ejf_per * chestx + b
 
 ps_model_predictors <-  all.vars(formula(ps_model_forumla)[[3]])
 
-df_trtmt_ <- df_trtmt %>%
-  drop_na(all_of(ps_model_predictors))
-
- 
 options(datadist = "dd_df_trmnt")  # for the rms package
 
-dwhf_surv <- with(df_trtmt_, Surv(dwhfdays,dwhf))
+dwhf_surv <- with(df_trtmt, Surv(dwhfdays,dwhf))
 ```
 
 # Wprowadzenie
@@ -50,13 +46,11 @@ Ze względu na brak randomizacji względem wcześniejszego stosowania digoksyny,
 # Propensity score model
 
 ```{r}
-
-ps_model <- glm(diguse ~ age + sex + race + ejf_per * chestx + bmi + functcls + diuret + aceinhib + prevmi + diabetes + hyperten, data = df_trtmt_, family = binomial)
+ps_model <- glm(ps_model_forumla, data = df_trtmt, family = binomial)
 concordance(ps_model)
 AIC(ps_model)
 BIC(ps_model)
 
-df_trtmt_$pscore <- predict(ps_model, type = "response")
 ```
 
 ```{r}
@@ -70,9 +64,11 @@ ps_model %>%
 # Matching 
 
 ```{r}
+df_trtmt$pscore <- predict(ps_model, type = "response")
 
 matchit_obj <- matchit(diguse ~ pscore,
-                       data = df_trtmt_, method = "nearest", ratio = 1)
+                       data = df_trtmt, method = "nearest", ratio = 1, caliper = 0.1)
+
 df_matched <- match.data(matchit_obj)
 ```
 
@@ -88,7 +84,7 @@ plot(matchit_obj, type = "qq")
 ### Pre-matching
 
 ```{r}
-df_trtmt_ %>%
+df_trtmt %>%
   select(all_of(ps_model_predictors), diguse) %>%
   tbl_summary(by = diguse, statistic = all_continuous() ~ "{mean} ± {sd}", missing = "no") %>%
   add_difference() 
@@ -114,10 +110,10 @@ cox_matched <- cph(dwhf_surv_matched ~ diguse, data = df_matched, x = TRUE, y = 
 summary(cox_matched)
 ```
 
-* Hazard Ratio (HR) = 1.42 --- 
-Pacjenci, którzy stosowali digoksynę przed randomizacją, mieli o 42% wyższe ryzyko zgonu lub hospitalizacji z powodu niewydolności serca w porównaniu do pacjentów, którzy nie stosowali jej wcześniej.
+* Hazard Ratio (HR) = 1.38 --- 
+Pacjenci, którzy stosowali digoksynę przed randomizacją, mieli o 38% wyższe ryzyko zgonu lub hospitalizacji z powodu niewydolności serca w porównaniu do pacjentów, którzy nie stosowali jej wcześniej.
 
-* 95% przedział ufności: 1.25 – 1.61  --- Przedział nie obejmuje 1 — efekt jest statystycznie istotny.
+* 95% przedział ufności: 1.21 – 1.57  --- Przedział nie obejmuje 1 — efekt jest statystycznie istotny.
 
 ```{r}
 fit <- survfit(cox_matched, newdata = data.frame(diguse = levels(df_matched$diguse)))
