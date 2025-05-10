@@ -24,8 +24,11 @@ tar_load(zm_kategoryczne)
 tar_load(df_trtmt)
 tar_load(dd_df_trmnt)
 
+predyktory <- c("age", "sex", "race", "ejf_per", "chestx", "bmi", "nyha_class",
+             "diuret", "aceinhib", "prevmi", "diabetes", "hyperten")
+
 df_trtmt_ <- df_trtmt %>%
-  drop_na(age, sex, race, ejf_per, chestx, bmi, functcls, diuret, aceinhib, prevmi, diabetes, hyperten)
+  drop_na(all_of(predyktory))
 
  
 options(datadist = "dd_df_trmnt")  # for the rms package
@@ -73,14 +76,37 @@ df_matched <- match.data(matchit_obj)
 ```
 
 
-# Matching diagnosis
+## Matching evaluation
 
 ```{r}
 summary(matchit_obj)
-#plot(matchit_obj, type = "qq")
+plot(matchit_obj, type = "qq")
 #love.plot(matchit_obj)
 ```
 
+### Pre-matching
+
+```{r}
+df_trtmt_ %>%
+  select(all_of(predyktory), diguse) %>%
+  tbl_summary(by = diguse, statistic = all_continuous() ~ "{mean} ± {sd}", missing = "no") %>%
+  add_p() %>%
+  add_difference() %>%
+  modify_header(label = "**Zmienna**") %>%
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Przed dopasowaniem**")
+```
+
+### Post-Matching 
+
+```{r}
+df_matched %>%
+  select(all_of(predyktory), diguse) %>%
+  tbl_summary(by = diguse, statistic = all_continuous() ~ "{mean} ± {sd}", missing = "no") %>%
+  add_p() %>%
+  add_difference() %>%
+  modify_header(label = "**Zmienna**") %>%
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Po dopasowaniu**")
+```
 
 # Cox model on matched data
 
