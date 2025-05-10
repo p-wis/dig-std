@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://p-wis.github.io/dig-std/about.html</loc>
-    <lastmod>2025-05-07T21:59:54.689Z</lastmod>
-  </url>
-  <url>
-    <loc>https://p-wis.github.io/dig-std/outcome.html</loc>
-    <lastmod>2025-05-07T21:59:54.689Z</lastmod>
-  </url>
-  <url>
     <loc>https://p-wis.github.io/dig-std/ventricular.html</loc>
-    <lastmod>2025-05-07T21:59:54.690Z</lastmod>
+    <lastmod>2025-05-10T08:36:15.555Z</lastmod>
   </url>
   <url>
     <loc>https://p-wis.github.io/dig-std/index.html</loc>
-    <lastmod>2025-05-07T21:59:54.689Z</lastmod>
+    <lastmod>2025-05-10T08:36:15.555Z</lastmod>
+  </url>
+  <url>
+    <loc>https://p-wis.github.io/dig-std/outcome.html</loc>
+    <lastmod>2025-05-10T08:36:15.555Z</lastmod>
+  </url>
+  <url>
+    <loc>https://p-wis.github.io/dig-std/about.html</loc>
+    <lastmod>2025-05-10T08:36:15.555Z</lastmod>
+  </url>
+  <url>
+    <loc>https://p-wis.github.io/dig-std/prior-dig.html</loc>
+    <lastmod>2025-05-10T08:36:15.555Z</lastmod>
   </url>
 </urlset>
