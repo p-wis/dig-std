@@ -11,6 +11,8 @@ website:
         text: "Outcome: death or hosp from hf"
       - href: ventricular.qmd
         text: "Outcome: hosp from ventr arrythm"
+      - href: prior-dig.qmd
+        text: "Prior digoxin use"
       - about.qmd
 
 format:
