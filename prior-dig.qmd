@@ -91,9 +91,7 @@ df_trtmt_ %>%
   select(all_of(predyktory), diguse) %>%
   tbl_summary(by = diguse, statistic = all_continuous() ~ "{mean} ± {sd}", missing = "no") %>%
   add_p() %>%
-  add_difference() %>%
-  modify_header(label = "**Zmienna**") %>%
-  modify_spanning_header(c("stat_1", "stat_2") ~ "**Przed dopasowaniem**")
+  add_difference() 
 ```
 
 ### Post-Matching 
@@ -103,9 +101,7 @@ df_matched %>%
   select(all_of(predyktory), diguse) %>%
   tbl_summary(by = diguse, statistic = all_continuous() ~ "{mean} ± {sd}", missing = "no") %>%
   add_p() %>%
-  add_difference() %>%
-  modify_header(label = "**Zmienna**") %>%
-  modify_spanning_header(c("stat_1", "stat_2") ~ "**Po dopasowaniu**")
+  add_difference()
 ```
 
 # Cox model on matched data
