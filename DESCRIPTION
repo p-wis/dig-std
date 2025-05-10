@@ -22,4 +22,5 @@ Imports:
     rms,
     broom.helpers,
     survminer,
-    MatchIt
+    MatchIt,
+    mice
