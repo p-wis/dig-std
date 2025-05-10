@@ -17,6 +17,7 @@ suppressPackageStartupMessages(library(targets))
 suppressPackageStartupMessages(library(gtsummary))
 suppressPackageStartupMessages(library(rms))
 suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(MatchIt))
 
 tar_load(lista_zmiennych)
 tar_load(zm_kategoryczne)
@@ -31,6 +32,16 @@ options(datadist = "dd_df_trmnt")  # for the rms package
 
 dwhf_surv <- with(df_trtmt_, Surv(dwhfdays,dwhf))
 ```
+
+# Wprowadzenie
+
+Celem niniejszej analizy jest ocena, czy wcześniejsze stosowanie digoksyny przed randomizacją miało wpływ na wyniki kliniczne pacjentów leczonych digoksyną w ramach badania DIG. W szczególności analizujemy, czy pacjenci z wcześniejszą ekspozycją na digoksynę różnią się pod względem ryzyka zgonu lub hospitalizacji z powodu niewydolności serca w porównaniu do pacjentów, którzy nie przyjmowali wcześniej digoksyny.
+
+Z medycznego punktu widzenia istotne jest, czy długotrwałe stosowanie digoksyny może prowadzić do zmniejszenia skuteczności leku (np. poprzez rozwój tolerancji farmakologicznej) lub zwiększać ryzyko działań niepożądanych. 
+
+Pacjenci wcześniej leczeni digoksyną mogą stanowić populację o bardziej zaawansowanej lub trudniejszej do kontrolowania niewydolności serca, co może wpływać na rokowanie niezależnie od leczenia w ramach badania.
+
+Ze względu na brak randomizacji względem wcześniejszego stosowania digoksyny, zastosowanie metody propensity score matching pozwala zredukować wpływ czynników zakłócających (confounding by indication) i umożliwia bardziej wiarygodne porównanie wyników pomiędzy grupami.
 
 # Propensity score model
 
@@ -52,26 +63,23 @@ ps_model %>%
     intercept=TRUE)
 ```
 
-# Propensity-adjusted Cox model
-
-```{r}
-cox_adj <- cph(dwhf_surv ~ diguse + pscore, data = df_trtmt_, x = TRUE, y = TRUE, surv = TRUE)
-```
-
-
 # Matching 
 
 ```{r}
-library(MatchIt)
 
-matchit_obj <- matchit(diguse ~ age + sex + race + ejf_per + chestx + bmi + nyha_class +
-                         diuret + aceinhib + prevmi + diabetes + hyperten,
+matchit_obj <- matchit(diguse ~ pscore,
                        data = df_trtmt_, method = "nearest", ratio = 1)
 df_matched <- match.data(matchit_obj)
 ```
 
 
 # Matching diagnosis
+
+```{r}
+summary(matchit_obj)
+#plot(matchit_obj, type = "qq")
+#love.plot(matchit_obj)
+```
 
 
 # Cox model on matched data
@@ -84,6 +92,11 @@ cox_matched <- cph(dwhf_surv_matched ~ diguse, data = df_matched, x = TRUE, y = 
 
 summary(cox_matched)
 ```
+
+* Hazard Ratio (HR) = 1.42 --- 
+Pacjenci, którzy stosowali digoksynę przed randomizacją, mieli o 42% wyższe ryzyko zgonu lub hospitalizacji z powodu niewydolności serca w porównaniu do pacjentów, którzy nie stosowali jej wcześniej.
+
+* 95% przedział ufności: 1.25 – 1.61  --- Przedział nie obejmuje 1 — efekt jest statystycznie istotny.
 
 ```{r}
 fit <- survfit(cox_matched, newdata = data.frame(diguse = levels(df_matched$diguse)))
@@ -101,3 +114,6 @@ ggsurvplot(
 )
 ```
 
+# Wnioski
+
+Wynik wskazuje na potencjalnie gorsze rokowanie u pacjentów z wcześniejszym stosowaniem digoksyny, nawet po dopasowaniu względem cech wyjściowych.

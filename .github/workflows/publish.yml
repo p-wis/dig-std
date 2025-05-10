@@ -40,6 +40,7 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("broom.helpers")
           remotes::install_cran("parameters")
+          remotes::install_cran("survminer")
         shell: Rscript {0}
 
       - name: Run targets pipeline
