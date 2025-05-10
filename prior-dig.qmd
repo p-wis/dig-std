@@ -24,11 +24,12 @@ tar_load(zm_kategoryczne)
 tar_load(df_trtmt)
 tar_load(dd_df_trmnt)
 
-predyktory <- c("age", "sex", "race", "ejf_per", "chestx", "bmi", "nyha_class",
-             "diuret", "aceinhib", "prevmi", "diabetes", "hyperten")
+ps_model_forumla <- as.formula("diguse ~ age + sex + race + ejf_per * chestx + bmi + functcls + diuret + aceinhib + prevmi + diabetes + hyperten")
+
+ps_model_predictors <-  all.vars(formula(ps_model_forumla)[[3]])
 
 df_trtmt_ <- df_trtmt %>%
-  drop_na(all_of(predyktory))
+  drop_na(all_of(ps_model_predictors))
 
  
 options(datadist = "dd_df_trmnt")  # for the rms package
@@ -88,9 +89,8 @@ plot(matchit_obj, type = "qq")
 
 ```{r}
 df_trtmt_ %>%
-  select(all_of(predyktory), diguse) %>%
+  select(all_of(ps_model_predictors), diguse) %>%
   tbl_summary(by = diguse, statistic = all_continuous() ~ "{mean} ± {sd}", missing = "no") %>%
-  add_p() %>%
   add_difference() 
 ```
 
@@ -98,9 +98,8 @@ df_trtmt_ %>%
 
 ```{r}
 df_matched %>%
-  select(all_of(predyktory), diguse) %>%
+  select(all_of(ps_model_predictors), diguse) %>%
   tbl_summary(by = diguse, statistic = all_continuous() ~ "{mean} ± {sd}", missing = "no") %>%
-  add_p() %>%
   add_difference()
 ```
 
