@@ -7,17 +7,13 @@ editor_options:
 ---
 
 ```{r}
-suppressPackageStartupMessages(library(dplyr))
-suppressPackageStartupMessages(library(kableExtra))
-suppressPackageStartupMessages(library(survival))
-suppressPackageStartupMessages(library(survminer))
-suppressPackageStartupMessages(library(broom))
-suppressPackageStartupMessages(library(broom.helpers))
-suppressPackageStartupMessages(library(targets))
-suppressPackageStartupMessages(library(gtsummary))
-suppressPackageStartupMessages(library(rms))
-suppressPackageStartupMessages(library(tidyr))
-suppressPackageStartupMessages(library(MatchIt))
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(gtsummary)
+  library(survival)
+})
+
+tar_load <- targets::tar_load
 
 tar_load(lista_zmiennych)
 tar_load(zm_kategoryczne)
@@ -57,7 +53,7 @@ BIC(ps_model)
 ps_model %>% 
   tbl_regression(
     exponentiate = TRUE, 
-    tidy_fun = tidy_parameters, 
+    tidy_fun = broom.helpers::tidy_parameters, 
     intercept=TRUE)
 ```
 
@@ -66,10 +62,10 @@ ps_model %>%
 ```{r}
 df_trtmt$pscore <- predict(ps_model, type = "response")
 
-matchit_obj <- matchit(diguse ~ pscore,
+matchit_obj <- MatchIt::matchit(diguse ~ pscore,
                        data = df_trtmt, method = "nearest", ratio = 1, caliper = 0.1)
 
-df_matched <- match.data(matchit_obj)
+df_matched <- MatchIt::match.data(matchit_obj)
 ```
 
 
@@ -105,7 +101,7 @@ df_matched %>%
 
 dwhf_surv_matched <- with(df_matched, Surv(dwhfdays,dwhf))
 
-cox_matched <- cph(dwhf_surv_matched ~ diguse, data = df_matched, x = TRUE, y = TRUE, surv = TRUE)
+cox_matched <- rms::cph(dwhf_surv_matched ~ diguse, data = df_matched, x = TRUE, y = TRUE, surv = TRUE)
 
 summary(cox_matched)
 ```
@@ -116,10 +112,10 @@ Pacjenci, którzy stosowali digoksynę przed randomizacją, mieli o 38% wyższe 
 * 95% przedział ufności: 1.21 – 1.57  --- Przedział nie obejmuje 1 — efekt jest statystycznie istotny.
 
 ```{r}
-fit <- survfit(cox_matched, newdata = data.frame(diguse = levels(df_matched$diguse)))
+fit <- survival::survfit(cox_matched, newdata = data.frame(diguse = levels(df_matched$diguse)))
 
 # Plot
-ggsurvplot(
+survminer::ggsurvplot(
   fit,
   data = df_matched,
   fun = 'event',
@@ -127,7 +123,7 @@ ggsurvplot(
   legend.title = "Digoxin use before trial",
   xlab = "Time (days)",
   ylab = "Survival probability",
-  ggtheme = theme_minimal()
+  ggtheme = ggplot2::theme_minimal()
 )
 ```
 
