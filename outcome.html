@@ -224,15 +224,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(gtsummary))</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(rms))</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(lista_zmiennych)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(zm_kategoryczne)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(df_trtmt)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(dd_df_trmnt)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">datadist =</span> <span class="st">"dd_df_trmnt"</span>)  <span class="co"># for the rms package</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>dwhf_surv <span class="ot">&lt;-</span> <span class="fu">with</span>(df_trtmt, <span class="fu">Surv</span>(dwhfdays,dwhf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(lista_zmiennych)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(nazwy_zm_kategorycznych)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(df_trtmt)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(dd_df_trmnt)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">datadist =</span> <span class="st">"dd_df_trmnt"</span>)  <span class="co"># for the rms package</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>dwhf_surv <span class="ot">&lt;-</span> <span class="fu">with</span>(df_trtmt, <span class="fu">Surv</span>(dwhfdays,dwhf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="założenia" class="level1">
@@ -575,7 +574,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>vars_to_plot <span class="ot">&lt;-</span> <span class="fu">intersect</span>(candidate_vars, zm_kategoryczne)</span>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>vars_to_plot <span class="ot">&lt;-</span> <span class="fu">intersect</span>(candidate_vars, nazwy_zm_kategorycznych)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (var <span class="cf">in</span> vars_to_plot) {</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">dwhf_km_1v</span>(var))</span>
@@ -757,7 +756,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>vars_to_plot <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(candidate_vars, zm_kategoryczne)</span>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>vars_to_plot <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(candidate_vars, nazwy_zm_kategorycznych)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (var <span class="cf">in</span> vars_to_plot) {</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">dwhf_cox_1v_plot</span>(var))</span>
@@ -1309,23 +1308,23 @@ concordant discordant     tied.x     tied.y    tied.xy
 <span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="cfvkmskavm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cfvkmskavm table {
+<div id="eseqfavtmy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#eseqfavtmy table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cfvkmskavm thead, #cfvkmskavm tbody, #cfvkmskavm tfoot, #cfvkmskavm tr, #cfvkmskavm td, #cfvkmskavm th {
+#eseqfavtmy thead, #eseqfavtmy tbody, #eseqfavtmy tfoot, #eseqfavtmy tr, #eseqfavtmy td, #eseqfavtmy th {
   border-style: none;
 }
 
-#cfvkmskavm p {
+#eseqfavtmy p {
   margin: 0;
   padding: 0;
 }
 
-#cfvkmskavm .gt_table {
+#eseqfavtmy .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1351,12 +1350,12 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-left-color: #D3D3D3;
 }
 
-#cfvkmskavm .gt_caption {
+#eseqfavtmy .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cfvkmskavm .gt_title {
+#eseqfavtmy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1368,7 +1367,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-bottom-width: 0;
 }
 
-#cfvkmskavm .gt_subtitle {
+#eseqfavtmy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1380,7 +1379,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-top-width: 0;
 }
 
-#cfvkmskavm .gt_heading {
+#eseqfavtmy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1392,13 +1391,13 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-right-color: #D3D3D3;
 }
 
-#cfvkmskavm .gt_bottom_border {
+#eseqfavtmy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cfvkmskavm .gt_col_headings {
+#eseqfavtmy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1413,7 +1412,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-right-color: #D3D3D3;
 }
 
-#cfvkmskavm .gt_col_heading {
+#eseqfavtmy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1433,7 +1432,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   overflow-x: hidden;
 }
 
-#cfvkmskavm .gt_column_spanner_outer {
+#eseqfavtmy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1445,15 +1444,15 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 4px;
 }
 
-#cfvkmskavm .gt_column_spanner_outer:first-child {
+#eseqfavtmy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cfvkmskavm .gt_column_spanner_outer:last-child {
+#eseqfavtmy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cfvkmskavm .gt_column_spanner {
+#eseqfavtmy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1465,11 +1464,11 @@ concordant discordant     tied.x     tied.y    tied.xy
   width: 100%;
 }
 
-#cfvkmskavm .gt_spanner_row {
+#eseqfavtmy .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cfvkmskavm .gt_group_heading {
+#eseqfavtmy .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1495,7 +1494,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   text-align: left;
 }
 
-#cfvkmskavm .gt_empty_group_heading {
+#eseqfavtmy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1510,15 +1509,15 @@ concordant discordant     tied.x     tied.y    tied.xy
   vertical-align: middle;
 }
 
-#cfvkmskavm .gt_from_md > :first-child {
+#eseqfavtmy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cfvkmskavm .gt_from_md > :last-child {
+#eseqfavtmy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cfvkmskavm .gt_row {
+#eseqfavtmy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1537,7 +1536,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   overflow-x: hidden;
 }
 
-#cfvkmskavm .gt_stub {
+#eseqfavtmy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1550,7 +1549,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 5px;
 }
 
-#cfvkmskavm .gt_stub_row_group {
+#eseqfavtmy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1564,15 +1563,15 @@ concordant discordant     tied.x     tied.y    tied.xy
   vertical-align: top;
 }
 
-#cfvkmskavm .gt_row_group_first td {
+#eseqfavtmy .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cfvkmskavm .gt_row_group_first th {
+#eseqfavtmy .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cfvkmskavm .gt_summary_row {
+#eseqfavtmy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1582,16 +1581,16 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 5px;
 }
 
-#cfvkmskavm .gt_first_summary_row {
+#eseqfavtmy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cfvkmskavm .gt_first_summary_row.thick {
+#eseqfavtmy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cfvkmskavm .gt_last_summary_row {
+#eseqfavtmy .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1601,7 +1600,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-bottom-color: #D3D3D3;
 }
 
-#cfvkmskavm .gt_grand_summary_row {
+#eseqfavtmy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1611,7 +1610,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 5px;
 }
 
-#cfvkmskavm .gt_first_grand_summary_row {
+#eseqfavtmy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1621,7 +1620,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-top-color: #D3D3D3;
 }
 
-#cfvkmskavm .gt_last_grand_summary_row_top {
+#eseqfavtmy .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1631,11 +1630,11 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-bottom-color: #D3D3D3;
 }
 
-#cfvkmskavm .gt_striped {
+#eseqfavtmy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cfvkmskavm .gt_table_body {
+#eseqfavtmy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1644,7 +1643,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-bottom-color: #D3D3D3;
 }
 
-#cfvkmskavm .gt_footnotes {
+#eseqfavtmy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1658,7 +1657,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-right-color: #D3D3D3;
 }
 
-#cfvkmskavm .gt_footnote {
+#eseqfavtmy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1667,7 +1666,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 5px;
 }
 
-#cfvkmskavm .gt_sourcenotes {
+#eseqfavtmy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1681,7 +1680,7 @@ concordant discordant     tied.x     tied.y    tied.xy
   border-right-color: #D3D3D3;
 }
 
-#cfvkmskavm .gt_sourcenote {
+#eseqfavtmy .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1689,72 +1688,72 @@ concordant discordant     tied.x     tied.y    tied.xy
   padding-right: 5px;
 }
 
-#cfvkmskavm .gt_left {
+#eseqfavtmy .gt_left {
   text-align: left;
 }
 
-#cfvkmskavm .gt_center {
+#eseqfavtmy .gt_center {
   text-align: center;
 }
 
-#cfvkmskavm .gt_right {
+#eseqfavtmy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cfvkmskavm .gt_font_normal {
+#eseqfavtmy .gt_font_normal {
   font-weight: normal;
 }
 
-#cfvkmskavm .gt_font_bold {
+#eseqfavtmy .gt_font_bold {
   font-weight: bold;
 }
 
-#cfvkmskavm .gt_font_italic {
+#eseqfavtmy .gt_font_italic {
   font-style: italic;
 }
 
-#cfvkmskavm .gt_super {
+#eseqfavtmy .gt_super {
   font-size: 65%;
 }
 
-#cfvkmskavm .gt_footnote_marks {
+#eseqfavtmy .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cfvkmskavm .gt_asterisk {
+#eseqfavtmy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cfvkmskavm .gt_indent_1 {
+#eseqfavtmy .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cfvkmskavm .gt_indent_2 {
+#eseqfavtmy .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cfvkmskavm .gt_indent_3 {
+#eseqfavtmy .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cfvkmskavm .gt_indent_4 {
+#eseqfavtmy .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cfvkmskavm .gt_indent_5 {
+#eseqfavtmy .gt_indent_5 {
   text-indent: 25px;
 }
 
-#cfvkmskavm .katex-display {
+#eseqfavtmy .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#cfvkmskavm div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#eseqfavtmy div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
