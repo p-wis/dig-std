@@ -107,13 +107,17 @@ dwhf_surv_matched <- with(df_matched, Surv(dwhfdays,dwhf))
 
 cox_matched <- rms::cph(dwhf_surv_matched ~ diguse, data = df_matched, x = TRUE, y = TRUE, surv = TRUE)
 
+HR <- exp(coef(cox_matched))
+HR_ci95lo <- exp(confint(cox_matched)[1])
+HR_ci95hi <- exp(confint(cox_matched)[2])
+
 summary(cox_matched)
 ```
 
-* Hazard Ratio (HR) = `{r} signif(exp(coef(cox_matched)), digits=3)` --- 
-Pacjenci, którzy stosowali digoksynę przed randomizacją, mieli o 38% wyższe ryzyko zgonu lub hospitalizacji z powodu niewydolności serca w porównaniu do pacjentów, którzy nie stosowali jej wcześniej.
+* Hazard Ratio (HR) = `{r} signif(HR, digits=3)` --- 
+Pacjenci, którzy stosowali digoksynę przed randomizacją, mieli o `{r round(100*(HR-1), 0)}` wyższe ryzyko zgonu lub hospitalizacji z powodu niewydolności serca w porównaniu do pacjentów, którzy nie stosowali jej wcześniej.
 
-* 95% przedział ufności: `{r} signif(exp(confint(cox_matched)), digits=3)` – `{r} signif(exp(confint(cox_matched)), digits=3)`  --- Przedział nie obejmuje 1 — efekt jest statystycznie istotny.
+* 95% przedział ufności: `{r} signif(HR_ci95lo, digits=3)` – `{r} signif(HR_ci95hi, digits=3)`  --- Przedział nie obejmuje 1 — efekt jest statystycznie istotny.
 
 ```{r}
 fit <- survival::survfit(cox_matched, newdata = data.frame(diguse = levels(df_matched$diguse)))
