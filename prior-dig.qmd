@@ -110,10 +110,10 @@ cox_matched <- rms::cph(dwhf_surv_matched ~ diguse, data = df_matched, x = TRUE,
 summary(cox_matched)
 ```
 
-* Hazard Ratio (HR) = 1.38 --- 
+* Hazard Ratio (HR) = `{r} signif(exp(coef(cox_matched)), digits=3)` --- 
 Pacjenci, którzy stosowali digoksynę przed randomizacją, mieli o 38% wyższe ryzyko zgonu lub hospitalizacji z powodu niewydolności serca w porównaniu do pacjentów, którzy nie stosowali jej wcześniej.
 
-* 95% przedział ufności: 1.21 – 1.57  --- Przedział nie obejmuje 1 — efekt jest statystycznie istotny.
+* 95% przedział ufności: `{r} signif(exp(confint(cox_matched)), digits=3)` – `{r} signif(exp(confint(cox_matched)), digits=3)`  --- Przedział nie obejmuje 1 — efekt jest statystycznie istotny.
 
 ```{r}
 fit <- survival::survfit(cox_matched, newdata = data.frame(diguse = levels(df_matched$diguse)))
@@ -133,4 +133,4 @@ survminer::ggsurvplot(
 
 # Wnioski
 
-Wynik wskazuje na potencjalnie gorsze rokowanie u pacjentów z wcześniejszym stosowaniem digoksyny, nawet po dopasowaniu względem cech wyjściowych.
+Wynik wskazuje na potencjalnie gorsze rokowanie u pacjentów z wcześniejszym stosowaniem digoksyny, nawet po dopasowaniu względem cech wyjściowych tj. zaawansowanie HF.
