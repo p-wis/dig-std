@@ -2,14 +2,11 @@ library(targets)
 
 # Set target options:
 tar_option_set(
-  packages = c("tibble", "dplyr", "haven", "rms", "mice") # Packages that your targets need for their tasks.
-
- )
+  packages = c("tibble", "dplyr", "haven", "rms", "mice")  
+)
 
 # Run the R scripts in the R/ folder with your custom functions:
 tar_source()
-
-# tar_source("other_functions.R") # Source other scripts as needed.
 
 list(
     tar_target(
@@ -20,10 +17,11 @@ list(
   
     tar_target(
       name = zm_kategoryczne,
-      command = c("sex", "race", "nsym", "functcls", "nyha_class", "chfetiol", "prevmi", "angina",
-          "diabetes", "hyperten", "diguse", "diuretk", "diuret", "ksupp", "aceinhib",
-          "nitrates", "hydral", "vasod", "any_diuret", "any_vasod", "ejf_35", "chestx_55")
-    ),
+      command = c("sex", "race", "nsym", "functcls", "nyha_class", "chfetiol", 
+          "prevmi", "angina", "diabetes", "hyperten", "diguse", "diuretk", 
+          "diuret", "ksupp", "aceinhib", "nitrates", "hydral", "vasod", 
+          "any_diuret", "any_vasod", "ejf_35", "chestx_55")
+      ),
     
     tar_target(
       name = outcome_varnames,
@@ -37,7 +35,9 @@ list(
     
     tar_target(
       name = custom_varnames,
-      command = c("any_diuret", "any_vasod", "nyha_class", "meanbp", "ejf_35", "chestx_55")
+      command = c(
+        "any_diuret", "any_vasod", "nyha_class", "meanbp", "ejf_35", "chestx_55"
+      )
     ),   
     
   tar_target(
@@ -45,23 +45,12 @@ list(
     command = {
       raw_df <- read_dta(data_fname)
       
-      # Add derived variables
-  
-      raw_df <- raw_df %>%
-        add_any_diuret() %>%
-        add_any_vasod() %>%
-        add_nyha_class() %>%
-        add_meanbp() %>%
-        add_ejf_35() %>%
-        add_chestx_55()
-      
       # Extract variable labels
       var_labels <- lapply(raw_df, function(x) attr(x, "label"))
       
-      
       # Convert selected variables to factors
       df <- raw_df %>%
-        mutate(across(all_of(zm_kategoryczne), haven::as_factor))
+        mutate(across(all_of(setdiff(zm_kategoryczne, custom_varnames)), haven::as_factor))
       
       # Restore variable labels
       for (v in names(var_labels)) {
@@ -69,35 +58,15 @@ list(
           attr(df[[v]], "label") <- var_labels[[v]]
         }
       }
-  
-        
       df
     }
   ),
   
-
-  
   tar_target(
     name = df_trtmt,
-    command = {
-      pre_imputed <- df %>%
+    command =  df %>%
         filter(trtmt == 1) %>%
-        select(-all_of(custom_varnames))
-        
-      
-      ini <- mice(pre_imputed, maxit = 0)
-      
-      method <- ini$method
-      method["reason"] <- ""  # exclude from being imputed
-      
-      pred <- ini$predictorMatrix
-      
-      pred[, outcome_varnames] <- 0
-      
-      imp <- mice(pre_imputed, m = 5, method = method,  predictorMatrix = pred, seed = 123)
-      imputed <- complete(imp, action = 1) 
-      
-      imputed <- imputed %>% 
+        impute_df_trtmt(exclude_from_predictors = outcome_varnames) %>% 
         add_any_diuret() %>%
         add_any_vasod() %>%
         add_nyha_class() %>%
@@ -105,8 +74,6 @@ list(
         add_ejf_35() %>%
         add_chestx_55()      
       
-      imputed
-    }
   ),
   
   tar_target(
