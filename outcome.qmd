@@ -16,9 +16,8 @@ suppressPackageStartupMessages(library(targets))
 suppressPackageStartupMessages(library(gtsummary))
 suppressPackageStartupMessages(library(rms))
 
-
 tar_load(lista_zmiennych)
-tar_load(zm_kategoryczne)
+tar_load(nazwy_zm_kategorycznych)
 tar_load(df_trtmt)
 tar_load(dd_df_trmnt)
 
@@ -164,7 +163,7 @@ dwhf_km_1v <- function(var_name) {
 
 
 ```{r}
-vars_to_plot <- intersect(candidate_vars, zm_kategoryczne)
+vars_to_plot <- intersect(candidate_vars, nazwy_zm_kategorycznych)
 
 for (var in vars_to_plot) {
   print(dwhf_km_1v(var))
@@ -195,7 +194,7 @@ dwhf_cox_1v_plot <- function(var_name) {
 ```
 
 ```{r}
-vars_to_plot <- setdiff(candidate_vars, zm_kategoryczne)
+vars_to_plot <- setdiff(candidate_vars, nazwy_zm_kategorycznych)
 
 for (var in vars_to_plot) {
   print(dwhf_cox_1v_plot(var))

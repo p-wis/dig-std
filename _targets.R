@@ -16,7 +16,7 @@ list(
     ),
   
     tar_target(
-      name = zm_kategoryczne,
+      name = nazwy_zm_kategorycznych,
       command = c("sex", "race", "nsym", "functcls", "nyha_class", "chfetiol", 
           "prevmi", "angina", "diabetes", "hyperten", "diguse", "diuretk", 
           "diuret", "ksupp", "aceinhib", "nitrates", "hydral", "vasod", 
@@ -50,7 +50,7 @@ list(
       
       # Convert selected variables to factors
       df <- raw_df %>%
-        mutate(across(all_of(setdiff(zm_kategoryczne, custom_varnames)), haven::as_factor))
+        mutate(across(all_of(setdiff(nazwy_zm_kategorycznych, custom_varnames)), haven::as_factor))
       
       # Restore variable labels
       for (v in names(var_labels)) {

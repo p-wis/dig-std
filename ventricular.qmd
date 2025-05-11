@@ -14,9 +14,7 @@ suppressPackageStartupMessages(library(ggsurvfit))
 
 
 tar_load(df)
-tar_load(lista_zmiennych)
-tar_load(zm_kategoryczne)
-
+ 
 vena_surv <- with(df, Surv(venadays,vena))
 ```
 

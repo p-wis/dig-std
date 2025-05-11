@@ -16,15 +16,11 @@ suppressPackageStartupMessages({
 tar_load <- targets::tar_load
 
 tar_load(lista_zmiennych)
-tar_load(zm_kategoryczne)
 tar_load(df_trtmt)
+
+
 tar_load(dd_df_trmnt)
-
-ps_model_forumla <- as.formula("diguse ~ age + sex + race + ejf_per * chestx + bmi + functcls + diuret + aceinhib + prevmi + diabetes + hyperten")
-
-ps_model_predictors <-  all.vars(formula(ps_model_forumla)[[3]])
-
-options(datadist = "dd_df_trmnt")  # for the rms package
+options(datadist = "dd_df_trmnt")  # for the rms package setup
 
 dwhf_surv <- with(df_trtmt, Surv(dwhfdays,dwhf))
 ```
@@ -42,11 +38,15 @@ Ze względu na brak randomizacji względem wcześniejszego stosowania digoksyny,
 # Propensity score model
 
 ```{r}
-ps_model <- glm(ps_model_forumla, data = df_trtmt, family = binomial)
-concordance(ps_model)
-AIC(ps_model)
-BIC(ps_model)
+ps_model_forumla <- as.formula("diguse ~ age + sex + race + ejf_per * chestx + bmi + functcls + diuret + aceinhib + prevmi + diabetes + hyperten")
 
+ps_model <- glm(ps_model_forumla, data = df_trtmt, family = binomial)
+
+concordance(ps_model)
+
+cat("AIC =",AIC(ps_model))
+
+cat("BIC =", BIC(ps_model))
 ```
 
 ```{r}
@@ -80,6 +80,8 @@ plot(matchit_obj, type = "qq")
 ### Pre-matching
 
 ```{r}
+ps_model_predictors <-  all.vars(formula(ps_model_forumla)[[3]])  # right-hand side variables of the formula
+
 df_trtmt %>%
   select(all_of(ps_model_predictors), diguse) %>%
   tbl_summary(by = diguse, statistic = all_continuous() ~ "{mean} ± {sd}", missing = "no") %>%
@@ -89,6 +91,8 @@ df_trtmt %>%
 ### Post-Matching 
 
 ```{r}
+ps_model_predictors <-  all.vars(formula(ps_model_forumla)[[3]])  # right-hand side variables of the formula
+
 df_matched %>%
   select(all_of(ps_model_predictors), diguse) %>%
   tbl_summary(by = diguse, statistic = all_continuous() ~ "{mean} ± {sd}", missing = "no") %>%
