@@ -20,7 +20,7 @@ tar_load(df_trtmt)
 
 
 tar_load(dd_df_trmnt)
-options(datadist = "dd_df_trmnt")  # for the rms package setup
+options(datadist = "dd_df_trmnt")  #   rms package setup
 
 dwhf_surv <- with(df_trtmt, Surv(dwhfdays,dwhf))
 ```
@@ -89,13 +89,22 @@ df_trtmt %>%
 ```
 
 ### Post-Matching 
-
+  
 ```{r}
 ps_model_predictors <-  all.vars(formula(ps_model_forumla)[[3]])  # right-hand side variables of the formula
 
 df_matched %>%
   select(all_of(ps_model_predictors), diguse) %>%
-  tbl_summary(by = diguse, statistic = all_continuous() ~ "{mean} ± {sd}", missing = "no") %>%
+  tbl_summary(
+    by = diguse, 
+    statistic = list(
+      all_continuous() ~ "{mean} ± {sd}",
+      all_categorical() ~ "{n} ({p}%)"
+    ),
+    missing = "no",
+    type = all_categorical() ~ "categorical" 
+  ) %>%
+  add_n() %>%
   add_difference()
 ```
 
@@ -123,16 +132,41 @@ Pacjenci, którzy stosowali digoksynę przed randomizacją, mieli o `{r round(10
 fit <- survival::survfit(cox_matched, newdata = data.frame(diguse = levels(df_matched$diguse)))
 
 # Plot
-survminer::ggsurvplot(
+p1 <- survminer::ggsurvplot(
   fit,
   data = df_matched,
   fun = 'event',
-  legend.labs = levels(df_matched$diguse),
-  legend.title = "Digoxin use before trial",
+  legend.title = "At DIG study entry:",
+  legend.labs = c("Digoxin-naive", "Prior digoxin use"),
   xlab = "Time (days)",
   ylab = "Survival probability",
-  ggtheme = ggplot2::theme_minimal()
-)
+  labels = TRUE
+) 
+
+max_days <- max(fit$time)
+max_months <- ceiling(max_days / 30.44)
+
+# Set tick marks at every 6 months up to max_time_months
+breaks_days <- seq(0, max_months, by = 6) * 30.44  # back to days
+
+
+p1$plot <- p1$plot + ggplot2::scale_x_continuous(
+    breaks = breaks_days,
+    labels = function(x) round(x / 30.44),
+    name = "Time (months)"
+  )
+
+p1$plot <- p1$plot +
+  ggplot2::annotate(
+    "text",
+    x = max_days , y =0.1,  # Position: bottom-right corner
+    label = "Composite outcome:\n death from any cause or HF hospitalization",
+    hjust = 1, vjust = 0,
+    size = 3.5,
+    fontface = "italic"
+  )
+
+print(p1)
 ```
 
 # Wnioski
