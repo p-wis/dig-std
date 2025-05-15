@@ -124,7 +124,7 @@ summary(cox_matched)
 ```
 
 * Hazard Ratio (HR) = `{r} signif(HR, digits=3)` --- 
-Pacjenci, którzy stosowali digoksynę przed randomizacją, mieli o `{r round(100*(HR-1), 0)}` wyższe ryzyko zgonu lub hospitalizacji z powodu niewydolności serca w porównaniu do pacjentów, którzy nie stosowali jej wcześniej.
+Pacjenci, którzy stosowali digoksynę przed randomizacją, mieli o `{r} round(100*(HR-1), 0)` wyższe ryzyko zgonu lub hospitalizacji z powodu niewydolności serca w porównaniu do pacjentów, którzy nie stosowali jej wcześniej.
 
 * 95% przedział ufności: `{r} signif(HR_ci95lo, digits=3)` – `{r} signif(HR_ci95hi, digits=3)`  --- Przedział nie obejmuje 1 — efekt jest statystycznie istotny.
 
@@ -168,6 +168,46 @@ p1$plot <- p1$plot +
 
 print(p1)
 ```
+
+# Inverse Probability Weighting
+
+```{r}
+
+# Calculate IPW 
+
+df_trtmt <- df_trtmt %>%
+  mutate(
+    ip_weights = case_when(
+      diguse == 1 ~ 1 / pscore,
+      diguse == 0 ~ 1 / (1 - pscore),
+      TRUE ~ NA_real_
+    )
+  )
+
+# Fit a IP weighted Cox model
+
+cox_ipw <- rms::cph(dwhf_surv ~ diguse, data = df_trtmt, weights = ip_weights, x = TRUE, y = TRUE, surv = TRUE)
+
+
+# Model parameters
+
+HR_ipw <- exp(coef(cox_ipw))
+HR_ipw_ci95lo <- exp(confint(cox_ipw)[1])
+HR_ipw_ci95hi <- exp(confint(cox_ipw)[2])
+
+summary(cox_ipw)
+```
+
+* Hazard Ratio (HR) = `{r} signif(HR_ipw, digits=3)` --- w modelu Coxa z wagami IPW
+Pacjenci, którzy stosowali digoksynę przed randomizacją, mieli o `{r} round(100*(HR_ipw-1), 0)` wyższe ryzyko zgonu lub hospitalizacji z powodu niewydolności serca w porównaniu do pacjentów, którzy nie stosowali jej wcześniej.
+
+* 95% przedział ufności: `{r} signif(HR_ipw_ci95lo, digits=3)` – `{r} signif(HR_ipw_ci95hi, digits=3)`  --- Przedział nie obejmuje 1 — efekt jest statystycznie istotny.
+
+
+* dla porównania: w modelu Coxa na grupach dopasowanych wg propensity score, Hazard Ratio (HR) = `{r} signif(HR, digits=3)`, 95% przedział ufności: `{r} signif(HR_ci95lo, digits=3)` – `{r} signif(HR_ci95hi, digits=3)`
+
+
+
 
 # Wnioski
 
