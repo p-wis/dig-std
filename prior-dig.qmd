@@ -29,7 +29,7 @@ dwhf_surv <- with(df_trtmt, Surv(dwhfdays,dwhf))
 
 Celem niniejszej analizy jest ocena, czy wcześniejsze stosowanie digoksyny przed randomizacją miało wpływ na wyniki kliniczne pacjentów leczonych digoksyną w ramach badania DIG. W szczególności analizujemy, czy pacjenci z wcześniejszą ekspozycją na digoksynę różnią się pod względem ryzyka zgonu lub hospitalizacji z powodu niewydolności serca w porównaniu do pacjentów, którzy nie przyjmowali wcześniej digoksyny.
 
-Z medycznego punktu widzenia istotne jest, czy długotrwałe stosowanie digoksyny może prowadzić do zmniejszenia skuteczności leku (np. poprzez rozwój tolerancji farmakologicznej) lub zwiększać ryzyko działań niepożądanych. 
+Z medycznego punktu widzenia istotne jest, czy długotrwałe stosowanie digoksyny może prowadzić do zmniejszenia skuteczności leku (np. poprzez rozwój tolerancji farmakologicznej) lub zwiększać ryzyko działań niepożądanych.
 
 Pacjenci wcześniej leczeni digoksyną mogą stanowić populację o bardziej zaawansowanej lub trudniejszej do kontrolowania niewydolności serca, co może wpływać na rokowanie niezależnie od leczenia w ramach badania.
 
@@ -57,7 +57,7 @@ ps_model %>%
     intercept=TRUE)
 ```
 
-# Matching 
+# Matching
 
 ```{r}
 df_trtmt$pscore <- predict(ps_model, type = "response")
@@ -67,7 +67,6 @@ matchit_obj <- MatchIt::matchit(diguse ~ pscore,
 
 df_matched <- MatchIt::match.data(matchit_obj)
 ```
-
 
 ## Matching evaluation
 
@@ -88,8 +87,8 @@ df_trtmt %>%
   add_difference() 
 ```
 
-### Post-Matching 
-  
+### Post-Matching
+
 ```{r}
 ps_model_predictors <-  all.vars(formula(ps_model_forumla)[[3]])  # right-hand side variables of the formula
 
@@ -123,10 +122,9 @@ HR_ci95hi <- exp(confint(cox_matched)[2])
 summary(cox_matched)
 ```
 
-* Hazard Ratio (HR) = `{r} signif(HR, digits=3)` --- 
-Pacjenci, którzy stosowali digoksynę przed randomizacją, mieli o `{r} round(100*(HR-1), 0)` wyższe ryzyko zgonu lub hospitalizacji z powodu niewydolności serca w porównaniu do pacjentów, którzy nie stosowali jej wcześniej.
+-   Hazard Ratio (HR) = `{r} signif(HR, digits=3)` --- Pacjenci, którzy stosowali digoksynę przed randomizacją, mieli o `{r} round(100*(HR-1), 0)` wyższe ryzyko zgonu lub hospitalizacji z powodu niewydolności serca w porównaniu do pacjentów, którzy nie stosowali jej wcześniej.
 
-* 95% przedział ufności: `{r} signif(HR_ci95lo, digits=3)` – `{r} signif(HR_ci95hi, digits=3)`  --- Przedział nie obejmuje 1 — efekt jest statystycznie istotny.
+-   95% przedział ufności: `{r} signif(HR_ci95lo, digits=3)` – `{r} signif(HR_ci95hi, digits=3)` --- Przedział nie obejmuje 1 — efekt jest statystycznie istotny.
 
 ```{r}
 fit <- survival::survfit(cox_matched, newdata = data.frame(diguse = levels(df_matched$diguse)))
@@ -171,6 +169,8 @@ print(p1)
 
 # Inverse Probability Weighting
 
+Ludzkie wyjaśnienie o co chodzi w tej metodzie: [Dyskusja na reddit.com](https://www.reddit.com/r/AskStatistics/comments/1dh396n/eli5_inverse_probability_weighting/)
+
 ```{r}
 
 # Calculate IPW 
@@ -198,16 +198,11 @@ HR_ipw_ci95hi <- exp(confint(cox_ipw)[2])
 summary(cox_ipw)
 ```
 
-* Hazard Ratio (HR) = `{r} signif(HR_ipw, digits=3)` --- w modelu Coxa z wagami IPW
-Pacjenci, którzy stosowali digoksynę przed randomizacją, mieli o `{r} round(100*(HR_ipw-1), 0)` wyższe ryzyko zgonu lub hospitalizacji z powodu niewydolności serca w porównaniu do pacjentów, którzy nie stosowali jej wcześniej.
+-   Hazard Ratio (HR) = `{r} signif(HR_ipw, digits=3)` --- w modelu Coxa z wagami IPW Pacjenci, którzy stosowali digoksynę przed randomizacją, mieli o `{r} round(100*(HR_ipw-1), 0)` wyższe ryzyko zgonu lub hospitalizacji z powodu niewydolności serca w porównaniu do pacjentów, którzy nie stosowali jej wcześniej.
 
-* 95% przedział ufności: `{r} signif(HR_ipw_ci95lo, digits=3)` – `{r} signif(HR_ipw_ci95hi, digits=3)`  --- Przedział nie obejmuje 1 — efekt jest statystycznie istotny.
+-   95% przedział ufności: `{r} signif(HR_ipw_ci95lo, digits=3)` – `{r} signif(HR_ipw_ci95hi, digits=3)` --- Przedział nie obejmuje 1 — efekt jest statystycznie istotny.
 
-
-* dla porównania: w modelu Coxa na grupach dopasowanych wg propensity score, Hazard Ratio (HR) = `{r} signif(HR, digits=3)`, 95% przedział ufności: `{r} signif(HR_ci95lo, digits=3)` – `{r} signif(HR_ci95hi, digits=3)`
-
-
-
+-   dla porównania: w modelu Coxa na grupach dopasowanych wg propensity score, Hazard Ratio (HR) = `{r} signif(HR, digits=3)`, 95% przedział ufności: `{r} signif(HR_ci95lo, digits=3)` – `{r} signif(HR_ci95hi, digits=3)`
 
 # Wnioski
 
